@@ -1,0 +1,980 @@
+#pragma version =0.4.6;
+#pragma allow-post-modification;
+#pragma compute-asm-ltr;
+
+;; AnimalHelperVoting_AnimalHelperVoting.headers.fc
+;;
+;; Header files for AnimalHelperVoting
+;; NOTE: declarations are sorted for optimal order
+;;
+
+;; __tact_not_null
+forall X -> X __tact_not_null(X x) impure inline;
+
+;; __tact_context_get
+(int, slice, int, slice) __tact_context_get() inline;
+
+;; __tact_context_get_sender
+slice __tact_context_get_sender() inline;
+
+;; __tact_dict_get_slice_int
+int __tact_dict_get_slice_int(cell d, int kl, slice k, int vl) inline;
+
+;; __tact_dict_set_slice_int
+(cell, ()) __tact_dict_set_slice_int(cell d, int kl, slice k, int v, int vl) inline;
+
+;; __tact_dict_get_int_cell
+cell __tact_dict_get_int_cell(cell d, int kl, int k) inline;
+
+;; __tact_dict_set_int_cell
+(cell, ()) __tact_dict_set_int_cell(cell d, int kl, int k, cell v) inline;
+
+;; $Deploy$_load_without_opcode
+(slice, ((int))) $Deploy$_load_without_opcode(slice sc_0) inline;
+
+;; $DeployOk$_store
+builder $DeployOk$_store(builder build_0, (int) v) inline;
+
+;; $DeployOk$_store_cell
+cell $DeployOk$_store_cell((int) v) inline;
+
+;; $StartVotingMessage$_load_without_opcode
+(slice, (tuple)) $StartVotingMessage$_load_without_opcode(slice sc_0) inline;
+
+;; $AddProposalMessage$_load_without_opcode
+(slice, ((slice, slice, slice))) $AddProposalMessage$_load_without_opcode(slice sc_0) inline;
+
+;; $VoteMessage$_load_without_opcode
+(slice, ((int))) $VoteMessage$_load_without_opcode(slice sc_0) inline;
+
+;; $FinalizeVotingMessage$_load_without_opcode
+(slice, (tuple)) $FinalizeVotingMessage$_load_without_opcode(slice sc_0) inline;
+
+;; $GetVotingStatusMessage$_load_without_opcode
+(slice, (tuple)) $GetVotingStatusMessage$_load_without_opcode(slice sc_0) inline;
+
+;; $GetProposalMessage$_load_without_opcode
+(slice, ((int))) $GetProposalMessage$_load_without_opcode(slice sc_0) inline;
+
+;; $GetLastResultsMessage$_load_without_opcode
+(slice, (tuple)) $GetLastResultsMessage$_load_without_opcode(slice sc_0) inline;
+
+;; $UpdateMinBalanceMessage$_load_without_opcode
+(slice, ((int))) $UpdateMinBalanceMessage$_load_without_opcode(slice sc_0) inline;
+
+;; $UpdateTokenContractMessage$_load_without_opcode
+(slice, ((slice))) $UpdateTokenContractMessage$_load_without_opcode(slice sc_0) inline;
+
+;; $UpdateAnimalHelperPoolMessage$_load_without_opcode
+(slice, ((slice))) $UpdateAnimalHelperPoolMessage$_load_without_opcode(slice sc_0) inline;
+
+;; $EmergencyWithdrawMessage$_load_without_opcode
+(slice, (tuple)) $EmergencyWithdrawMessage$_load_without_opcode(slice sc_0) inline;
+
+;; $Proposal$_store
+builder $Proposal$_store(builder build_0, (int, slice, slice, slice, int) v) inline;
+
+;; $Proposal$_store_cell
+cell $Proposal$_store_cell((int, slice, slice, slice, int) v) inline;
+
+;; $Proposal$_load
+(slice, ((int, slice, slice, slice, int))) $Proposal$_load(slice sc_0) inline;
+
+;; $Proposal$_as_optional
+tuple $Proposal$_as_optional((int, slice, slice, slice, int) v) inline;
+
+;; $Proposal$_load_opt
+tuple $Proposal$_load_opt(cell cl) inline;
+
+;; $AnimalHelperVoting$_store
+builder $AnimalHelperVoting$_store(builder build_0, (slice, slice, slice, int, int, int, int, int, cell, cell, cell, cell) v) inline;
+
+;; $AnimalHelperVoting$_load
+(slice, ((slice, slice, slice, int, int, int, int, int, cell, cell, cell, cell))) $AnimalHelperVoting$_load(slice sc_0) inline;
+
+;; $StateInit$_not_null
+((cell, cell)) $StateInit$_not_null(tuple v) inline;
+
+;; $Proposal$_not_null
+((int, slice, slice, slice, int)) $Proposal$_not_null(tuple v) inline;
+
+;; $AnimalHelperVoting$init$_load
+(slice, ((slice, slice, slice))) $AnimalHelperVoting$init$_load(slice sc_0) inline;
+
+;; $AnimalHelperVoting$_contract_init
+(slice, slice, slice, int, int, int, int, int, cell, cell, cell, cell) $AnimalHelperVoting$_contract_init(slice $owner, slice $tokenContract, slice $animalHelperPool) impure inline;
+
+;; $AnimalHelperVoting$_contract_load
+(slice, slice, slice, int, int, int, int, int, cell, cell, cell, cell) $AnimalHelperVoting$_contract_load() impure inline;
+
+;; $AnimalHelperVoting$_contract_store
+() $AnimalHelperVoting$_contract_store((slice, slice, slice, int, int, int, int, int, cell, cell, cell, cell) v) impure inline;
+
+;; $AnimalHelperVoting$_fun_getTokenBalance
+((slice, slice, slice, int, int, int, int, int, cell, cell, cell, cell), int) $AnimalHelperVoting$_fun_getTokenBalance((slice, slice, slice, int, int, int, int, int, cell, cell, cell, cell) $self, slice $addr) impure inline_ref;
+
+;; $AnimalHelperVoting$_fun_findWinningProposal
+((slice, slice, slice, int, int, int, int, int, cell, cell, cell, cell), (int, slice, slice, slice, int)) $AnimalHelperVoting$_fun_findWinningProposal((slice, slice, slice, int, int, int, int, int, cell, cell, cell, cell) $self) impure inline_ref;
+
+;; $AnimalHelperVoting$_fun_serializeResults
+((slice, slice, slice, int, int, int, int, int, cell, cell, cell, cell), cell) $AnimalHelperVoting$_fun_serializeResults((slice, slice, slice, int, int, int, int, int, cell, cell, cell, cell) $self, (int, slice, slice, slice, int) $winner) impure inline_ref;
+
+;; $SendParameters$_constructor_bounce_to_value_mode_body_code_data
+((int, cell, cell, cell, int, slice, int)) $SendParameters$_constructor_bounce_to_value_mode_body_code_data(int $bounce, slice $to, int $value, int $mode, cell $body, cell $code, cell $data) inline;
+
+;; $AnimalHelperVoting$_fun_forward
+((slice, slice, slice, int, int, int, int, int, cell, cell, cell, cell), ()) $AnimalHelperVoting$_fun_forward((slice, slice, slice, int, int, int, int, int, cell, cell, cell, cell) $self, slice $to, cell $body, int $bounce, tuple $init) impure inline_ref;
+
+;; $AnimalHelperVoting$_fun_notify
+((slice, slice, slice, int, int, int, int, int, cell, cell, cell, cell), ()) $AnimalHelperVoting$_fun_notify((slice, slice, slice, int, int, int, int, int, cell, cell, cell, cell) $self, cell $body) impure inline;
+
+;; $AnimalHelperVoting$_fun_owner
+((slice, slice, slice, int, int, int, int, int, cell, cell, cell, cell), slice) $AnimalHelperVoting$_fun_owner((slice, slice, slice, int, int, int, int, int, cell, cell, cell, cell) $self) impure inline_ref;
+
+;; $Proposal$_constructor_id_shelterAddress_name_description_votes
+((int, slice, slice, slice, int)) $Proposal$_constructor_id_shelterAddress_name_description_votes(int $id, slice $shelterAddress, slice $name, slice $description, int $votes) inline;
+
+;; $SendParameters$_constructor_to_bounce_value_mode_body
+((int, cell, cell, cell, int, slice, int)) $SendParameters$_constructor_to_bounce_value_mode_body(slice $to, int $bounce, int $value, int $mode, cell $body) inline;
+
+;; $SendParameters$_constructor_to_value_mode_body
+((int, cell, cell, cell, int, slice, int)) $SendParameters$_constructor_to_value_mode_body(slice $to, int $value, int $mode, cell $body) inline;
+
+;; $SendParameters$_constructor_to_bounce_value_mode
+((int, cell, cell, cell, int, slice, int)) $SendParameters$_constructor_to_bounce_value_mode(slice $to, int $bounce, int $value, int $mode) inline;
+
+;; $DeployOk$_constructor_queryId
+((int)) $DeployOk$_constructor_queryId(int $queryId) inline;
+
+
+;; AnimalHelperVoting_AnimalHelperVoting.stdlib.fc
+global (int, slice, int, slice) __tact_context;
+global slice __tact_context_sender;
+global cell __tact_child_contract_codes;
+global int __tact_randomized;
+
+forall X -> X __tact_not_null(X x) impure inline {
+    throw_if(128, null?(x)); return x;
+}
+
+(cell, int) __tact_dict_delete(cell dict, int key_len, slice index) asm(index dict key_len) """
+    DICTDEL
+""";
+
+(slice, int) __tact_dict_get(cell dict, int key_len, slice index) asm(index dict key_len) """
+    DICTGET NULLSWAPIFNOT
+""";
+
+(int, slice, int, slice) __tact_context_get() inline {
+    return __tact_context;
+}
+
+slice __tact_context_get_sender() inline {
+    return __tact_context_sender;
+}
+
+forall X0, X1 -> (X0, X1) __tact_tuple_destroy_2(tuple v) asm """
+    2 UNTUPLE
+""";
+
+forall X0, X1, X2, X3, X4 -> tuple __tact_tuple_create_5((X0, X1, X2, X3, X4) v) asm """
+    5 TUPLE
+""";
+
+forall X0, X1, X2, X3, X4 -> (X0, X1, X2, X3, X4) __tact_tuple_destroy_5(tuple v) asm """
+    5 UNTUPLE
+""";
+
+int __tact_dict_get_slice_int(cell d, int kl, slice k, int vl) inline {
+    var (r, ok) = __tact_dict_get(d, kl, k);
+    if (ok) {
+        return r~load_int(vl);
+    } else {
+        return null();
+    }
+}
+
+(cell, ()) __tact_dict_set_slice_int(cell d, int kl, slice k, int v, int vl) inline {
+    if (null?(v)) {
+        var (r, ok) = __tact_dict_delete(d, kl, k);
+        return (r, ());
+    } else {
+        return (dict_set_builder(d, kl, k, begin_cell().store_int(v, vl)), ());
+    }
+}
+
+cell __tact_dict_get_int_cell(cell d, int kl, int k) inline {
+    var (r, ok) = idict_get_ref?(d, kl, k);
+    if (ok) {
+        return r;
+    } else {
+        return null();
+    }
+}
+
+(cell, ()) __tact_dict_set_int_cell(cell d, int kl, int k, cell v) inline {
+    if (null?(v)) {
+        var (r, ok) = idict_delete?(d, kl, k);
+        return (r, ());
+    } else {
+        return (idict_set_ref(d, kl, k, v), ());
+    }
+}
+
+cell $Builder$_fun_endCell(builder $self) impure asm """
+    ENDC
+""";
+
+builder $global_beginCell() impure asm """
+    NEWC
+""";
+
+int $global_myBalance() impure asm """
+    BALANCE FIRST
+""";
+
+() $global_nativeReserve(int $amount, int $mode) impure asm """
+    RAWRESERVE
+""";
+
+() $global_send((int, cell, cell, cell, int, slice, int) $params) impure asm """
+    NEWC
+    b{01} STSLICECONST  // store tag = $0 and ihr_disabled = true
+    1 STI               // store `bounce`
+    b{000} STSLICECONST // store bounced = false and src = addr_none
+    STSLICE             // store `to`
+    SWAP
+    STGRAMS             // store `value`
+    105 PUSHINT         // 1 + 4 + 4 + 64 + 32
+    STZEROES            // store currency_collection, ihr_fee, fwd_fee, created_lt and created_at
+    // → Stack state
+    // s0: Builder
+    // s1: `data`
+    // s2: `code`
+    // s3: `body`
+    // s4: `mode`
+
+    // Group 2: Placing the Builder after code and data, then checking those for nullability
+    s2 XCHG0
+    DUP2
+    ISNULL
+    SWAP
+    ISNULL
+    AND
+    // → Stack state
+    // s0: -1 (true) if `data` and `code` are both null, 0 (false) otherwise
+    // s1: `code`
+    // s2: `data`
+    // s3: Builder
+    // s4: `body`
+    // s5: `mode`
+
+    // Group 3: Left branch of the IFELSE, executed if s0 is -1 (true)
+    <{
+        DROP2 // drop `data` and `code`, since either of those is null
+        b{0} STSLICECONST
+    }> PUSHCONT
+
+    // Group 3: Right branch of the IFELSE, executed if s0 is 0 (false)
+    <{
+        // _ split_depth:(Maybe (## 5))
+        //   special:(Maybe TickTock)
+        //   code:(Maybe ^Cell)
+        //   data:(Maybe ^Cell)
+        //   library:(Maybe ^Cell)
+        // = StateInit;
+        ROT                // place message Builder on top
+        b{10} STSLICECONST // store Maybe = true, Either = false
+        // Start composing inlined StateInit
+        b{00} STSLICECONST // store split_depth and special first
+        STDICT             // store code
+        STDICT             // store data
+        b{0} STSLICECONST  // store library
+    }> PUSHCONT
+
+    // Group 3: IFELSE that does the branching shown above
+    IFELSE
+    // → Stack state
+    // s0: Builder
+    // s1: null or StateInit
+    // s2: `body`
+    // s3: `mode`
+
+    // Group 4: Finalizing the message
+    STDICT // store `body` as ref with an extra Maybe bit, since `body` might be null
+    ENDC
+    // → Stack state
+    // s0: Cell
+    // s1: `mode`
+
+    // Group 5: Sending the message, with `mode` on top
+    SWAP
+    SENDRAWMSG // https://github.com/tact-lang/tact/issues/1558
+""";
+
+int $global_now() impure asm """
+    NOW
+""";
+
+builder $Builder$_fun_storeBool(int $value, builder $self) impure asm """
+    1 STI
+""";
+
+builder $Builder$_fun_storeRef(cell $cell, builder $self) impure asm """
+    STREF
+""";
+
+builder $Builder$_fun_storeAddress(builder $self, slice $address) impure asm """
+    STSLICER
+""";
+
+((slice, slice, slice, int, int, int, int, int, cell, cell, cell, cell), ()) $AnimalHelperVoting$_fun_forward((slice, slice, slice, int, int, int, int, int, cell, cell, cell, cell) $self, slice $to, cell $body, int $bounce, tuple $init) impure inline_ref {
+    var (($self'owner, $self'tokenContract, $self'animalHelperPool, $self'proposalsCount, $self'votingActive, $self'votingStartTime, $self'votingEndTime, $self'minTokenBalance, $self'lastVotingResults, $self'proposals, $self'votes, $self'voterTokenBalances)) = $self;
+    var ($init) = $init;
+    cell $code = null();
+    cell $data = null();
+    if ((~ null?($init))) {
+        var ($init2'code, $init2'data) = $StateInit$_not_null($init);
+        $code = $init2'code;
+        $data = $init2'data;
+    }
+    if (false) {
+        var ($ctx'bounceable, $ctx'sender, $ctx'value, $ctx'raw) = __tact_context_get();
+        int $balance = $global_myBalance();
+        int $balanceBeforeMessage = ($balance - $ctx'value);
+        if (($balanceBeforeMessage < 0)) {
+            $global_nativeReserve(0, 0);
+            $global_send($SendParameters$_constructor_bounce_to_value_mode_body_code_data($bounce, $to, 0, 130, $body, $code, $data));
+            return (($self'owner, $self'tokenContract, $self'animalHelperPool, $self'proposalsCount, $self'votingActive, $self'votingStartTime, $self'votingEndTime, $self'minTokenBalance, $self'lastVotingResults, $self'proposals, $self'votes, $self'voterTokenBalances), ());
+        }
+    }
+    $global_send($SendParameters$_constructor_bounce_to_value_mode_body_code_data($bounce, $to, 0, 66, $body, $code, $data));
+    return (($self'owner, $self'tokenContract, $self'animalHelperPool, $self'proposalsCount, $self'votingActive, $self'votingStartTime, $self'votingEndTime, $self'minTokenBalance, $self'lastVotingResults, $self'proposals, $self'votes, $self'voterTokenBalances), ());
+}
+
+((slice, slice, slice, int, int, int, int, int, cell, cell, cell, cell), ()) $AnimalHelperVoting$_fun_notify((slice, slice, slice, int, int, int, int, int, cell, cell, cell, cell) $self, cell $body) impure inline {
+    var (($self'owner, $self'tokenContract, $self'animalHelperPool, $self'proposalsCount, $self'votingActive, $self'votingStartTime, $self'votingEndTime, $self'minTokenBalance, $self'lastVotingResults, $self'proposals, $self'votes, $self'voterTokenBalances)) = $self;
+    ($self'owner, $self'tokenContract, $self'animalHelperPool, $self'proposalsCount, $self'votingActive, $self'votingStartTime, $self'votingEndTime, $self'minTokenBalance, $self'lastVotingResults, $self'proposals, $self'votes, $self'voterTokenBalances)~$AnimalHelperVoting$_fun_forward(__tact_context_get_sender(), $body, false, null());
+    return (($self'owner, $self'tokenContract, $self'animalHelperPool, $self'proposalsCount, $self'votingActive, $self'votingStartTime, $self'votingEndTime, $self'minTokenBalance, $self'lastVotingResults, $self'proposals, $self'votes, $self'voterTokenBalances), ());
+}
+
+((slice, slice, slice, int, int, int, int, int, cell, cell, cell, cell), slice) $AnimalHelperVoting$_fun_owner((slice, slice, slice, int, int, int, int, int, cell, cell, cell, cell) $self) impure inline_ref {
+    var (($self'owner, $self'tokenContract, $self'animalHelperPool, $self'proposalsCount, $self'votingActive, $self'votingStartTime, $self'votingEndTime, $self'minTokenBalance, $self'lastVotingResults, $self'proposals, $self'votes, $self'voterTokenBalances)) = $self;
+    var $fresh$ret_17 = $self'owner;
+    return (($self'owner, $self'tokenContract, $self'animalHelperPool, $self'proposalsCount, $self'votingActive, $self'votingStartTime, $self'votingEndTime, $self'minTokenBalance, $self'lastVotingResults, $self'proposals, $self'votes, $self'voterTokenBalances), $fresh$ret_17);
+}
+
+;; AnimalHelperVoting_AnimalHelperVoting.storage.fc
+;;
+;; Type: StateInit
+;; TLB: _ code:^cell data:^cell = StateInit
+;;
+
+((cell, cell)) $StateInit$_not_null(tuple v) inline {
+    throw_if(128, null?(v));
+    var (cell vvv'code, cell vvv'data) = __tact_tuple_destroy_2(v);
+    return (vvv'code, vvv'data);
+}
+
+;;
+;; Type: SendParameters
+;; TLB: _ mode:int257 body:Maybe ^cell code:Maybe ^cell data:Maybe ^cell value:int257 to:address bounce:bool = SendParameters
+;;
+
+((int, cell, cell, cell, int, slice, int)) $SendParameters$_constructor_bounce_to_value_mode_body_code_data(int $bounce, slice $to, int $value, int $mode, cell $body, cell $code, cell $data) inline {
+    return ($mode, $body, $code, $data, $value, $to, $bounce);
+}
+
+((int, cell, cell, cell, int, slice, int)) $SendParameters$_constructor_to_bounce_value_mode_body(slice $to, int $bounce, int $value, int $mode, cell $body) inline {
+    return ($mode, $body, null(), null(), $value, $to, $bounce);
+}
+
+((int, cell, cell, cell, int, slice, int)) $SendParameters$_constructor_to_value_mode_body(slice $to, int $value, int $mode, cell $body) inline {
+    return ($mode, $body, null(), null(), $value, $to, true);
+}
+
+((int, cell, cell, cell, int, slice, int)) $SendParameters$_constructor_to_bounce_value_mode(slice $to, int $bounce, int $value, int $mode) inline {
+    return ($mode, null(), null(), null(), $value, $to, $bounce);
+}
+
+;;
+;; Type: Deploy
+;; Header: 0x946a98b6
+;; TLB: deploy#946a98b6 queryId:uint64 = Deploy
+;;
+
+(slice, ((int))) $Deploy$_load_without_opcode(slice sc_0) inline {
+    var v'queryId = sc_0~load_uint(64);
+    return (sc_0, (v'queryId));
+}
+
+;;
+;; Type: DeployOk
+;; Header: 0xaff90f57
+;; TLB: deploy_ok#aff90f57 queryId:uint64 = DeployOk
+;;
+
+builder $DeployOk$_store(builder build_0, (int) v) inline {
+    var (v'queryId) = v;
+    build_0 = store_uint(build_0, 2952335191, 32);
+    build_0 = build_0.store_uint(v'queryId, 64);
+    return build_0;
+}
+
+cell $DeployOk$_store_cell((int) v) inline {
+    return $DeployOk$_store(begin_cell(), v).end_cell();
+}
+
+((int)) $DeployOk$_constructor_queryId(int $queryId) inline {
+    return ($queryId);
+}
+
+;;
+;; Type: StartVotingMessage
+;; Header: 0xba916f52
+;; TLB: start_voting_message#ba916f52  = StartVotingMessage
+;;
+
+(slice, (tuple)) $StartVotingMessage$_load_without_opcode(slice sc_0) inline {
+    return (sc_0, null());
+}
+
+;;
+;; Type: AddProposalMessage
+;; Header: 0x920caa6e
+;; TLB: add_proposal_message#920caa6e shelter_address:address name:^string description:^string = AddProposalMessage
+;;
+
+(slice, ((slice, slice, slice))) $AddProposalMessage$_load_without_opcode(slice sc_0) inline {
+    var v'shelter_address = sc_0~load_msg_addr();
+    var v'name = sc_0~load_ref().begin_parse();
+    var v'description = sc_0~load_ref().begin_parse();
+    return (sc_0, (v'shelter_address, v'name, v'description));
+}
+
+;;
+;; Type: VoteMessage
+;; Header: 0x39aff01f
+;; TLB: vote_message#39aff01f proposal_id:uint32 = VoteMessage
+;;
+
+(slice, ((int))) $VoteMessage$_load_without_opcode(slice sc_0) inline {
+    var v'proposal_id = sc_0~load_uint(32);
+    return (sc_0, (v'proposal_id));
+}
+
+;;
+;; Type: FinalizeVotingMessage
+;; Header: 0x0bec5009
+;; TLB: finalize_voting_message#0bec5009  = FinalizeVotingMessage
+;;
+
+(slice, (tuple)) $FinalizeVotingMessage$_load_without_opcode(slice sc_0) inline {
+    return (sc_0, null());
+}
+
+;;
+;; Type: GetVotingStatusMessage
+;; Header: 0x1816f675
+;; TLB: get_voting_status_message#1816f675  = GetVotingStatusMessage
+;;
+
+(slice, (tuple)) $GetVotingStatusMessage$_load_without_opcode(slice sc_0) inline {
+    return (sc_0, null());
+}
+
+;;
+;; Type: GetProposalMessage
+;; Header: 0x88f64278
+;; TLB: get_proposal_message#88f64278 proposal_id:uint32 = GetProposalMessage
+;;
+
+(slice, ((int))) $GetProposalMessage$_load_without_opcode(slice sc_0) inline {
+    var v'proposal_id = sc_0~load_uint(32);
+    return (sc_0, (v'proposal_id));
+}
+
+;;
+;; Type: GetLastResultsMessage
+;; Header: 0x90043c4e
+;; TLB: get_last_results_message#90043c4e  = GetLastResultsMessage
+;;
+
+(slice, (tuple)) $GetLastResultsMessage$_load_without_opcode(slice sc_0) inline {
+    return (sc_0, null());
+}
+
+;;
+;; Type: UpdateMinBalanceMessage
+;; Header: 0xb6fb639f
+;; TLB: update_min_balance_message#b6fb639f min_balance:uint64 = UpdateMinBalanceMessage
+;;
+
+(slice, ((int))) $UpdateMinBalanceMessage$_load_without_opcode(slice sc_0) inline {
+    var v'min_balance = sc_0~load_uint(64);
+    return (sc_0, (v'min_balance));
+}
+
+;;
+;; Type: UpdateTokenContractMessage
+;; Header: 0x0d32cf13
+;; TLB: update_token_contract_message#0d32cf13 new_address:address = UpdateTokenContractMessage
+;;
+
+(slice, ((slice))) $UpdateTokenContractMessage$_load_without_opcode(slice sc_0) inline {
+    var v'new_address = sc_0~load_msg_addr();
+    return (sc_0, (v'new_address));
+}
+
+;;
+;; Type: UpdateAnimalHelperPoolMessage
+;; Header: 0xc6e77e3d
+;; TLB: update_animal_helper_pool_message#c6e77e3d new_address:address = UpdateAnimalHelperPoolMessage
+;;
+
+(slice, ((slice))) $UpdateAnimalHelperPoolMessage$_load_without_opcode(slice sc_0) inline {
+    var v'new_address = sc_0~load_msg_addr();
+    return (sc_0, (v'new_address));
+}
+
+;;
+;; Type: EmergencyWithdrawMessage
+;; Header: 0xfac86711
+;; TLB: emergency_withdraw_message#fac86711  = EmergencyWithdrawMessage
+;;
+
+(slice, (tuple)) $EmergencyWithdrawMessage$_load_without_opcode(slice sc_0) inline {
+    return (sc_0, null());
+}
+
+;;
+;; Type: Proposal
+;; TLB: _ id:int257 shelterAddress:address name:^string description:^string votes:int257 = Proposal
+;;
+
+builder $Proposal$_store(builder build_0, (int, slice, slice, slice, int) v) inline {
+    var (v'id, v'shelterAddress, v'name, v'description, v'votes) = v;
+    build_0 = build_0.store_int(v'id, 257);
+    build_0 = build_0.store_slice(v'shelterAddress);
+    build_0 = build_0.store_ref(begin_cell().store_slice(v'name).end_cell());
+    build_0 = build_0.store_ref(begin_cell().store_slice(v'description).end_cell());
+    build_0 = build_0.store_int(v'votes, 257);
+    return build_0;
+}
+
+cell $Proposal$_store_cell((int, slice, slice, slice, int) v) inline {
+    return $Proposal$_store(begin_cell(), v).end_cell();
+}
+
+(slice, ((int, slice, slice, slice, int))) $Proposal$_load(slice sc_0) inline {
+    var v'id = sc_0~load_int(257);
+    var v'shelterAddress = sc_0~load_msg_addr();
+    var v'name = sc_0~load_ref().begin_parse();
+    var v'description = sc_0~load_ref().begin_parse();
+    var v'votes = sc_0~load_int(257);
+    return (sc_0, (v'id, v'shelterAddress, v'name, v'description, v'votes));
+}
+
+tuple $Proposal$_as_optional((int, slice, slice, slice, int) v) inline {
+    var (v'id, v'shelterAddress, v'name, v'description, v'votes) = v;
+    return __tact_tuple_create_5(v'id, v'shelterAddress, v'name, v'description, v'votes);
+}
+
+tuple $Proposal$_load_opt(cell cl) inline {
+    if (null?(cl)) {
+        return null();
+    }
+    var sc = cl.begin_parse();
+    return $Proposal$_as_optional(sc~$Proposal$_load());
+}
+
+((int, slice, slice, slice, int)) $Proposal$_tensor_cast((int, slice, slice, slice, int) v) asm "NOP";
+
+((int, slice, slice, slice, int)) $Proposal$_not_null(tuple v) inline {
+    throw_if(128, null?(v));
+    var (int vvv'id, slice vvv'shelterAddress, slice vvv'name, slice vvv'description, int vvv'votes) = __tact_tuple_destroy_5(v);
+    return (vvv'id, vvv'shelterAddress, vvv'name, vvv'description, vvv'votes);
+}
+
+((int, slice, slice, slice, int)) $Proposal$_constructor_id_shelterAddress_name_description_votes(int $id, slice $shelterAddress, slice $name, slice $description, int $votes) inline {
+    return ($id, $shelterAddress, $name, $description, $votes);
+}
+
+;;
+;; Type: AnimalHelperVoting
+;; TLB: _ owner:address tokenContract:address animalHelperPool:address proposalsCount:int257 votingActive:bool votingStartTime:int257 votingEndTime:int257 minTokenBalance:int257 lastVotingResults:^cell proposals:dict<int, ^Proposal{id:int257,shelterAddress:address,name:^string,description:^string,votes:int257}> votes:dict<address, int> voterTokenBalances:dict<address, int> = AnimalHelperVoting
+;;
+
+builder $AnimalHelperVoting$_store(builder build_0, (slice, slice, slice, int, int, int, int, int, cell, cell, cell, cell) v) inline {
+    var (v'owner, v'tokenContract, v'animalHelperPool, v'proposalsCount, v'votingActive, v'votingStartTime, v'votingEndTime, v'minTokenBalance, v'lastVotingResults, v'proposals, v'votes, v'voterTokenBalances) = v;
+    build_0 = build_0.store_slice(v'owner);
+    build_0 = build_0.store_slice(v'tokenContract);
+    build_0 = build_0.store_slice(v'animalHelperPool);
+    var build_1 = begin_cell();
+    build_1 = build_1.store_int(v'proposalsCount, 257);
+    build_1 = build_1.store_int(v'votingActive, 1);
+    build_1 = build_1.store_int(v'votingStartTime, 257);
+    build_1 = build_1.store_int(v'votingEndTime, 257);
+    var build_2 = begin_cell();
+    build_2 = build_2.store_int(v'minTokenBalance, 257);
+    build_2 = build_2.store_ref(v'lastVotingResults);
+    build_2 = build_2.store_dict(v'proposals);
+    build_2 = build_2.store_dict(v'votes);
+    build_2 = build_2.store_dict(v'voterTokenBalances);
+    build_1 = store_ref(build_1, build_2.end_cell());
+    build_0 = store_ref(build_0, build_1.end_cell());
+    return build_0;
+}
+
+(slice, ((slice, slice, slice, int, int, int, int, int, cell, cell, cell, cell))) $AnimalHelperVoting$_load(slice sc_0) inline {
+    var v'owner = sc_0~load_msg_addr();
+    var v'tokenContract = sc_0~load_msg_addr();
+    var v'animalHelperPool = sc_0~load_msg_addr();
+    slice sc_1 = sc_0~load_ref().begin_parse();
+    var v'proposalsCount = sc_1~load_int(257);
+    var v'votingActive = sc_1~load_int(1);
+    var v'votingStartTime = sc_1~load_int(257);
+    var v'votingEndTime = sc_1~load_int(257);
+    slice sc_2 = sc_1~load_ref().begin_parse();
+    var v'minTokenBalance = sc_2~load_int(257);
+    var v'lastVotingResults = sc_2~load_ref();
+    var v'proposals = sc_2~load_dict();
+    var v'votes = sc_2~load_dict();
+    var v'voterTokenBalances = sc_2~load_dict();
+    return (sc_0, (v'owner, v'tokenContract, v'animalHelperPool, v'proposalsCount, v'votingActive, v'votingStartTime, v'votingEndTime, v'minTokenBalance, v'lastVotingResults, v'proposals, v'votes, v'voterTokenBalances));
+}
+
+(slice, ((slice, slice, slice))) $AnimalHelperVoting$init$_load(slice sc_0) inline {
+    var v'owner = sc_0~load_msg_addr();
+    var v'tokenContract = sc_0~load_msg_addr();
+    var v'animalHelperPool = sc_0~load_msg_addr();
+    return (sc_0, (v'owner, v'tokenContract, v'animalHelperPool));
+}
+
+(slice, slice, slice, int, int, int, int, int, cell, cell, cell, cell) $AnimalHelperVoting$_contract_load() impure inline {
+    slice $sc = get_data().begin_parse();
+    int $loaded = $sc~load_int(1);
+    if ($loaded) {
+        return $sc~$AnimalHelperVoting$_load();
+    }
+    else {
+        (slice $owner, slice $tokenContract, slice $animalHelperPool) = $sc~$AnimalHelperVoting$init$_load();
+        $sc.end_parse();
+        return $AnimalHelperVoting$_contract_init($owner, $tokenContract, $animalHelperPool);
+    }
+}
+
+() $AnimalHelperVoting$_contract_store((slice, slice, slice, int, int, int, int, int, cell, cell, cell, cell) v) impure inline {
+    builder b = begin_cell();
+    b = b.store_int(true, 1);
+    b = $AnimalHelperVoting$_store(b, v);
+    set_data(b.end_cell());
+}
+
+;;
+;; Contract AnimalHelperVoting functions
+;;
+
+(slice, slice, slice, int, int, int, int, int, cell, cell, cell, cell) $AnimalHelperVoting$_contract_init(slice $owner, slice $tokenContract, slice $animalHelperPool) impure inline {
+    var (($self'owner, $self'tokenContract, $self'animalHelperPool, $self'proposalsCount, $self'votingActive, $self'votingStartTime, $self'votingEndTime, $self'minTokenBalance, $self'lastVotingResults, $self'proposals, $self'votes, $self'voterTokenBalances)) = (null(), null(), null(), 0, false, 0, 0, 1000, null(), null(), null(), null());
+    $self'owner = $owner;
+    $self'tokenContract = $tokenContract;
+    $self'animalHelperPool = $animalHelperPool;
+    $self'lastVotingResults = $Builder$_fun_endCell($global_beginCell());
+    return ($self'owner, $self'tokenContract, $self'animalHelperPool, $self'proposalsCount, $self'votingActive, $self'votingStartTime, $self'votingEndTime, $self'minTokenBalance, $self'lastVotingResults, $self'proposals, $self'votes, $self'voterTokenBalances);
+}
+
+((slice, slice, slice, int, int, int, int, int, cell, cell, cell, cell), int) $AnimalHelperVoting$_fun_getTokenBalance((slice, slice, slice, int, int, int, int, int, cell, cell, cell, cell) $self, slice $addr) impure inline_ref {
+    var (($self'owner, $self'tokenContract, $self'animalHelperPool, $self'proposalsCount, $self'votingActive, $self'votingStartTime, $self'votingEndTime, $self'minTokenBalance, $self'lastVotingResults, $self'proposals, $self'votes, $self'voterTokenBalances)) = $self;
+    int $savedBalance = __tact_dict_get_slice_int($self'voterTokenBalances, 267, $addr, 257);
+    if ((~ null?($savedBalance))) {
+        var $fresh$ret_13 = __tact_not_null($savedBalance);
+        return (($self'owner, $self'tokenContract, $self'animalHelperPool, $self'proposalsCount, $self'votingActive, $self'votingStartTime, $self'votingEndTime, $self'minTokenBalance, $self'lastVotingResults, $self'proposals, $self'votes, $self'voterTokenBalances), $fresh$ret_13);
+    }
+    var $fresh$ret_14 = $self'minTokenBalance;
+    return (($self'owner, $self'tokenContract, $self'animalHelperPool, $self'proposalsCount, $self'votingActive, $self'votingStartTime, $self'votingEndTime, $self'minTokenBalance, $self'lastVotingResults, $self'proposals, $self'votes, $self'voterTokenBalances), $fresh$ret_14);
+}
+
+((slice, slice, slice, int, int, int, int, int, cell, cell, cell, cell), (int, slice, slice, slice, int)) $AnimalHelperVoting$_fun_findWinningProposal((slice, slice, slice, int, int, int, int, int, cell, cell, cell, cell) $self) impure inline_ref {
+    var (($self'owner, $self'tokenContract, $self'animalHelperPool, $self'proposalsCount, $self'votingActive, $self'votingStartTime, $self'votingEndTime, $self'minTokenBalance, $self'lastVotingResults, $self'proposals, $self'votes, $self'voterTokenBalances)) = $self;
+    int $maxVotes = 0;
+    int $winningId = 0;
+    int $i = 0;
+    while (($i < $self'proposalsCount)) {
+        var ($proposal'id, $proposal'shelterAddress, $proposal'name, $proposal'description, $proposal'votes) = $Proposal$_not_null($Proposal$_load_opt(__tact_dict_get_int_cell($self'proposals, 257, $i)));
+        if (($proposal'votes > $maxVotes)) {
+            $maxVotes = $proposal'votes;
+            $winningId = $i;
+        }
+        $i = ($i + 1);
+    }
+    var $fresh$ret_15 = $Proposal$_not_null($Proposal$_load_opt(__tact_dict_get_int_cell($self'proposals, 257, $winningId)));
+    return (($self'owner, $self'tokenContract, $self'animalHelperPool, $self'proposalsCount, $self'votingActive, $self'votingStartTime, $self'votingEndTime, $self'minTokenBalance, $self'lastVotingResults, $self'proposals, $self'votes, $self'voterTokenBalances), $fresh$ret_15);
+}
+
+((slice, slice, slice, int, int, int, int, int, cell, cell, cell, cell), cell) $AnimalHelperVoting$_fun_serializeResults((slice, slice, slice, int, int, int, int, int, cell, cell, cell, cell) $self, (int, slice, slice, slice, int) $winner) impure inline_ref {
+    var (($self'owner, $self'tokenContract, $self'animalHelperPool, $self'proposalsCount, $self'votingActive, $self'votingStartTime, $self'votingEndTime, $self'minTokenBalance, $self'lastVotingResults, $self'proposals, $self'votes, $self'voterTokenBalances)) = $self;
+    var (($winner'id, $winner'shelterAddress, $winner'name, $winner'description, $winner'votes)) = $winner;
+    var $fresh$ret_16 = $Builder$_fun_endCell(store_uint(store_uint($Builder$_fun_storeRef($Builder$_fun_endCell($global_beginCell()), $Builder$_fun_storeAddress(store_uint($global_beginCell(), $winner'id, 32), $winner'shelterAddress)), $winner'votes, 128), $self'votingEndTime, 64));
+    return (($self'owner, $self'tokenContract, $self'animalHelperPool, $self'proposalsCount, $self'votingActive, $self'votingStartTime, $self'votingEndTime, $self'minTokenBalance, $self'lastVotingResults, $self'proposals, $self'votes, $self'voterTokenBalances), $fresh$ret_16);
+}
+
+;;
+;; Get methods of a Contract AnimalHelperVoting
+;;
+
+_ %owner() method_id(83229) {
+    var self = $AnimalHelperVoting$_contract_load();
+    var res = self~$AnimalHelperVoting$_fun_owner();
+    return res;
+}
+
+;;
+;; Routing of a Contract AnimalHelperVoting
+;;
+
+;; message opcode reader utility: only binary receivers
+;; Returns 32 bit message opcode, otherwise throws the "Invalid incoming message" exit code
+(slice, int) ~load_opcode_internal(slice s) asm( -> 1 0) "32 LDUQ 130 THROWIFNOT";
+
+() recv_internal(int msg_value, cell in_msg_cell, slice in_msg) impure {
+    
+    ;; Context
+    var cs = in_msg_cell.begin_parse();
+    cs~skip_bits(2);
+    var msg_bounceable = cs~load_int(1);
+    var msg_bounced = cs~load_int(1);
+    slice msg_sender_addr = cs~load_msg_addr();
+    __tact_context = (msg_bounceable, msg_sender_addr, msg_value, cs);
+    __tact_context_sender = msg_sender_addr;
+    
+    ;; Load contract data
+    var ($self'owner, $self'tokenContract, $self'animalHelperPool, $self'proposalsCount, $self'votingActive, $self'votingStartTime, $self'votingEndTime, $self'minTokenBalance, $self'lastVotingResults, $self'proposals, $self'votes, $self'voterTokenBalances) = $AnimalHelperVoting$_contract_load();
+    
+    ;; Handle bounced messages
+    if (msg_bounced) { return (); }
+    var op = in_msg~load_opcode_internal();
+    ;; Receive StartVotingMessage message
+    if (op == 3130093394) {
+        var $msg = in_msg~$StartVotingMessage$_load_without_opcode();
+        throw_unless(14534, ( equal_slices_bits($self'owner, __tact_context_get_sender()) ));
+        throw_unless(24933, (~ $self'votingActive));
+        $self'votingActive = true;
+        $self'votingStartTime = $global_now();
+        $self'votingEndTime = ($self'votingStartTime + 2592000);
+        $self'proposalsCount = 0;
+        $self'proposals = null();
+        $self'votes = null();
+        $self'voterTokenBalances = null();
+        $AnimalHelperVoting$_contract_store(($self'owner, $self'tokenContract, $self'animalHelperPool, $self'proposalsCount, $self'votingActive, $self'votingStartTime, $self'votingEndTime, $self'minTokenBalance, $self'lastVotingResults, $self'proposals, $self'votes, $self'voterTokenBalances));
+        return ();
+    }
+    
+    ;; Receive AddProposalMessage message
+    if (op == 2450303598) {
+        var ($msg'shelter_address, $msg'name, $msg'description) = in_msg~$AddProposalMessage$_load_without_opcode();
+        throw_unless(8246, $self'votingActive);
+        throw_unless(15501, ($global_now() < $self'votingEndTime));
+        int $balance = ($self'owner, $self'tokenContract, $self'animalHelperPool, $self'proposalsCount, $self'votingActive, $self'votingStartTime, $self'votingEndTime, $self'minTokenBalance, $self'lastVotingResults, $self'proposals, $self'votes, $self'voterTokenBalances)~$AnimalHelperVoting$_fun_getTokenBalance(__tact_context_get_sender());
+        throw_unless(23911, ($balance >= $self'minTokenBalance));
+        slice $shelterAddress = $msg'shelter_address;
+        slice $name = $msg'name;
+        slice $description = $msg'description;
+        var ($proposal'id, $proposal'shelterAddress, $proposal'name, $proposal'description, $proposal'votes) = $Proposal$_constructor_id_shelterAddress_name_description_votes($self'proposalsCount, $shelterAddress, $name, $description, 0);
+        $self'proposals~__tact_dict_set_int_cell(257, $self'proposalsCount, $Proposal$_store_cell(($proposal'id, $proposal'shelterAddress, $proposal'name, $proposal'description, $proposal'votes)));
+        $self'proposalsCount = ($self'proposalsCount + 1);
+        $AnimalHelperVoting$_contract_store(($self'owner, $self'tokenContract, $self'animalHelperPool, $self'proposalsCount, $self'votingActive, $self'votingStartTime, $self'votingEndTime, $self'minTokenBalance, $self'lastVotingResults, $self'proposals, $self'votes, $self'voterTokenBalances));
+        return ();
+    }
+    
+    ;; Receive VoteMessage message
+    if (op == 967831583) {
+        var ($msg'proposal_id) = in_msg~$VoteMessage$_load_without_opcode();
+        throw_unless(8246, $self'votingActive);
+        throw_unless(15501, ($global_now() < $self'votingEndTime));
+        throw_unless(59369, null?(__tact_dict_get_slice_int($self'votes, 267, __tact_context_get_sender(), 257)));
+        int $proposalId = $msg'proposal_id;
+        throw_unless(18228, ($proposalId < $self'proposalsCount));
+        int $balance = ($self'owner, $self'tokenContract, $self'animalHelperPool, $self'proposalsCount, $self'votingActive, $self'votingStartTime, $self'votingEndTime, $self'minTokenBalance, $self'lastVotingResults, $self'proposals, $self'votes, $self'voterTokenBalances)~$AnimalHelperVoting$_fun_getTokenBalance(__tact_context_get_sender());
+        throw_unless(23911, ($balance >= $self'minTokenBalance));
+        $self'voterTokenBalances~__tact_dict_set_slice_int(267, __tact_context_get_sender(), $balance, 257);
+        var ($proposal'id, $proposal'shelterAddress, $proposal'name, $proposal'description, $proposal'votes) = $Proposal$_not_null($Proposal$_load_opt(__tact_dict_get_int_cell($self'proposals, 257, $proposalId)));
+        $proposal'votes = ($proposal'votes + $balance);
+        $self'proposals~__tact_dict_set_int_cell(257, $proposalId, $Proposal$_store_cell(($proposal'id, $proposal'shelterAddress, $proposal'name, $proposal'description, $proposal'votes)));
+        $self'votes~__tact_dict_set_slice_int(267, __tact_context_get_sender(), ($proposalId + 1), 257);
+        $AnimalHelperVoting$_contract_store(($self'owner, $self'tokenContract, $self'animalHelperPool, $self'proposalsCount, $self'votingActive, $self'votingStartTime, $self'votingEndTime, $self'minTokenBalance, $self'lastVotingResults, $self'proposals, $self'votes, $self'voterTokenBalances));
+        return ();
+    }
+    
+    ;; Receive FinalizeVotingMessage message
+    if (op == 200036361) {
+        var $msg = in_msg~$FinalizeVotingMessage$_load_without_opcode();
+        throw_unless(57254, ( (( equal_slices_bits($self'owner, __tact_context_get_sender()) )) ? (true) : (($global_now() >= $self'votingEndTime)) ));
+        throw_unless(21906, $self'votingActive);
+        var ($winningProposal'id, $winningProposal'shelterAddress, $winningProposal'name, $winningProposal'description, $winningProposal'votes) = ($self'owner, $self'tokenContract, $self'animalHelperPool, $self'proposalsCount, $self'votingActive, $self'votingStartTime, $self'votingEndTime, $self'minTokenBalance, $self'lastVotingResults, $self'proposals, $self'votes, $self'voterTokenBalances)~$AnimalHelperVoting$_fun_findWinningProposal();
+        $self'lastVotingResults = ($self'owner, $self'tokenContract, $self'animalHelperPool, $self'proposalsCount, $self'votingActive, $self'votingStartTime, $self'votingEndTime, $self'minTokenBalance, $self'lastVotingResults, $self'proposals, $self'votes, $self'voterTokenBalances)~$AnimalHelperVoting$_fun_serializeResults($Proposal$_tensor_cast(($winningProposal'id, $winningProposal'shelterAddress, $winningProposal'name, $winningProposal'description, $winningProposal'votes)));
+        $global_send($SendParameters$_constructor_to_bounce_value_mode_body($self'animalHelperPool, true, 50000000, 2, $Builder$_fun_endCell($Builder$_fun_storeAddress(store_uint($global_beginCell(), 1, 32), $winningProposal'shelterAddress))));
+        $self'votingActive = false;
+        $AnimalHelperVoting$_contract_store(($self'owner, $self'tokenContract, $self'animalHelperPool, $self'proposalsCount, $self'votingActive, $self'votingStartTime, $self'votingEndTime, $self'minTokenBalance, $self'lastVotingResults, $self'proposals, $self'votes, $self'voterTokenBalances));
+        return ();
+    }
+    
+    ;; Receive GetVotingStatusMessage message
+    if (op == 404158069) {
+        var $msg = in_msg~$GetVotingStatusMessage$_load_without_opcode();
+        cell $status = $Builder$_fun_endCell(store_uint(store_uint(store_uint($Builder$_fun_storeBool($self'votingActive, $global_beginCell()), $self'votingStartTime, 64), $self'votingEndTime, 64), $self'proposalsCount, 32));
+        $global_send($SendParameters$_constructor_to_value_mode_body(__tact_context_get_sender(), 0, 66, $status));
+        $AnimalHelperVoting$_contract_store(($self'owner, $self'tokenContract, $self'animalHelperPool, $self'proposalsCount, $self'votingActive, $self'votingStartTime, $self'votingEndTime, $self'minTokenBalance, $self'lastVotingResults, $self'proposals, $self'votes, $self'voterTokenBalances));
+        return ();
+    }
+    
+    ;; Receive GetProposalMessage message
+    if (op == 2297840248) {
+        var ($msg'proposal_id) = in_msg~$GetProposalMessage$_load_without_opcode();
+        int $proposalId = $msg'proposal_id;
+        throw_unless(18228, ($proposalId < $self'proposalsCount));
+        var ($proposal'id, $proposal'shelterAddress, $proposal'name, $proposal'description, $proposal'votes) = $Proposal$_not_null($Proposal$_load_opt(__tact_dict_get_int_cell($self'proposals, 257, $proposalId)));
+        cell $proposalData = $Builder$_fun_endCell(store_uint($Builder$_fun_storeRef($Builder$_fun_endCell($global_beginCell()), $Builder$_fun_storeRef($Builder$_fun_endCell($global_beginCell()), $Builder$_fun_storeAddress(store_uint($global_beginCell(), $proposal'id, 32), $proposal'shelterAddress))), $proposal'votes, 128));
+        $global_send($SendParameters$_constructor_to_value_mode_body(__tact_context_get_sender(), 0, 66, $proposalData));
+        $AnimalHelperVoting$_contract_store(($self'owner, $self'tokenContract, $self'animalHelperPool, $self'proposalsCount, $self'votingActive, $self'votingStartTime, $self'votingEndTime, $self'minTokenBalance, $self'lastVotingResults, $self'proposals, $self'votes, $self'voterTokenBalances));
+        return ();
+    }
+    
+    ;; Receive GetLastResultsMessage message
+    if (op == 2416196686) {
+        var $msg = in_msg~$GetLastResultsMessage$_load_without_opcode();
+        $global_send($SendParameters$_constructor_to_value_mode_body(__tact_context_get_sender(), 0, 66, $self'lastVotingResults));
+        $AnimalHelperVoting$_contract_store(($self'owner, $self'tokenContract, $self'animalHelperPool, $self'proposalsCount, $self'votingActive, $self'votingStartTime, $self'votingEndTime, $self'minTokenBalance, $self'lastVotingResults, $self'proposals, $self'votes, $self'voterTokenBalances));
+        return ();
+    }
+    
+    ;; Receive UpdateMinBalanceMessage message
+    if (op == 3069928351) {
+        var ($msg'min_balance) = in_msg~$UpdateMinBalanceMessage$_load_without_opcode();
+        throw_unless(14534, ( equal_slices_bits($self'owner, __tact_context_get_sender()) ));
+        $self'minTokenBalance = $msg'min_balance;
+        $AnimalHelperVoting$_contract_store(($self'owner, $self'tokenContract, $self'animalHelperPool, $self'proposalsCount, $self'votingActive, $self'votingStartTime, $self'votingEndTime, $self'minTokenBalance, $self'lastVotingResults, $self'proposals, $self'votes, $self'voterTokenBalances));
+        return ();
+    }
+    
+    ;; Receive UpdateTokenContractMessage message
+    if (op == 221433619) {
+        var ($msg'new_address) = in_msg~$UpdateTokenContractMessage$_load_without_opcode();
+        throw_unless(14534, ( equal_slices_bits($self'owner, __tact_context_get_sender()) ));
+        $self'tokenContract = $msg'new_address;
+        $AnimalHelperVoting$_contract_store(($self'owner, $self'tokenContract, $self'animalHelperPool, $self'proposalsCount, $self'votingActive, $self'votingStartTime, $self'votingEndTime, $self'minTokenBalance, $self'lastVotingResults, $self'proposals, $self'votes, $self'voterTokenBalances));
+        return ();
+    }
+    
+    ;; Receive UpdateAnimalHelperPoolMessage message
+    if (op == 3337059901) {
+        var ($msg'new_address) = in_msg~$UpdateAnimalHelperPoolMessage$_load_without_opcode();
+        throw_unless(14534, ( equal_slices_bits($self'owner, __tact_context_get_sender()) ));
+        $self'animalHelperPool = $msg'new_address;
+        $AnimalHelperVoting$_contract_store(($self'owner, $self'tokenContract, $self'animalHelperPool, $self'proposalsCount, $self'votingActive, $self'votingStartTime, $self'votingEndTime, $self'minTokenBalance, $self'lastVotingResults, $self'proposals, $self'votes, $self'voterTokenBalances));
+        return ();
+    }
+    
+    ;; Receive EmergencyWithdrawMessage message
+    if (op == 4207437585) {
+        var $msg = in_msg~$EmergencyWithdrawMessage$_load_without_opcode();
+        throw_unless(14534, ( equal_slices_bits($self'owner, __tact_context_get_sender()) ));
+        $global_send($SendParameters$_constructor_to_bounce_value_mode(__tact_context_get_sender(), false, 0, 130));
+        $AnimalHelperVoting$_contract_store(($self'owner, $self'tokenContract, $self'animalHelperPool, $self'proposalsCount, $self'votingActive, $self'votingStartTime, $self'votingEndTime, $self'minTokenBalance, $self'lastVotingResults, $self'proposals, $self'votes, $self'voterTokenBalances));
+        return ();
+    }
+    
+    ;; Receive Deploy message
+    if (op == 0x946a98b6) {
+        var ($deploy'queryId) = in_msg~$Deploy$_load_without_opcode();
+        ($self'owner, $self'tokenContract, $self'animalHelperPool, $self'proposalsCount, $self'votingActive, $self'votingStartTime, $self'votingEndTime, $self'minTokenBalance, $self'lastVotingResults, $self'proposals, $self'votes, $self'voterTokenBalances)~$AnimalHelperVoting$_fun_notify($DeployOk$_store_cell($DeployOk$_constructor_queryId($deploy'queryId)));
+        $AnimalHelperVoting$_contract_store(($self'owner, $self'tokenContract, $self'animalHelperPool, $self'proposalsCount, $self'votingActive, $self'votingStartTime, $self'votingEndTime, $self'minTokenBalance, $self'lastVotingResults, $self'proposals, $self'votes, $self'voterTokenBalances));
+        return ();
+    }
+    
+    ;; Throw if not handled
+    throw(130);
+}
+
+
+() __tact_selector_hack_asm() impure asm """
+@atend @ 1 {
+        execute current@ context@ current!
+        {
+            // The core idea of this function is to save gas by avoiding unnecessary dict jump, when recv_internal/recv_external is called
+            // We want to extract recv_internal/recv_external from the dict and select needed function
+            // not by jumping to the needed function by it's index, but by using usual IF statements.
+            
+            }END> b> // Close previous builder, now we have a cell of previous code on top of the stack
+            
+            <{ // Start of the new code builder
+                SETCP0
+                // Swap the new code builder with the previous code, now we have previous code on top of the stack
+                swap
+                // Transform cell to slice and load first ref from the previous code, now we have the dict on top of the stack
+                <s ref@
+
+                // Extract the recv_internal from the dict
+                dup 0 swap @procdictkeylen idict@ { "internal shortcut error" abort } ifnot 
+                swap
+                
+                // Delete the recv_internal from the dict
+                0 swap @procdictkeylen idict- drop 
+                // Delete the recv_external from the dict (it's okay if it's not there)
+                -1 swap @procdictkeylen idict- drop 
+                // Delete the __tact_selector_hack from the dict
+                65535 swap @procdictkeylen idict- drop 
+
+                // Bring the code builder from the bottom of the stack
+                // because if recv_external extraction is optional, and the number of elements on the stack is not fixed
+                depth 1- roll
+                // Swap with the dict from which we extracted recv_internal and (maybe) recv_external
+                swap
+                
+                // Check if the dict is empty
+                dup null?
+                // Store a copy of this flag in the bottom of the stack
+                dup depth 1- -roll 
+                {
+                    // If the dict is empty, just drop it (it will be null if it's empty)
+                    drop 
+                } 
+                {
+                    // If the dict is not empty, prepare continuation to be stored in c3
+                    <{
+                        // Save this dict as first ref in this continuation, it will be pushed in runtime by DICTPUSHCONST
+                        swap @procdictkeylen DICTPUSHCONST
+                        // Jump to the needed function by it's index
+                        DICTIGETJMPZ
+                        // If such key is not found, throw 11 along with the key as an argument
+                        11 THROWARG
+                    }> PUSHCONT
+                    // Store the continuation in c3
+                    c3 POP
+                } cond
+                
+                // Function id is on top of the (runtime) stack
+                DUP IFNOTJMP:<{
+                    // place recv_internal here
+                    DROP swap @addop
+                }>
+
+                // Bring back the flag, indicating if the dict is empty or not from the bottom of the stack
+                depth 1- roll 
+                { 
+                    // If the dict is empty, throw 11
+                    11 THROWARG 
+                } 
+                { 
+                    // If the dict is not empty, jump to continuation from c3
+                    c3 PUSH JMPX 
+                } cond 
+            }> b>
+        } : }END>c
+        current@ context! current!
+    } does @atend !
+""";
+
+() __tact_selector_hack() method_id(65535) {
+    return __tact_selector_hack_asm();
+}

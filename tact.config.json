@@ -1,0 +1,68 @@
+{
+  "projects": [
+    {
+      "name": "AnimalHelperToken",
+      "path": "./contracts/AnimalHelperToken.tact",
+      "output": "./build",
+      "options": {
+        "debug": true
+      }
+    },
+    {
+      "name": "FundsDistributor",
+      "path": "./contracts/FundsDistributor.tact",
+      "output": "./build",
+      "options": {
+        "debug": true
+      }
+    },
+    {
+      "name": "AnimalHelperNFT",
+      "path": "./contracts/AnimalHelperNFT.tact",
+      "output": "./build",
+      "options": {
+        "debug": true
+      }
+    },
+    {
+      "name": "AnimalHelperVoting",
+      "path": "./contracts/AnimalHelperVoting.tact",
+      "output": "./build",
+      "options": {
+        "debug": true
+      }
+    },
+    {
+      "name": "NFTItem",
+      "path": "./contracts/NFTItem.tact",
+      "output": "./build",
+      "options": {
+        "debug": true
+      }
+    },
+    {
+      "name": "JettonWallet",
+      "path": "./contracts/JettonWallet.tact",
+      "output": "./build",
+      "options": {
+        "debug": true
+      }
+    },
+    {
+      "name": "AnimalHelperPool",
+      "path": "./contracts/AnimalHelperPool.tact",
+      "output": "./build",
+      "options": {
+        "debug": true
+      }
+    },
+    {
+      "name": "LiquidityLock",
+      "path": "./contracts/LiquidityLock.tact",
+      "output": "./build",
+      "options": {
+        "debug": true
+      }
+    }
+  ]
+} 

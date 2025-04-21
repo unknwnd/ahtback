@@ -1,0 +1,666 @@
+#pragma version =0.4.6;
+#pragma allow-post-modification;
+#pragma compute-asm-ltr;
+
+;; LiquidityLock_LiquidityLock.headers.fc
+;;
+;; Header files for LiquidityLock
+;; NOTE: declarations are sorted for optimal order
+;;
+
+;; __tact_context_get
+(int, slice, int, slice) __tact_context_get() inline;
+
+;; __tact_context_get_sender
+slice __tact_context_get_sender() inline;
+
+;; $Deploy$_load_without_opcode
+(slice, ((int))) $Deploy$_load_without_opcode(slice sc_0) inline;
+
+;; $DeployOk$_store
+builder $DeployOk$_store(builder build_0, (int) v) inline;
+
+;; $DeployOk$_store_cell
+cell $DeployOk$_store_cell((int) v) inline;
+
+;; $ReleaseTokensMessage$_load_without_opcode
+(slice, (tuple)) $ReleaseTokensMessage$_load_without_opcode(slice sc_0) inline;
+
+;; $UpdateLiquidityPoolMessage$_load_without_opcode
+(slice, ((slice))) $UpdateLiquidityPoolMessage$_load_without_opcode(slice sc_0) inline;
+
+;; $GetLockInfoMessage$_load_without_opcode
+(slice, (tuple)) $GetLockInfoMessage$_load_without_opcode(slice sc_0) inline;
+
+;; $EmergencyReleaseMessage$_load_without_opcode
+(slice, ((int, cell))) $EmergencyReleaseMessage$_load_without_opcode(slice sc_0) inline;
+
+;; $EmergencyWithdrawMessage$_load_without_opcode
+(slice, (tuple)) $EmergencyWithdrawMessage$_load_without_opcode(slice sc_0) inline;
+
+;; $LiquidityLock$_store
+builder $LiquidityLock$_store(builder build_0, (slice, slice, int, int, int, int, int, int) v) inline;
+
+;; $LiquidityLock$_load
+(slice, ((slice, slice, int, int, int, int, int, int))) $LiquidityLock$_load(slice sc_0) inline;
+
+;; $StateInit$_not_null
+((cell, cell)) $StateInit$_not_null(tuple v) inline;
+
+;; $Context$_get_value
+_ $Context$_get_value((int, slice, int, slice) v) inline;
+
+;; $LiquidityLock$init$_load
+(slice, ((slice, slice, int))) $LiquidityLock$init$_load(slice sc_0) inline;
+
+;; $LiquidityLock$_contract_init
+(slice, slice, int, int, int, int, int, int) $LiquidityLock$_contract_init(slice $owner, slice $liquidityPool, int $lockDurationSeconds) impure inline;
+
+;; $LiquidityLock$_contract_load
+(slice, slice, int, int, int, int, int, int) $LiquidityLock$_contract_load() impure inline;
+
+;; $LiquidityLock$_contract_store
+() $LiquidityLock$_contract_store((slice, slice, int, int, int, int, int, int) v) impure inline;
+
+;; $LiquidityLock$_fun_calculateAvailableToRelease
+((slice, slice, int, int, int, int, int, int), int) $LiquidityLock$_fun_calculateAvailableToRelease((slice, slice, int, int, int, int, int, int) $self) impure inline_ref;
+
+;; $SendParameters$_constructor_bounce_to_value_mode_body_code_data
+((int, cell, cell, cell, int, slice, int)) $SendParameters$_constructor_bounce_to_value_mode_body_code_data(int $bounce, slice $to, int $value, int $mode, cell $body, cell $code, cell $data) inline;
+
+;; $LiquidityLock$_fun_forward
+((slice, slice, int, int, int, int, int, int), ()) $LiquidityLock$_fun_forward((slice, slice, int, int, int, int, int, int) $self, slice $to, cell $body, int $bounce, tuple $init) impure inline_ref;
+
+;; $LiquidityLock$_fun_notify
+((slice, slice, int, int, int, int, int, int), ()) $LiquidityLock$_fun_notify((slice, slice, int, int, int, int, int, int) $self, cell $body) impure inline;
+
+;; $LiquidityLock$_fun_owner
+((slice, slice, int, int, int, int, int, int), slice) $LiquidityLock$_fun_owner((slice, slice, int, int, int, int, int, int) $self) impure inline_ref;
+
+;; $SendParameters$_constructor_to_bounce_value_mode_body
+((int, cell, cell, cell, int, slice, int)) $SendParameters$_constructor_to_bounce_value_mode_body(slice $to, int $bounce, int $value, int $mode, cell $body) inline;
+
+;; $SendParameters$_constructor_to_value_mode_body
+((int, cell, cell, cell, int, slice, int)) $SendParameters$_constructor_to_value_mode_body(slice $to, int $value, int $mode, cell $body) inline;
+
+;; $SendParameters$_constructor_to_bounce_value_mode
+((int, cell, cell, cell, int, slice, int)) $SendParameters$_constructor_to_bounce_value_mode(slice $to, int $bounce, int $value, int $mode) inline;
+
+;; $DeployOk$_constructor_queryId
+((int)) $DeployOk$_constructor_queryId(int $queryId) inline;
+
+
+;; LiquidityLock_LiquidityLock.stdlib.fc
+global (int, slice, int, slice) __tact_context;
+global slice __tact_context_sender;
+global cell __tact_child_contract_codes;
+global int __tact_randomized;
+
+(int, slice, int, slice) __tact_context_get() inline {
+    return __tact_context;
+}
+
+slice __tact_context_get_sender() inline {
+    return __tact_context_sender;
+}
+
+forall X0, X1 -> (X0, X1) __tact_tuple_destroy_2(tuple v) asm """
+    2 UNTUPLE
+""";
+
+int $global_now() impure asm """
+    NOW
+""";
+
+builder $global_beginCell() impure asm """
+    NEWC
+""";
+
+int $global_max(int $x, int $y) impure asm """
+    MAX
+""";
+
+int $global_myBalance() impure asm """
+    BALANCE FIRST
+""";
+
+() $global_nativeReserve(int $amount, int $mode) impure asm """
+    RAWRESERVE
+""";
+
+() $global_send((int, cell, cell, cell, int, slice, int) $params) impure asm """
+    NEWC
+    b{01} STSLICECONST  // store tag = $0 and ihr_disabled = true
+    1 STI               // store `bounce`
+    b{000} STSLICECONST // store bounced = false and src = addr_none
+    STSLICE             // store `to`
+    SWAP
+    STGRAMS             // store `value`
+    105 PUSHINT         // 1 + 4 + 4 + 64 + 32
+    STZEROES            // store currency_collection, ihr_fee, fwd_fee, created_lt and created_at
+    // → Stack state
+    // s0: Builder
+    // s1: `data`
+    // s2: `code`
+    // s3: `body`
+    // s4: `mode`
+
+    // Group 2: Placing the Builder after code and data, then checking those for nullability
+    s2 XCHG0
+    DUP2
+    ISNULL
+    SWAP
+    ISNULL
+    AND
+    // → Stack state
+    // s0: -1 (true) if `data` and `code` are both null, 0 (false) otherwise
+    // s1: `code`
+    // s2: `data`
+    // s3: Builder
+    // s4: `body`
+    // s5: `mode`
+
+    // Group 3: Left branch of the IFELSE, executed if s0 is -1 (true)
+    <{
+        DROP2 // drop `data` and `code`, since either of those is null
+        b{0} STSLICECONST
+    }> PUSHCONT
+
+    // Group 3: Right branch of the IFELSE, executed if s0 is 0 (false)
+    <{
+        // _ split_depth:(Maybe (## 5))
+        //   special:(Maybe TickTock)
+        //   code:(Maybe ^Cell)
+        //   data:(Maybe ^Cell)
+        //   library:(Maybe ^Cell)
+        // = StateInit;
+        ROT                // place message Builder on top
+        b{10} STSLICECONST // store Maybe = true, Either = false
+        // Start composing inlined StateInit
+        b{00} STSLICECONST // store split_depth and special first
+        STDICT             // store code
+        STDICT             // store data
+        b{0} STSLICECONST  // store library
+    }> PUSHCONT
+
+    // Group 3: IFELSE that does the branching shown above
+    IFELSE
+    // → Stack state
+    // s0: Builder
+    // s1: null or StateInit
+    // s2: `body`
+    // s3: `mode`
+
+    // Group 4: Finalizing the message
+    STDICT // store `body` as ref with an extra Maybe bit, since `body` might be null
+    ENDC
+    // → Stack state
+    // s0: Cell
+    // s1: `mode`
+
+    // Group 5: Sending the message, with `mode` on top
+    SWAP
+    SENDRAWMSG // https://github.com/tact-lang/tact/issues/1558
+""";
+
+builder $Builder$_fun_storeCoins(builder $self, int $value) impure asm """
+    STVARUINT16
+""";
+
+cell $Builder$_fun_endCell(builder $self) impure asm """
+    ENDC
+""";
+
+((slice, slice, int, int, int, int, int, int), ()) $LiquidityLock$_fun_forward((slice, slice, int, int, int, int, int, int) $self, slice $to, cell $body, int $bounce, tuple $init) impure inline_ref {
+    var (($self'owner, $self'liquidityPool, $self'initialLockTime, $self'releaseStartTime, $self'releaseEndTime, $self'totalLocked, $self'totalReleased, $self'lastReleaseTime)) = $self;
+    var ($init) = $init;
+    cell $code = null();
+    cell $data = null();
+    if ((~ null?($init))) {
+        var ($init2'code, $init2'data) = $StateInit$_not_null($init);
+        $code = $init2'code;
+        $data = $init2'data;
+    }
+    if (false) {
+        var ($ctx'bounceable, $ctx'sender, $ctx'value, $ctx'raw) = __tact_context_get();
+        int $balance = $global_myBalance();
+        int $balanceBeforeMessage = ($balance - $ctx'value);
+        if (($balanceBeforeMessage < 0)) {
+            $global_nativeReserve(0, 0);
+            $global_send($SendParameters$_constructor_bounce_to_value_mode_body_code_data($bounce, $to, 0, 130, $body, $code, $data));
+            return (($self'owner, $self'liquidityPool, $self'initialLockTime, $self'releaseStartTime, $self'releaseEndTime, $self'totalLocked, $self'totalReleased, $self'lastReleaseTime), ());
+        }
+    }
+    $global_send($SendParameters$_constructor_bounce_to_value_mode_body_code_data($bounce, $to, 0, 66, $body, $code, $data));
+    return (($self'owner, $self'liquidityPool, $self'initialLockTime, $self'releaseStartTime, $self'releaseEndTime, $self'totalLocked, $self'totalReleased, $self'lastReleaseTime), ());
+}
+
+((slice, slice, int, int, int, int, int, int), ()) $LiquidityLock$_fun_notify((slice, slice, int, int, int, int, int, int) $self, cell $body) impure inline {
+    var (($self'owner, $self'liquidityPool, $self'initialLockTime, $self'releaseStartTime, $self'releaseEndTime, $self'totalLocked, $self'totalReleased, $self'lastReleaseTime)) = $self;
+    ($self'owner, $self'liquidityPool, $self'initialLockTime, $self'releaseStartTime, $self'releaseEndTime, $self'totalLocked, $self'totalReleased, $self'lastReleaseTime)~$LiquidityLock$_fun_forward(__tact_context_get_sender(), $body, false, null());
+    return (($self'owner, $self'liquidityPool, $self'initialLockTime, $self'releaseStartTime, $self'releaseEndTime, $self'totalLocked, $self'totalReleased, $self'lastReleaseTime), ());
+}
+
+((slice, slice, int, int, int, int, int, int), slice) $LiquidityLock$_fun_owner((slice, slice, int, int, int, int, int, int) $self) impure inline_ref {
+    var (($self'owner, $self'liquidityPool, $self'initialLockTime, $self'releaseStartTime, $self'releaseEndTime, $self'totalLocked, $self'totalReleased, $self'lastReleaseTime)) = $self;
+    var $fresh$ret_26 = $self'owner;
+    return (($self'owner, $self'liquidityPool, $self'initialLockTime, $self'releaseStartTime, $self'releaseEndTime, $self'totalLocked, $self'totalReleased, $self'lastReleaseTime), $fresh$ret_26);
+}
+
+;; LiquidityLock_LiquidityLock.storage.fc
+;;
+;; Type: StateInit
+;; TLB: _ code:^cell data:^cell = StateInit
+;;
+
+((cell, cell)) $StateInit$_not_null(tuple v) inline {
+    throw_if(128, null?(v));
+    var (cell vvv'code, cell vvv'data) = __tact_tuple_destroy_2(v);
+    return (vvv'code, vvv'data);
+}
+
+;;
+;; Type: Context
+;; TLB: _ bounceable:bool sender:address value:int257 raw:^slice = Context
+;;
+
+_ $Context$_get_value((int, slice, int, slice) v) inline {
+    var (v'bounceable, v'sender, v'value, v'raw) = v;
+    return v'value;
+}
+
+;;
+;; Type: SendParameters
+;; TLB: _ mode:int257 body:Maybe ^cell code:Maybe ^cell data:Maybe ^cell value:int257 to:address bounce:bool = SendParameters
+;;
+
+((int, cell, cell, cell, int, slice, int)) $SendParameters$_constructor_bounce_to_value_mode_body_code_data(int $bounce, slice $to, int $value, int $mode, cell $body, cell $code, cell $data) inline {
+    return ($mode, $body, $code, $data, $value, $to, $bounce);
+}
+
+((int, cell, cell, cell, int, slice, int)) $SendParameters$_constructor_to_bounce_value_mode_body(slice $to, int $bounce, int $value, int $mode, cell $body) inline {
+    return ($mode, $body, null(), null(), $value, $to, $bounce);
+}
+
+((int, cell, cell, cell, int, slice, int)) $SendParameters$_constructor_to_value_mode_body(slice $to, int $value, int $mode, cell $body) inline {
+    return ($mode, $body, null(), null(), $value, $to, true);
+}
+
+((int, cell, cell, cell, int, slice, int)) $SendParameters$_constructor_to_bounce_value_mode(slice $to, int $bounce, int $value, int $mode) inline {
+    return ($mode, null(), null(), null(), $value, $to, $bounce);
+}
+
+;;
+;; Type: Deploy
+;; Header: 0x946a98b6
+;; TLB: deploy#946a98b6 queryId:uint64 = Deploy
+;;
+
+(slice, ((int))) $Deploy$_load_without_opcode(slice sc_0) inline {
+    var v'queryId = sc_0~load_uint(64);
+    return (sc_0, (v'queryId));
+}
+
+;;
+;; Type: DeployOk
+;; Header: 0xaff90f57
+;; TLB: deploy_ok#aff90f57 queryId:uint64 = DeployOk
+;;
+
+builder $DeployOk$_store(builder build_0, (int) v) inline {
+    var (v'queryId) = v;
+    build_0 = store_uint(build_0, 2952335191, 32);
+    build_0 = build_0.store_uint(v'queryId, 64);
+    return build_0;
+}
+
+cell $DeployOk$_store_cell((int) v) inline {
+    return $DeployOk$_store(begin_cell(), v).end_cell();
+}
+
+((int)) $DeployOk$_constructor_queryId(int $queryId) inline {
+    return ($queryId);
+}
+
+;;
+;; Type: ReleaseTokensMessage
+;; Header: 0x724b57d1
+;; TLB: release_tokens_message#724b57d1  = ReleaseTokensMessage
+;;
+
+(slice, (tuple)) $ReleaseTokensMessage$_load_without_opcode(slice sc_0) inline {
+    return (sc_0, null());
+}
+
+;;
+;; Type: UpdateLiquidityPoolMessage
+;; Header: 0x0920cbed
+;; TLB: update_liquidity_pool_message#0920cbed new_address:address = UpdateLiquidityPoolMessage
+;;
+
+(slice, ((slice))) $UpdateLiquidityPoolMessage$_load_without_opcode(slice sc_0) inline {
+    var v'new_address = sc_0~load_msg_addr();
+    return (sc_0, (v'new_address));
+}
+
+;;
+;; Type: GetLockInfoMessage
+;; Header: 0xe31ac97f
+;; TLB: get_lock_info_message#e31ac97f  = GetLockInfoMessage
+;;
+
+(slice, (tuple)) $GetLockInfoMessage$_load_without_opcode(slice sc_0) inline {
+    return (sc_0, null());
+}
+
+;;
+;; Type: EmergencyReleaseMessage
+;; Header: 0x872a8a29
+;; TLB: emergency_release_message#872a8a29 amount:coins signatures:^cell = EmergencyReleaseMessage
+;;
+
+(slice, ((int, cell))) $EmergencyReleaseMessage$_load_without_opcode(slice sc_0) inline {
+    var v'amount = sc_0~load_varuint16();
+    var v'signatures = sc_0~load_ref();
+    return (sc_0, (v'amount, v'signatures));
+}
+
+;;
+;; Type: EmergencyWithdrawMessage
+;; Header: 0xfac86711
+;; TLB: emergency_withdraw_message#fac86711  = EmergencyWithdrawMessage
+;;
+
+(slice, (tuple)) $EmergencyWithdrawMessage$_load_without_opcode(slice sc_0) inline {
+    return (sc_0, null());
+}
+
+;;
+;; Type: LiquidityLock
+;; TLB: _ owner:address liquidityPool:address initialLockTime:int257 releaseStartTime:int257 releaseEndTime:int257 totalLocked:int257 totalReleased:int257 lastReleaseTime:int257 = LiquidityLock
+;;
+
+builder $LiquidityLock$_store(builder build_0, (slice, slice, int, int, int, int, int, int) v) inline {
+    var (v'owner, v'liquidityPool, v'initialLockTime, v'releaseStartTime, v'releaseEndTime, v'totalLocked, v'totalReleased, v'lastReleaseTime) = v;
+    build_0 = build_0.store_slice(v'owner);
+    build_0 = build_0.store_slice(v'liquidityPool);
+    build_0 = build_0.store_int(v'initialLockTime, 257);
+    var build_1 = begin_cell();
+    build_1 = build_1.store_int(v'releaseStartTime, 257);
+    build_1 = build_1.store_int(v'releaseEndTime, 257);
+    build_1 = build_1.store_int(v'totalLocked, 257);
+    var build_2 = begin_cell();
+    build_2 = build_2.store_int(v'totalReleased, 257);
+    build_2 = build_2.store_int(v'lastReleaseTime, 257);
+    build_1 = store_ref(build_1, build_2.end_cell());
+    build_0 = store_ref(build_0, build_1.end_cell());
+    return build_0;
+}
+
+(slice, ((slice, slice, int, int, int, int, int, int))) $LiquidityLock$_load(slice sc_0) inline {
+    var v'owner = sc_0~load_msg_addr();
+    var v'liquidityPool = sc_0~load_msg_addr();
+    var v'initialLockTime = sc_0~load_int(257);
+    slice sc_1 = sc_0~load_ref().begin_parse();
+    var v'releaseStartTime = sc_1~load_int(257);
+    var v'releaseEndTime = sc_1~load_int(257);
+    var v'totalLocked = sc_1~load_int(257);
+    slice sc_2 = sc_1~load_ref().begin_parse();
+    var v'totalReleased = sc_2~load_int(257);
+    var v'lastReleaseTime = sc_2~load_int(257);
+    return (sc_0, (v'owner, v'liquidityPool, v'initialLockTime, v'releaseStartTime, v'releaseEndTime, v'totalLocked, v'totalReleased, v'lastReleaseTime));
+}
+
+(slice, ((slice, slice, int))) $LiquidityLock$init$_load(slice sc_0) inline {
+    var v'owner = sc_0~load_msg_addr();
+    var v'liquidityPool = sc_0~load_msg_addr();
+    var v'lockDurationSeconds = sc_0~load_int(257);
+    return (sc_0, (v'owner, v'liquidityPool, v'lockDurationSeconds));
+}
+
+(slice, slice, int, int, int, int, int, int) $LiquidityLock$_contract_load() impure inline {
+    slice $sc = get_data().begin_parse();
+    int $loaded = $sc~load_int(1);
+    if ($loaded) {
+        return $sc~$LiquidityLock$_load();
+    }
+    else {
+        (slice $owner, slice $liquidityPool, int $lockDurationSeconds) = $sc~$LiquidityLock$init$_load();
+        $sc.end_parse();
+        return $LiquidityLock$_contract_init($owner, $liquidityPool, $lockDurationSeconds);
+    }
+}
+
+() $LiquidityLock$_contract_store((slice, slice, int, int, int, int, int, int) v) impure inline {
+    builder b = begin_cell();
+    b = b.store_int(true, 1);
+    b = $LiquidityLock$_store(b, v);
+    set_data(b.end_cell());
+}
+
+;;
+;; Contract LiquidityLock functions
+;;
+
+(slice, slice, int, int, int, int, int, int) $LiquidityLock$_contract_init(slice $owner, slice $liquidityPool, int $lockDurationSeconds) impure inline {
+    var (($self'owner, $self'liquidityPool, $self'initialLockTime, $self'releaseStartTime, $self'releaseEndTime, $self'totalLocked, $self'totalReleased, $self'lastReleaseTime)) = (null(), null(), null(), null(), null(), null(), 0, 0);
+    $self'owner = $owner;
+    $self'liquidityPool = $liquidityPool;
+    int $now_time = $global_now();
+    $self'initialLockTime = $now_time;
+    $self'releaseStartTime = ($now_time + $lockDurationSeconds);
+    $self'releaseEndTime = ($self'releaseStartTime + (($lockDurationSeconds * 3) / 2));
+    $self'totalLocked = 0;
+    return ($self'owner, $self'liquidityPool, $self'initialLockTime, $self'releaseStartTime, $self'releaseEndTime, $self'totalLocked, $self'totalReleased, $self'lastReleaseTime);
+}
+
+((slice, slice, int, int, int, int, int, int), int) $LiquidityLock$_fun_calculateAvailableToRelease((slice, slice, int, int, int, int, int, int) $self) impure inline_ref {
+    var (($self'owner, $self'liquidityPool, $self'initialLockTime, $self'releaseStartTime, $self'releaseEndTime, $self'totalLocked, $self'totalReleased, $self'lastReleaseTime)) = $self;
+    if (($global_now() < $self'releaseStartTime)) {
+        var $fresh$ret_23 = 0;
+        return (($self'owner, $self'liquidityPool, $self'initialLockTime, $self'releaseStartTime, $self'releaseEndTime, $self'totalLocked, $self'totalReleased, $self'lastReleaseTime), $fresh$ret_23);
+    }
+    if (($global_now() >= $self'releaseEndTime)) {
+        var $fresh$ret_24 = ($self'totalLocked - $self'totalReleased);
+        return (($self'owner, $self'liquidityPool, $self'initialLockTime, $self'releaseStartTime, $self'releaseEndTime, $self'totalLocked, $self'totalReleased, $self'lastReleaseTime), $fresh$ret_24);
+    }
+    int $totalReleasePeriod = ($self'releaseEndTime - $self'releaseStartTime);
+    int $timePassedSinceStart = ($global_now() - $self'releaseStartTime);
+    int $releaseRatio = (($timePassedSinceStart * 100) / $totalReleasePeriod);
+    int $shouldBeReleased = (($self'totalLocked * $releaseRatio) / 100);
+    var $fresh$ret_25 = $global_max(($shouldBeReleased - $self'totalReleased), 0);
+    return (($self'owner, $self'liquidityPool, $self'initialLockTime, $self'releaseStartTime, $self'releaseEndTime, $self'totalLocked, $self'totalReleased, $self'lastReleaseTime), $fresh$ret_25);
+}
+
+;;
+;; Get methods of a Contract LiquidityLock
+;;
+
+_ %owner() method_id(83229) {
+    var self = $LiquidityLock$_contract_load();
+    var res = self~$LiquidityLock$_fun_owner();
+    return res;
+}
+
+;;
+;; Routing of a Contract LiquidityLock
+;;
+
+;; message opcode reader utility: only binary receivers
+;; Returns 32 bit message opcode, otherwise throws the "Invalid incoming message" exit code
+(slice, int) ~load_opcode_internal(slice s) asm( -> 1 0) "32 LDUQ 130 THROWIFNOT";
+
+() recv_internal(int msg_value, cell in_msg_cell, slice in_msg) impure {
+    
+    ;; Context
+    var cs = in_msg_cell.begin_parse();
+    cs~skip_bits(2);
+    var msg_bounceable = cs~load_int(1);
+    var msg_bounced = cs~load_int(1);
+    slice msg_sender_addr = cs~load_msg_addr();
+    __tact_context = (msg_bounceable, msg_sender_addr, msg_value, cs);
+    __tact_context_sender = msg_sender_addr;
+    
+    ;; Load contract data
+    var ($self'owner, $self'liquidityPool, $self'initialLockTime, $self'releaseStartTime, $self'releaseEndTime, $self'totalLocked, $self'totalReleased, $self'lastReleaseTime) = $LiquidityLock$_contract_load();
+    
+    ;; Handle bounced messages
+    if (msg_bounced) { return (); }
+    int op = 0;
+    int in_msg_length = slice_bits(in_msg);
+    if (in_msg_length >= 32) {
+        op = in_msg~load_uint(32);
+    }
+    ;; Receive ReleaseTokensMessage message
+    if (op == 1917540305) {
+        var $msg = in_msg~$ReleaseTokensMessage$_load_without_opcode();
+        throw_unless(2429, ($global_now() >= $self'releaseStartTime));
+        throw_unless(11262, ($self'totalLocked > $self'totalReleased));
+        int $availableToRelease = ($self'owner, $self'liquidityPool, $self'initialLockTime, $self'releaseStartTime, $self'releaseEndTime, $self'totalLocked, $self'totalReleased, $self'lastReleaseTime)~$LiquidityLock$_fun_calculateAvailableToRelease();
+        throw_unless(32651, ($availableToRelease > 0));
+        $self'totalReleased = ($self'totalReleased + $availableToRelease);
+        $self'lastReleaseTime = $global_now();
+        $global_send($SendParameters$_constructor_to_bounce_value_mode_body($self'liquidityPool, true, $availableToRelease, 2, $Builder$_fun_endCell(store_uint($global_beginCell(), 0, 32))));
+        $LiquidityLock$_contract_store(($self'owner, $self'liquidityPool, $self'initialLockTime, $self'releaseStartTime, $self'releaseEndTime, $self'totalLocked, $self'totalReleased, $self'lastReleaseTime));
+        return ();
+    }
+    
+    ;; Receive GetLockInfoMessage message
+    if (op == 3810183551) {
+        var $msg = in_msg~$GetLockInfoMessage$_load_without_opcode();
+        int $availableToRelease = ($self'owner, $self'liquidityPool, $self'initialLockTime, $self'releaseStartTime, $self'releaseEndTime, $self'totalLocked, $self'totalReleased, $self'lastReleaseTime)~$LiquidityLock$_fun_calculateAvailableToRelease();
+        cell $lockInfo = $Builder$_fun_endCell(store_uint($Builder$_fun_storeCoins($Builder$_fun_storeCoins($Builder$_fun_storeCoins(store_uint(store_uint(store_uint($global_beginCell(), $self'initialLockTime, 64), $self'releaseStartTime, 64), $self'releaseEndTime, 64), $self'totalLocked), $self'totalReleased), $availableToRelease), $self'lastReleaseTime, 64));
+        $global_send($SendParameters$_constructor_to_value_mode_body(__tact_context_get_sender(), 0, 66, $lockInfo));
+        $LiquidityLock$_contract_store(($self'owner, $self'liquidityPool, $self'initialLockTime, $self'releaseStartTime, $self'releaseEndTime, $self'totalLocked, $self'totalReleased, $self'lastReleaseTime));
+        return ();
+    }
+    
+    ;; Receive EmergencyReleaseMessage message
+    if (op == 2267712041) {
+        var ($msg'amount, $msg'signatures) = in_msg~$EmergencyReleaseMessage$_load_without_opcode();
+        throw_unless(14534, ( equal_slices_bits($self'owner, __tact_context_get_sender()) ));
+        throw_unless(18859, ($msg'amount <= ($self'totalLocked - $self'totalReleased)));
+        $self'totalReleased = ($self'totalReleased + $msg'amount);
+        $global_send($SendParameters$_constructor_to_bounce_value_mode_body($self'liquidityPool, true, $msg'amount, 2, $Builder$_fun_endCell(store_uint($global_beginCell(), 0, 32))));
+        $LiquidityLock$_contract_store(($self'owner, $self'liquidityPool, $self'initialLockTime, $self'releaseStartTime, $self'releaseEndTime, $self'totalLocked, $self'totalReleased, $self'lastReleaseTime));
+        return ();
+    }
+    
+    ;; Receive UpdateLiquidityPoolMessage message
+    if (op == 153144301) {
+        var ($msg'new_address) = in_msg~$UpdateLiquidityPoolMessage$_load_without_opcode();
+        throw_unless(14534, ( equal_slices_bits($self'owner, __tact_context_get_sender()) ));
+        $self'liquidityPool = $msg'new_address;
+        $LiquidityLock$_contract_store(($self'owner, $self'liquidityPool, $self'initialLockTime, $self'releaseStartTime, $self'releaseEndTime, $self'totalLocked, $self'totalReleased, $self'lastReleaseTime));
+        return ();
+    }
+    
+    ;; Receive EmergencyWithdrawMessage message
+    if (op == 4207437585) {
+        var $msg = in_msg~$EmergencyWithdrawMessage$_load_without_opcode();
+        throw_unless(14534, ( equal_slices_bits($self'owner, __tact_context_get_sender()) ));
+        $global_send($SendParameters$_constructor_to_bounce_value_mode(__tact_context_get_sender(), false, 0, 130));
+        $LiquidityLock$_contract_store(($self'owner, $self'liquidityPool, $self'initialLockTime, $self'releaseStartTime, $self'releaseEndTime, $self'totalLocked, $self'totalReleased, $self'lastReleaseTime));
+        return ();
+    }
+    
+    ;; Receive Deploy message
+    if (op == 0x946a98b6) {
+        var ($deploy'queryId) = in_msg~$Deploy$_load_without_opcode();
+        ($self'owner, $self'liquidityPool, $self'initialLockTime, $self'releaseStartTime, $self'releaseEndTime, $self'totalLocked, $self'totalReleased, $self'lastReleaseTime)~$LiquidityLock$_fun_notify($DeployOk$_store_cell($DeployOk$_constructor_queryId($deploy'queryId)));
+        $LiquidityLock$_contract_store(($self'owner, $self'liquidityPool, $self'initialLockTime, $self'releaseStartTime, $self'releaseEndTime, $self'totalLocked, $self'totalReleased, $self'lastReleaseTime));
+        return ();
+    }
+    
+    ;; Receive empty message
+    if ((op == 0) & (in_msg_length <= 32)) {
+        $self'totalLocked = ($self'totalLocked + $Context$_get_value(__tact_context_get()));
+        $LiquidityLock$_contract_store(($self'owner, $self'liquidityPool, $self'initialLockTime, $self'releaseStartTime, $self'releaseEndTime, $self'totalLocked, $self'totalReleased, $self'lastReleaseTime));
+        return ();
+    }
+    ;; Throw if not handled
+    throw(130);
+}
+
+
+() __tact_selector_hack_asm() impure asm """
+@atend @ 1 {
+        execute current@ context@ current!
+        {
+            // The core idea of this function is to save gas by avoiding unnecessary dict jump, when recv_internal/recv_external is called
+            // We want to extract recv_internal/recv_external from the dict and select needed function
+            // not by jumping to the needed function by it's index, but by using usual IF statements.
+            
+            }END> b> // Close previous builder, now we have a cell of previous code on top of the stack
+            
+            <{ // Start of the new code builder
+                SETCP0
+                // Swap the new code builder with the previous code, now we have previous code on top of the stack
+                swap
+                // Transform cell to slice and load first ref from the previous code, now we have the dict on top of the stack
+                <s ref@
+
+                // Extract the recv_internal from the dict
+                dup 0 swap @procdictkeylen idict@ { "internal shortcut error" abort } ifnot 
+                swap
+                
+                // Delete the recv_internal from the dict
+                0 swap @procdictkeylen idict- drop 
+                // Delete the recv_external from the dict (it's okay if it's not there)
+                -1 swap @procdictkeylen idict- drop 
+                // Delete the __tact_selector_hack from the dict
+                65535 swap @procdictkeylen idict- drop 
+
+                // Bring the code builder from the bottom of the stack
+                // because if recv_external extraction is optional, and the number of elements on the stack is not fixed
+                depth 1- roll
+                // Swap with the dict from which we extracted recv_internal and (maybe) recv_external
+                swap
+                
+                // Check if the dict is empty
+                dup null?
+                // Store a copy of this flag in the bottom of the stack
+                dup depth 1- -roll 
+                {
+                    // If the dict is empty, just drop it (it will be null if it's empty)
+                    drop 
+                } 
+                {
+                    // If the dict is not empty, prepare continuation to be stored in c3
+                    <{
+                        // Save this dict as first ref in this continuation, it will be pushed in runtime by DICTPUSHCONST
+                        swap @procdictkeylen DICTPUSHCONST
+                        // Jump to the needed function by it's index
+                        DICTIGETJMPZ
+                        // If such key is not found, throw 11 along with the key as an argument
+                        11 THROWARG
+                    }> PUSHCONT
+                    // Store the continuation in c3
+                    c3 POP
+                } cond
+                
+                // Function id is on top of the (runtime) stack
+                DUP IFNOTJMP:<{
+                    // place recv_internal here
+                    DROP swap @addop
+                }>
+
+                // Bring back the flag, indicating if the dict is empty or not from the bottom of the stack
+                depth 1- roll 
+                { 
+                    // If the dict is empty, throw 11
+                    11 THROWARG 
+                } 
+                { 
+                    // If the dict is not empty, jump to continuation from c3
+                    c3 PUSH JMPX 
+                } cond 
+            }> b>
+        } : }END>c
+        current@ context! current!
+    } does @atend !
+""";
+
+() __tact_selector_hack() method_id(65535) {
+    return __tact_selector_hack_asm();
+}

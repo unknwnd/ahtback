@@ -1,0 +1,810 @@
+#pragma version =0.4.6;
+#pragma allow-post-modification;
+#pragma compute-asm-ltr;
+
+;; AnimalHelperNFT_AnimalHelperNFT.headers.fc
+;;
+;; Header files for AnimalHelperNFT
+;; NOTE: declarations are sorted for optimal order
+;;
+
+;; __tact_context_get
+(int, slice, int, slice) __tact_context_get() inline;
+
+;; __tact_context_get_sender
+slice __tact_context_get_sender() inline;
+
+;; $Deploy$_load_without_opcode
+(slice, ((int))) $Deploy$_load_without_opcode(slice sc_0) inline;
+
+;; $DeployOk$_store
+builder $DeployOk$_store(builder build_0, (int) v) inline;
+
+;; $DeployOk$_store_cell
+cell $DeployOk$_store_cell((int) v) inline;
+
+;; $GetCollectionDataMessage$_load_without_opcode
+(slice, (tuple)) $GetCollectionDataMessage$_load_without_opcode(slice sc_0) inline;
+
+;; $NFTAddressByIndexMessage$_load_without_opcode
+(slice, ((int))) $NFTAddressByIndexMessage$_load_without_opcode(slice sc_0) inline;
+
+;; $GetNFTContentMessage$_load_without_opcode
+(slice, ((int))) $GetNFTContentMessage$_load_without_opcode(slice sc_0) inline;
+
+;; $MintNFTMessage$_load_without_opcode
+(slice, ((slice, int))) $MintNFTMessage$_load_without_opcode(slice sc_0) inline;
+
+;; $UpdateTokenContractMessage$_load_without_opcode
+(slice, ((slice))) $UpdateTokenContractMessage$_load_without_opcode(slice sc_0) inline;
+
+;; $UpdateContentMessage$_load_without_opcode
+(slice, ((cell))) $UpdateContentMessage$_load_without_opcode(slice sc_0) inline;
+
+;; $EmergencyWithdrawMessage$_load_without_opcode
+(slice, (tuple)) $EmergencyWithdrawMessage$_load_without_opcode(slice sc_0) inline;
+
+;; $CollectionData$_store
+builder $CollectionData$_store(builder build_0, (int, slice, cell, cell) v) inline;
+
+;; $CollectionData$_store_cell
+cell $CollectionData$_store_cell((int, slice, cell, cell) v) inline;
+
+;; $AnimalHelperNFT$_store
+builder $AnimalHelperNFT$_store(builder build_0, (slice, int, cell, cell, slice) v) inline;
+
+;; $AnimalHelperNFT$_load
+(slice, ((slice, int, cell, cell, slice))) $AnimalHelperNFT$_load(slice sc_0) inline;
+
+;; $StateInit$_not_null
+((cell, cell)) $StateInit$_not_null(tuple v) inline;
+
+;; $Context$_get_value
+_ $Context$_get_value((int, slice, int, slice) v) inline;
+
+;; $AnimalHelperNFT$init$_load
+(slice, ((slice, slice, cell, cell))) $AnimalHelperNFT$init$_load(slice sc_0) inline;
+
+;; $AnimalHelperNFT$_contract_init
+(slice, int, cell, cell, slice) $AnimalHelperNFT$_contract_init(slice $owner, slice $tokenContract, cell $content, cell $nftItemCode) impure inline;
+
+;; $AnimalHelperNFT$_contract_load
+(slice, int, cell, cell, slice) $AnimalHelperNFT$_contract_load() impure inline;
+
+;; $AnimalHelperNFT$_contract_store
+() $AnimalHelperNFT$_contract_store((slice, int, cell, cell, slice) v) impure inline;
+
+;; $Cell$_fun_asSlice
+slice $Cell$_fun_asSlice(cell $self) impure inline;
+
+;; $global_newAddress
+slice $global_newAddress(int $chain, int $hash) impure inline;
+
+;; $global_contractAddressExt
+slice $global_contractAddressExt(int $chain, cell $code, cell $data) impure inline;
+
+;; $global_contractAddress
+slice $global_contractAddress((cell, cell) $s) impure inline;
+
+;; $SendParameters$_constructor_to_value_mode_code_data_body
+((int, cell, cell, cell, int, slice, int)) $SendParameters$_constructor_to_value_mode_code_data_body(slice $to, int $value, int $mode, cell $code, cell $data, cell $body) inline;
+
+;; $StateInit$_constructor_code_data
+((cell, cell)) $StateInit$_constructor_code_data(cell $code, cell $data) inline;
+
+;; $AnimalHelperNFT$_fun_getNFTStateInit
+((slice, int, cell, cell, slice), (cell, cell)) $AnimalHelperNFT$_fun_getNFTStateInit((slice, int, cell, cell, slice) $self, int $index) impure inline_ref;
+
+;; $AnimalHelperNFT$_fun_mint
+((slice, int, cell, cell, slice), ()) $AnimalHelperNFT$_fun_mint((slice, int, cell, cell, slice) $self, slice $to) impure inline_ref;
+
+;; $AnimalHelperNFT$_fun_getNFTAddressByIndex
+((slice, int, cell, cell, slice), slice) $AnimalHelperNFT$_fun_getNFTAddressByIndex((slice, int, cell, cell, slice) $self, int $index) impure inline_ref;
+
+;; $AnimalHelperNFT$_fun_getNFTContent
+((slice, int, cell, cell, slice), cell) $AnimalHelperNFT$_fun_getNFTContent((slice, int, cell, cell, slice) $self, int $index) impure inline_ref;
+
+;; $SendParameters$_constructor_bounce_to_value_mode_body_code_data
+((int, cell, cell, cell, int, slice, int)) $SendParameters$_constructor_bounce_to_value_mode_body_code_data(int $bounce, slice $to, int $value, int $mode, cell $body, cell $code, cell $data) inline;
+
+;; $AnimalHelperNFT$_fun_forward
+((slice, int, cell, cell, slice), ()) $AnimalHelperNFT$_fun_forward((slice, int, cell, cell, slice) $self, slice $to, cell $body, int $bounce, tuple $init) impure inline_ref;
+
+;; $AnimalHelperNFT$_fun_notify
+((slice, int, cell, cell, slice), ()) $AnimalHelperNFT$_fun_notify((slice, int, cell, cell, slice) $self, cell $body) impure inline;
+
+;; $AnimalHelperNFT$_fun_owner
+((slice, int, cell, cell, slice), slice) $AnimalHelperNFT$_fun_owner((slice, int, cell, cell, slice) $self) impure inline_ref;
+
+;; $CollectionData$_constructor_nextIndex_owner_content_nftItemCode
+((int, slice, cell, cell)) $CollectionData$_constructor_nextIndex_owner_content_nftItemCode(int $nextIndex, slice $owner, cell $content, cell $nftItemCode) inline;
+
+;; $AnimalHelperNFT$_fun_getCollectionData
+((slice, int, cell, cell, slice), (int, slice, cell, cell)) $AnimalHelperNFT$_fun_getCollectionData((slice, int, cell, cell, slice) $self) impure inline_ref;
+
+;; $SendParameters$_constructor_to_bounce_value_mode
+((int, cell, cell, cell, int, slice, int)) $SendParameters$_constructor_to_bounce_value_mode(slice $to, int $bounce, int $value, int $mode) inline;
+
+;; $DeployOk$_constructor_queryId
+((int)) $DeployOk$_constructor_queryId(int $queryId) inline;
+
+;; $SendParameters$_constructor_to_value_mode_body
+((int, cell, cell, cell, int, slice, int)) $SendParameters$_constructor_to_value_mode_body(slice $to, int $value, int $mode, cell $body) inline;
+
+
+;; AnimalHelperNFT_AnimalHelperNFT.stdlib.fc
+global (int, slice, int, slice) __tact_context;
+global slice __tact_context_sender;
+global cell __tact_child_contract_codes;
+global int __tact_randomized;
+
+(int, slice, int, slice) __tact_context_get() inline {
+    return __tact_context;
+}
+
+slice __tact_context_get_sender() inline {
+    return __tact_context_sender;
+}
+
+forall X0, X1 -> (X0, X1) __tact_tuple_destroy_2(tuple v) asm """
+    2 UNTUPLE
+""";
+
+builder $global_beginCell() impure asm """
+    NEWC
+""";
+
+int $global_contractHash(cell $code, cell $data) impure asm """
+    s0 PUSH HASHCU // `data` hash
+    s2 PUSH HASHCU // `code` hash
+    SWAP2
+    CDEPTH         // `data` depth
+    SWAP
+    CDEPTH         // `code` depth
+    131380 INT     // (2 << 16) | (1 << 8) | 0x34
+
+    // Group 2: Composition of the Builder
+    NEWC
+    24 STU  // store refs_descriptor | bits_descriptor | data
+    16 STU  // store depth_descriptor for `code`
+    16 STU  // store depth_descriptor for `data`
+    256 STU // store `code` hash
+    256 STU // store `data` hash
+
+    // Group 3: SHA256 hash of the resulting Builder
+    ONE HASHEXT_SHA256
+""";
+
+slice $Slice$_fun_asAddressUnsafe(slice $self) impure asm "NOP";
+
+slice $Cell$_fun_beginParse(cell $self) impure asm """
+    CTOS
+""";
+
+slice $Cell$_fun_asSlice(cell $self) impure inline {
+    var ($self) = $self;
+    return $Cell$_fun_beginParse($self);
+}
+
+cell $Builder$_fun_endCell(builder $self) impure asm """
+    ENDC
+""";
+
+slice $global_newAddress(int $chain, int $hash) impure inline {
+    return $Slice$_fun_asAddressUnsafe($Cell$_fun_asSlice($Builder$_fun_endCell(store_uint(store_int(store_uint($global_beginCell(), 4, 3), $chain, 8), $hash, 256))));
+}
+
+slice $global_contractAddressExt(int $chain, cell $code, cell $data) impure inline {
+    int $hash = $global_contractHash($code, $data);
+    return $global_newAddress($chain, $hash);
+}
+
+slice $global_contractAddress((cell, cell) $s) impure inline {
+    var (($s'code, $s'data)) = $s;
+    return $global_contractAddressExt(0, $s'code, $s'data);
+}
+
+slice $global_myAddress() impure asm """
+    MYADDR
+""";
+
+int $global_myBalance() impure asm """
+    BALANCE FIRST
+""";
+
+() $global_nativeReserve(int $amount, int $mode) impure asm """
+    RAWRESERVE
+""";
+
+() $global_send((int, cell, cell, cell, int, slice, int) $params) impure asm """
+    NEWC
+    b{01} STSLICECONST  // store tag = $0 and ihr_disabled = true
+    1 STI               // store `bounce`
+    b{000} STSLICECONST // store bounced = false and src = addr_none
+    STSLICE             // store `to`
+    SWAP
+    STGRAMS             // store `value`
+    105 PUSHINT         // 1 + 4 + 4 + 64 + 32
+    STZEROES            // store currency_collection, ihr_fee, fwd_fee, created_lt and created_at
+    // → Stack state
+    // s0: Builder
+    // s1: `data`
+    // s2: `code`
+    // s3: `body`
+    // s4: `mode`
+
+    // Group 2: Placing the Builder after code and data, then checking those for nullability
+    s2 XCHG0
+    DUP2
+    ISNULL
+    SWAP
+    ISNULL
+    AND
+    // → Stack state
+    // s0: -1 (true) if `data` and `code` are both null, 0 (false) otherwise
+    // s1: `code`
+    // s2: `data`
+    // s3: Builder
+    // s4: `body`
+    // s5: `mode`
+
+    // Group 3: Left branch of the IFELSE, executed if s0 is -1 (true)
+    <{
+        DROP2 // drop `data` and `code`, since either of those is null
+        b{0} STSLICECONST
+    }> PUSHCONT
+
+    // Group 3: Right branch of the IFELSE, executed if s0 is 0 (false)
+    <{
+        // _ split_depth:(Maybe (## 5))
+        //   special:(Maybe TickTock)
+        //   code:(Maybe ^Cell)
+        //   data:(Maybe ^Cell)
+        //   library:(Maybe ^Cell)
+        // = StateInit;
+        ROT                // place message Builder on top
+        b{10} STSLICECONST // store Maybe = true, Either = false
+        // Start composing inlined StateInit
+        b{00} STSLICECONST // store split_depth and special first
+        STDICT             // store code
+        STDICT             // store data
+        b{0} STSLICECONST  // store library
+    }> PUSHCONT
+
+    // Group 3: IFELSE that does the branching shown above
+    IFELSE
+    // → Stack state
+    // s0: Builder
+    // s1: null or StateInit
+    // s2: `body`
+    // s3: `mode`
+
+    // Group 4: Finalizing the message
+    STDICT // store `body` as ref with an extra Maybe bit, since `body` might be null
+    ENDC
+    // → Stack state
+    // s0: Cell
+    // s1: `mode`
+
+    // Group 5: Sending the message, with `mode` on top
+    SWAP
+    SENDRAWMSG // https://github.com/tact-lang/tact/issues/1558
+""";
+
+builder $Builder$_fun_storeRef(cell $cell, builder $self) impure asm """
+    STREF
+""";
+
+builder $Builder$_fun_storeAddress(builder $self, slice $address) impure asm """
+    STSLICER
+""";
+
+((slice, int, cell, cell, slice), ()) $AnimalHelperNFT$_fun_forward((slice, int, cell, cell, slice) $self, slice $to, cell $body, int $bounce, tuple $init) impure inline_ref {
+    var (($self'owner, $self'nextIndex, $self'content, $self'nftItemCode, $self'tokenContract)) = $self;
+    var ($init) = $init;
+    cell $code = null();
+    cell $data = null();
+    if ((~ null?($init))) {
+        var ($init2'code, $init2'data) = $StateInit$_not_null($init);
+        $code = $init2'code;
+        $data = $init2'data;
+    }
+    if (false) {
+        var ($ctx'bounceable, $ctx'sender, $ctx'value, $ctx'raw) = __tact_context_get();
+        int $balance = $global_myBalance();
+        int $balanceBeforeMessage = ($balance - $ctx'value);
+        if (($balanceBeforeMessage < 0)) {
+            $global_nativeReserve(0, 0);
+            $global_send($SendParameters$_constructor_bounce_to_value_mode_body_code_data($bounce, $to, 0, 130, $body, $code, $data));
+            return (($self'owner, $self'nextIndex, $self'content, $self'nftItemCode, $self'tokenContract), ());
+        }
+    }
+    $global_send($SendParameters$_constructor_bounce_to_value_mode_body_code_data($bounce, $to, 0, 66, $body, $code, $data));
+    return (($self'owner, $self'nextIndex, $self'content, $self'nftItemCode, $self'tokenContract), ());
+}
+
+((slice, int, cell, cell, slice), ()) $AnimalHelperNFT$_fun_notify((slice, int, cell, cell, slice) $self, cell $body) impure inline {
+    var (($self'owner, $self'nextIndex, $self'content, $self'nftItemCode, $self'tokenContract)) = $self;
+    ($self'owner, $self'nextIndex, $self'content, $self'nftItemCode, $self'tokenContract)~$AnimalHelperNFT$_fun_forward(__tact_context_get_sender(), $body, false, null());
+    return (($self'owner, $self'nextIndex, $self'content, $self'nftItemCode, $self'tokenContract), ());
+}
+
+((slice, int, cell, cell, slice), slice) $AnimalHelperNFT$_fun_owner((slice, int, cell, cell, slice) $self) impure inline_ref {
+    var (($self'owner, $self'nextIndex, $self'content, $self'nftItemCode, $self'tokenContract)) = $self;
+    var $fresh$ret_11 = $self'owner;
+    return (($self'owner, $self'nextIndex, $self'content, $self'nftItemCode, $self'tokenContract), $fresh$ret_11);
+}
+
+;; AnimalHelperNFT_AnimalHelperNFT.storage.fc
+;;
+;; Type: StateInit
+;; TLB: _ code:^cell data:^cell = StateInit
+;;
+
+((cell, cell)) $StateInit$_not_null(tuple v) inline {
+    throw_if(128, null?(v));
+    var (cell vvv'code, cell vvv'data) = __tact_tuple_destroy_2(v);
+    return (vvv'code, vvv'data);
+}
+
+((cell, cell)) $StateInit$_constructor_code_data(cell $code, cell $data) inline {
+    return ($code, $data);
+}
+
+;;
+;; Type: Context
+;; TLB: _ bounceable:bool sender:address value:int257 raw:^slice = Context
+;;
+
+_ $Context$_get_value((int, slice, int, slice) v) inline {
+    var (v'bounceable, v'sender, v'value, v'raw) = v;
+    return v'value;
+}
+
+;;
+;; Type: SendParameters
+;; TLB: _ mode:int257 body:Maybe ^cell code:Maybe ^cell data:Maybe ^cell value:int257 to:address bounce:bool = SendParameters
+;;
+
+((int, cell, cell, cell, int, slice, int)) $SendParameters$_constructor_to_value_mode_code_data_body(slice $to, int $value, int $mode, cell $code, cell $data, cell $body) inline {
+    return ($mode, $body, $code, $data, $value, $to, true);
+}
+
+((int, cell, cell, cell, int, slice, int)) $SendParameters$_constructor_bounce_to_value_mode_body_code_data(int $bounce, slice $to, int $value, int $mode, cell $body, cell $code, cell $data) inline {
+    return ($mode, $body, $code, $data, $value, $to, $bounce);
+}
+
+((int, cell, cell, cell, int, slice, int)) $SendParameters$_constructor_to_bounce_value_mode(slice $to, int $bounce, int $value, int $mode) inline {
+    return ($mode, null(), null(), null(), $value, $to, $bounce);
+}
+
+((int, cell, cell, cell, int, slice, int)) $SendParameters$_constructor_to_value_mode_body(slice $to, int $value, int $mode, cell $body) inline {
+    return ($mode, $body, null(), null(), $value, $to, true);
+}
+
+;;
+;; Type: Deploy
+;; Header: 0x946a98b6
+;; TLB: deploy#946a98b6 queryId:uint64 = Deploy
+;;
+
+(slice, ((int))) $Deploy$_load_without_opcode(slice sc_0) inline {
+    var v'queryId = sc_0~load_uint(64);
+    return (sc_0, (v'queryId));
+}
+
+;;
+;; Type: DeployOk
+;; Header: 0xaff90f57
+;; TLB: deploy_ok#aff90f57 queryId:uint64 = DeployOk
+;;
+
+builder $DeployOk$_store(builder build_0, (int) v) inline {
+    var (v'queryId) = v;
+    build_0 = store_uint(build_0, 2952335191, 32);
+    build_0 = build_0.store_uint(v'queryId, 64);
+    return build_0;
+}
+
+cell $DeployOk$_store_cell((int) v) inline {
+    return $DeployOk$_store(begin_cell(), v).end_cell();
+}
+
+((int)) $DeployOk$_constructor_queryId(int $queryId) inline {
+    return ($queryId);
+}
+
+;;
+;; Type: GetCollectionDataMessage
+;; Header: 0xc9bcc977
+;; TLB: get_collection_data_message#c9bcc977  = GetCollectionDataMessage
+;;
+
+(slice, (tuple)) $GetCollectionDataMessage$_load_without_opcode(slice sc_0) inline {
+    return (sc_0, null());
+}
+
+;;
+;; Type: NFTAddressByIndexMessage
+;; Header: 0xb595f97d
+;; TLB: nft_address_by_index_message#b595f97d index:uint64 = NFTAddressByIndexMessage
+;;
+
+(slice, ((int))) $NFTAddressByIndexMessage$_load_without_opcode(slice sc_0) inline {
+    var v'index = sc_0~load_uint(64);
+    return (sc_0, (v'index));
+}
+
+;;
+;; Type: GetNFTContentMessage
+;; Header: 0xa0ddd1b8
+;; TLB: get_nft_content_message#a0ddd1b8 index:uint64 = GetNFTContentMessage
+;;
+
+(slice, ((int))) $GetNFTContentMessage$_load_without_opcode(slice sc_0) inline {
+    var v'index = sc_0~load_uint(64);
+    return (sc_0, (v'index));
+}
+
+;;
+;; Type: MintNFTMessage
+;; Header: 0xcb1487c9
+;; TLB: mint_nft_message#cb1487c9 recipient:address batchCount:uint32 = MintNFTMessage
+;;
+
+(slice, ((slice, int))) $MintNFTMessage$_load_without_opcode(slice sc_0) inline {
+    var v'recipient = sc_0~load_msg_addr();
+    var v'batchCount = sc_0~load_uint(32);
+    return (sc_0, (v'recipient, v'batchCount));
+}
+
+;;
+;; Type: UpdateTokenContractMessage
+;; Header: 0xa2ba90d5
+;; TLB: update_token_contract_message#a2ba90d5 new_token_contract:address = UpdateTokenContractMessage
+;;
+
+(slice, ((slice))) $UpdateTokenContractMessage$_load_without_opcode(slice sc_0) inline {
+    var v'new_token_contract = sc_0~load_msg_addr();
+    return (sc_0, (v'new_token_contract));
+}
+
+;;
+;; Type: UpdateContentMessage
+;; Header: 0x24c279cb
+;; TLB: update_content_message#24c279cb new_content:^cell = UpdateContentMessage
+;;
+
+(slice, ((cell))) $UpdateContentMessage$_load_without_opcode(slice sc_0) inline {
+    var v'new_content = sc_0~load_ref();
+    return (sc_0, (v'new_content));
+}
+
+;;
+;; Type: EmergencyWithdrawMessage
+;; Header: 0xfac86711
+;; TLB: emergency_withdraw_message#fac86711  = EmergencyWithdrawMessage
+;;
+
+(slice, (tuple)) $EmergencyWithdrawMessage$_load_without_opcode(slice sc_0) inline {
+    return (sc_0, null());
+}
+
+;;
+;; Type: CollectionData
+;; TLB: _ nextIndex:int257 owner:address content:^cell nftItemCode:^cell = CollectionData
+;;
+
+builder $CollectionData$_store(builder build_0, (int, slice, cell, cell) v) inline {
+    var (v'nextIndex, v'owner, v'content, v'nftItemCode) = v;
+    build_0 = build_0.store_int(v'nextIndex, 257);
+    build_0 = build_0.store_slice(v'owner);
+    build_0 = build_0.store_ref(v'content);
+    build_0 = build_0.store_ref(v'nftItemCode);
+    return build_0;
+}
+
+cell $CollectionData$_store_cell((int, slice, cell, cell) v) inline {
+    return $CollectionData$_store(begin_cell(), v).end_cell();
+}
+
+((int, slice, cell, cell)) $CollectionData$_constructor_nextIndex_owner_content_nftItemCode(int $nextIndex, slice $owner, cell $content, cell $nftItemCode) inline {
+    return ($nextIndex, $owner, $content, $nftItemCode);
+}
+
+;;
+;; Type: AnimalHelperNFT
+;; TLB: _ owner:address nextIndex:int257 content:^cell nftItemCode:^cell tokenContract:address = AnimalHelperNFT
+;;
+
+builder $AnimalHelperNFT$_store(builder build_0, (slice, int, cell, cell, slice) v) inline {
+    var (v'owner, v'nextIndex, v'content, v'nftItemCode, v'tokenContract) = v;
+    build_0 = build_0.store_slice(v'owner);
+    build_0 = build_0.store_int(v'nextIndex, 257);
+    build_0 = build_0.store_ref(v'content);
+    build_0 = build_0.store_ref(v'nftItemCode);
+    build_0 = build_0.store_slice(v'tokenContract);
+    return build_0;
+}
+
+(slice, ((slice, int, cell, cell, slice))) $AnimalHelperNFT$_load(slice sc_0) inline {
+    var v'owner = sc_0~load_msg_addr();
+    var v'nextIndex = sc_0~load_int(257);
+    var v'content = sc_0~load_ref();
+    var v'nftItemCode = sc_0~load_ref();
+    var v'tokenContract = sc_0~load_msg_addr();
+    return (sc_0, (v'owner, v'nextIndex, v'content, v'nftItemCode, v'tokenContract));
+}
+
+(slice, ((slice, slice, cell, cell))) $AnimalHelperNFT$init$_load(slice sc_0) inline {
+    var v'owner = sc_0~load_msg_addr();
+    var v'tokenContract = sc_0~load_msg_addr();
+    var v'content = sc_0~load_ref();
+    var v'nftItemCode = sc_0~load_ref();
+    return (sc_0, (v'owner, v'tokenContract, v'content, v'nftItemCode));
+}
+
+(slice, int, cell, cell, slice) $AnimalHelperNFT$_contract_load() impure inline {
+    slice $sc = get_data().begin_parse();
+    int $loaded = $sc~load_int(1);
+    if ($loaded) {
+        return $sc~$AnimalHelperNFT$_load();
+    }
+    else {
+        (slice $owner, slice $tokenContract, cell $content, cell $nftItemCode) = $sc~$AnimalHelperNFT$init$_load();
+        $sc.end_parse();
+        return $AnimalHelperNFT$_contract_init($owner, $tokenContract, $content, $nftItemCode);
+    }
+}
+
+() $AnimalHelperNFT$_contract_store((slice, int, cell, cell, slice) v) impure inline {
+    builder b = begin_cell();
+    b = b.store_int(true, 1);
+    b = $AnimalHelperNFT$_store(b, v);
+    set_data(b.end_cell());
+}
+
+;;
+;; Contract AnimalHelperNFT functions
+;;
+
+(slice, int, cell, cell, slice) $AnimalHelperNFT$_contract_init(slice $owner, slice $tokenContract, cell $content, cell $nftItemCode) impure inline {
+    var (($self'owner, $self'nextIndex, $self'content, $self'nftItemCode, $self'tokenContract)) = (null(), 0, null(), null(), null());
+    $self'owner = $owner;
+    $self'tokenContract = $tokenContract;
+    $self'content = $content;
+    $self'nftItemCode = $nftItemCode;
+    return ($self'owner, $self'nextIndex, $self'content, $self'nftItemCode, $self'tokenContract);
+}
+
+((slice, int, cell, cell, slice), (cell, cell)) $AnimalHelperNFT$_fun_getNFTStateInit((slice, int, cell, cell, slice) $self, int $index) impure inline_ref {
+    var (($self'owner, $self'nextIndex, $self'content, $self'nftItemCode, $self'tokenContract)) = $self;
+    var $fresh$ret_8 = $StateInit$_constructor_code_data($self'nftItemCode, $Builder$_fun_endCell(store_uint($Builder$_fun_storeAddress($global_beginCell(), $global_myAddress()), $index, 64)));
+    return (($self'owner, $self'nextIndex, $self'content, $self'nftItemCode, $self'tokenContract), $fresh$ret_8);
+}
+
+((slice, int, cell, cell, slice), ()) $AnimalHelperNFT$_fun_mint((slice, int, cell, cell, slice) $self, slice $to) impure inline_ref {
+    var (($self'owner, $self'nextIndex, $self'content, $self'nftItemCode, $self'tokenContract)) = $self;
+    int $nftIndex = $self'nextIndex;
+    $self'nextIndex = ($self'nextIndex + 1);
+    var ($nftInit'code, $nftInit'data) = ($self'owner, $self'nextIndex, $self'content, $self'nftItemCode, $self'tokenContract)~$AnimalHelperNFT$_fun_getNFTStateInit($nftIndex);
+    slice $nftAddr = $global_contractAddress(($nftInit'code, $nftInit'data));
+    $global_send($SendParameters$_constructor_to_value_mode_code_data_body($nftAddr, 30000000, 2, $nftInit'code, $nftInit'data, $Builder$_fun_endCell($Builder$_fun_storeAddress(store_uint($global_beginCell(), 1, 32), $to))));
+    return (($self'owner, $self'nextIndex, $self'content, $self'nftItemCode, $self'tokenContract), ());
+}
+
+((slice, int, cell, cell, slice), slice) $AnimalHelperNFT$_fun_getNFTAddressByIndex((slice, int, cell, cell, slice) $self, int $index) impure inline_ref {
+    var (($self'owner, $self'nextIndex, $self'content, $self'nftItemCode, $self'tokenContract)) = $self;
+    var ($init'code, $init'data) = ($self'owner, $self'nextIndex, $self'content, $self'nftItemCode, $self'tokenContract)~$AnimalHelperNFT$_fun_getNFTStateInit($index);
+    var $fresh$ret_9 = $global_contractAddress(($init'code, $init'data));
+    return (($self'owner, $self'nextIndex, $self'content, $self'nftItemCode, $self'tokenContract), $fresh$ret_9);
+}
+
+((slice, int, cell, cell, slice), cell) $AnimalHelperNFT$_fun_getNFTContent((slice, int, cell, cell, slice) $self, int $index) impure inline_ref {
+    var (($self'owner, $self'nextIndex, $self'content, $self'nftItemCode, $self'tokenContract)) = $self;
+    var $fresh$ret_10 = $Builder$_fun_endCell(store_uint($Builder$_fun_storeRef($self'content, $global_beginCell()), $index, 64));
+    return (($self'owner, $self'nextIndex, $self'content, $self'nftItemCode, $self'tokenContract), $fresh$ret_10);
+}
+
+((slice, int, cell, cell, slice), (int, slice, cell, cell)) $AnimalHelperNFT$_fun_getCollectionData((slice, int, cell, cell, slice) $self) impure inline_ref {
+    var (($self'owner, $self'nextIndex, $self'content, $self'nftItemCode, $self'tokenContract)) = $self;
+    var $fresh$ret_12 = $CollectionData$_constructor_nextIndex_owner_content_nftItemCode($self'nextIndex, $self'owner, $self'content, $self'nftItemCode);
+    return (($self'owner, $self'nextIndex, $self'content, $self'nftItemCode, $self'tokenContract), $fresh$ret_12);
+}
+
+;;
+;; Get methods of a Contract AnimalHelperNFT
+;;
+
+_ %owner() method_id(83229) {
+    var self = $AnimalHelperNFT$_contract_load();
+    var res = self~$AnimalHelperNFT$_fun_owner();
+    return res;
+}
+
+;;
+;; Routing of a Contract AnimalHelperNFT
+;;
+
+;; message opcode reader utility: only binary receivers
+;; Returns 32 bit message opcode, otherwise throws the "Invalid incoming message" exit code
+(slice, int) ~load_opcode_internal(slice s) asm( -> 1 0) "32 LDUQ 130 THROWIFNOT";
+
+() recv_internal(int msg_value, cell in_msg_cell, slice in_msg) impure {
+    
+    ;; Context
+    var cs = in_msg_cell.begin_parse();
+    cs~skip_bits(2);
+    var msg_bounceable = cs~load_int(1);
+    var msg_bounced = cs~load_int(1);
+    slice msg_sender_addr = cs~load_msg_addr();
+    __tact_context = (msg_bounceable, msg_sender_addr, msg_value, cs);
+    __tact_context_sender = msg_sender_addr;
+    
+    ;; Load contract data
+    var ($self'owner, $self'nextIndex, $self'content, $self'nftItemCode, $self'tokenContract) = $AnimalHelperNFT$_contract_load();
+    
+    ;; Handle bounced messages
+    if (msg_bounced) { return (); }
+    var op = in_msg~load_opcode_internal();
+    ;; Receive MintNFTMessage message
+    if (op == 3407120329) {
+        var ($msg'recipient, $msg'batchCount) = in_msg~$MintNFTMessage$_load_without_opcode();
+        throw_unless(42435, ( (( equal_slices_bits($self'tokenContract, __tact_context_get_sender()) )) ? (true) : (( equal_slices_bits($self'owner, __tact_context_get_sender()) )) ));
+        int $mintCost = (40000000 * $msg'batchCount);
+        throw_unless(41925, ($Context$_get_value(__tact_context_get()) >= $mintCost));
+        repeat ($msg'batchCount) {
+            ($self'owner, $self'nextIndex, $self'content, $self'nftItemCode, $self'tokenContract)~$AnimalHelperNFT$_fun_mint($msg'recipient);
+        }
+        $AnimalHelperNFT$_contract_store(($self'owner, $self'nextIndex, $self'content, $self'nftItemCode, $self'tokenContract));
+        return ();
+    }
+    
+    ;; Receive UpdateTokenContractMessage message
+    if (op == 2730135765) {
+        var ($msg'new_token_contract) = in_msg~$UpdateTokenContractMessage$_load_without_opcode();
+        throw_unless(14534, ( equal_slices_bits($self'owner, __tact_context_get_sender()) ));
+        $self'tokenContract = $msg'new_token_contract;
+        $AnimalHelperNFT$_contract_store(($self'owner, $self'nextIndex, $self'content, $self'nftItemCode, $self'tokenContract));
+        return ();
+    }
+    
+    ;; Receive UpdateContentMessage message
+    if (op == 616724939) {
+        var ($msg'new_content) = in_msg~$UpdateContentMessage$_load_without_opcode();
+        throw_unless(14534, ( equal_slices_bits($self'owner, __tact_context_get_sender()) ));
+        $self'content = $msg'new_content;
+        $AnimalHelperNFT$_contract_store(($self'owner, $self'nextIndex, $self'content, $self'nftItemCode, $self'tokenContract));
+        return ();
+    }
+    
+    ;; Receive EmergencyWithdrawMessage message
+    if (op == 4207437585) {
+        var $msg = in_msg~$EmergencyWithdrawMessage$_load_without_opcode();
+        throw_unless(14534, ( equal_slices_bits($self'owner, __tact_context_get_sender()) ));
+        $global_send($SendParameters$_constructor_to_bounce_value_mode(__tact_context_get_sender(), false, 0, 130));
+        $AnimalHelperNFT$_contract_store(($self'owner, $self'nextIndex, $self'content, $self'nftItemCode, $self'tokenContract));
+        return ();
+    }
+    
+    ;; Receive Deploy message
+    if (op == 0x946a98b6) {
+        var ($deploy'queryId) = in_msg~$Deploy$_load_without_opcode();
+        ($self'owner, $self'nextIndex, $self'content, $self'nftItemCode, $self'tokenContract)~$AnimalHelperNFT$_fun_notify($DeployOk$_store_cell($DeployOk$_constructor_queryId($deploy'queryId)));
+        $AnimalHelperNFT$_contract_store(($self'owner, $self'nextIndex, $self'content, $self'nftItemCode, $self'tokenContract));
+        return ();
+    }
+    
+    ;; Receive GetCollectionDataMessage message
+    if (op == 3384592759) {
+        var $msg = in_msg~$GetCollectionDataMessage$_load_without_opcode();
+        var ($data'nextIndex, $data'owner, $data'content, $data'nftItemCode) = ($self'owner, $self'nextIndex, $self'content, $self'nftItemCode, $self'tokenContract)~$AnimalHelperNFT$_fun_getCollectionData();
+        $global_send($SendParameters$_constructor_to_value_mode_body(__tact_context_get_sender(), 0, 66, $Builder$_fun_endCell($Builder$_fun_storeRef($CollectionData$_store_cell(($data'nextIndex, $data'owner, $data'content, $data'nftItemCode)), $global_beginCell()))));
+        $AnimalHelperNFT$_contract_store(($self'owner, $self'nextIndex, $self'content, $self'nftItemCode, $self'tokenContract));
+        return ();
+    }
+    
+    ;; Receive NFTAddressByIndexMessage message
+    if (op == 3046504829) {
+        var ($msg'index) = in_msg~$NFTAddressByIndexMessage$_load_without_opcode();
+        slice $nftAddress = ($self'owner, $self'nextIndex, $self'content, $self'nftItemCode, $self'tokenContract)~$AnimalHelperNFT$_fun_getNFTAddressByIndex($msg'index);
+        $global_send($SendParameters$_constructor_to_value_mode_body(__tact_context_get_sender(), 0, 66, $Builder$_fun_endCell($Builder$_fun_storeAddress($global_beginCell(), $nftAddress))));
+        $AnimalHelperNFT$_contract_store(($self'owner, $self'nextIndex, $self'content, $self'nftItemCode, $self'tokenContract));
+        return ();
+    }
+    
+    ;; Receive GetNFTContentMessage message
+    if (op == 2698891704) {
+        var ($msg'index) = in_msg~$GetNFTContentMessage$_load_without_opcode();
+        cell $content = ($self'owner, $self'nextIndex, $self'content, $self'nftItemCode, $self'tokenContract)~$AnimalHelperNFT$_fun_getNFTContent($msg'index);
+        $global_send($SendParameters$_constructor_to_value_mode_body(__tact_context_get_sender(), 0, 66, $Builder$_fun_endCell($Builder$_fun_storeRef($content, $global_beginCell()))));
+        $AnimalHelperNFT$_contract_store(($self'owner, $self'nextIndex, $self'content, $self'nftItemCode, $self'tokenContract));
+        return ();
+    }
+    
+    ;; Throw if not handled
+    throw(130);
+}
+
+
+() __tact_selector_hack_asm() impure asm """
+@atend @ 1 {
+        execute current@ context@ current!
+        {
+            // The core idea of this function is to save gas by avoiding unnecessary dict jump, when recv_internal/recv_external is called
+            // We want to extract recv_internal/recv_external from the dict and select needed function
+            // not by jumping to the needed function by it's index, but by using usual IF statements.
+            
+            }END> b> // Close previous builder, now we have a cell of previous code on top of the stack
+            
+            <{ // Start of the new code builder
+                SETCP0
+                // Swap the new code builder with the previous code, now we have previous code on top of the stack
+                swap
+                // Transform cell to slice and load first ref from the previous code, now we have the dict on top of the stack
+                <s ref@
+
+                // Extract the recv_internal from the dict
+                dup 0 swap @procdictkeylen idict@ { "internal shortcut error" abort } ifnot 
+                swap
+                
+                // Delete the recv_internal from the dict
+                0 swap @procdictkeylen idict- drop 
+                // Delete the recv_external from the dict (it's okay if it's not there)
+                -1 swap @procdictkeylen idict- drop 
+                // Delete the __tact_selector_hack from the dict
+                65535 swap @procdictkeylen idict- drop 
+
+                // Bring the code builder from the bottom of the stack
+                // because if recv_external extraction is optional, and the number of elements on the stack is not fixed
+                depth 1- roll
+                // Swap with the dict from which we extracted recv_internal and (maybe) recv_external
+                swap
+                
+                // Check if the dict is empty
+                dup null?
+                // Store a copy of this flag in the bottom of the stack
+                dup depth 1- -roll 
+                {
+                    // If the dict is empty, just drop it (it will be null if it's empty)
+                    drop 
+                } 
+                {
+                    // If the dict is not empty, prepare continuation to be stored in c3
+                    <{
+                        // Save this dict as first ref in this continuation, it will be pushed in runtime by DICTPUSHCONST
+                        swap @procdictkeylen DICTPUSHCONST
+                        // Jump to the needed function by it's index
+                        DICTIGETJMPZ
+                        // If such key is not found, throw 11 along with the key as an argument
+                        11 THROWARG
+                    }> PUSHCONT
+                    // Store the continuation in c3
+                    c3 POP
+                } cond
+                
+                // Function id is on top of the (runtime) stack
+                DUP IFNOTJMP:<{
+                    // place recv_internal here
+                    DROP swap @addop
+                }>
+
+                // Bring back the flag, indicating if the dict is empty or not from the bottom of the stack
+                depth 1- roll 
+                { 
+                    // If the dict is empty, throw 11
+                    11 THROWARG 
+                } 
+                { 
+                    // If the dict is not empty, jump to continuation from c3
+                    c3 PUSH JMPX 
+                } cond 
+            }> b>
+        } : }END>c
+        current@ context! current!
+    } does @atend !
+""";
+
+() __tact_selector_hack() method_id(65535) {
+    return __tact_selector_hack_asm();
+}
