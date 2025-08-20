@@ -1,0 +1,1514 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.AnimalHelperVoting = exports.AnimalHelperVoting_getterMapping = exports.AnimalHelperVoting_errors_backward = exports.AnimalHelperVoting_errors = void 0;
+exports.storeDataSize = storeDataSize;
+exports.loadDataSize = loadDataSize;
+exports.storeStateInit = storeStateInit;
+exports.loadStateInit = loadStateInit;
+exports.storeContext = storeContext;
+exports.loadContext = loadContext;
+exports.storeSendParameters = storeSendParameters;
+exports.loadSendParameters = loadSendParameters;
+exports.storeMessageParameters = storeMessageParameters;
+exports.loadMessageParameters = loadMessageParameters;
+exports.storeDeployParameters = storeDeployParameters;
+exports.loadDeployParameters = loadDeployParameters;
+exports.storeStdAddress = storeStdAddress;
+exports.loadStdAddress = loadStdAddress;
+exports.storeVarAddress = storeVarAddress;
+exports.loadVarAddress = loadVarAddress;
+exports.storeBasechainAddress = storeBasechainAddress;
+exports.loadBasechainAddress = loadBasechainAddress;
+exports.storeDeploy = storeDeploy;
+exports.loadDeploy = loadDeploy;
+exports.storeDeployOk = storeDeployOk;
+exports.loadDeployOk = loadDeployOk;
+exports.storeFactoryDeploy = storeFactoryDeploy;
+exports.loadFactoryDeploy = loadFactoryDeploy;
+exports.storeChangeOwner = storeChangeOwner;
+exports.loadChangeOwner = loadChangeOwner;
+exports.storeChangeOwnerOk = storeChangeOwnerOk;
+exports.loadChangeOwnerOk = loadChangeOwnerOk;
+exports.storeStartVotingMessage = storeStartVotingMessage;
+exports.loadStartVotingMessage = loadStartVotingMessage;
+exports.storeAddProposalMessage = storeAddProposalMessage;
+exports.loadAddProposalMessage = loadAddProposalMessage;
+exports.storeVoteMessage = storeVoteMessage;
+exports.loadVoteMessage = loadVoteMessage;
+exports.storeFinalizeVotingMessage = storeFinalizeVotingMessage;
+exports.loadFinalizeVotingMessage = loadFinalizeVotingMessage;
+exports.storeGetVotingStatusMessage = storeGetVotingStatusMessage;
+exports.loadGetVotingStatusMessage = loadGetVotingStatusMessage;
+exports.storeGetProposalMessage = storeGetProposalMessage;
+exports.loadGetProposalMessage = loadGetProposalMessage;
+exports.storeGetLastResultsMessage = storeGetLastResultsMessage;
+exports.loadGetLastResultsMessage = loadGetLastResultsMessage;
+exports.storeUpdateMinBalanceMessage = storeUpdateMinBalanceMessage;
+exports.loadUpdateMinBalanceMessage = loadUpdateMinBalanceMessage;
+exports.storeUpdateTokenContractMessage = storeUpdateTokenContractMessage;
+exports.loadUpdateTokenContractMessage = loadUpdateTokenContractMessage;
+exports.storeUpdateAnimalHelperPoolMessage = storeUpdateAnimalHelperPoolMessage;
+exports.loadUpdateAnimalHelperPoolMessage = loadUpdateAnimalHelperPoolMessage;
+exports.storeEmergencyWithdrawMessage = storeEmergencyWithdrawMessage;
+exports.loadEmergencyWithdrawMessage = loadEmergencyWithdrawMessage;
+exports.storeProposal = storeProposal;
+exports.loadProposal = loadProposal;
+exports.storeAnimalHelperVoting$Data = storeAnimalHelperVoting$Data;
+exports.loadAnimalHelperVoting$Data = loadAnimalHelperVoting$Data;
+const core_1 = require("@ton/core");
+function storeDataSize(src) {
+    return (builder) => {
+        const b_0 = builder;
+        b_0.storeInt(src.cells, 257);
+        b_0.storeInt(src.bits, 257);
+        b_0.storeInt(src.refs, 257);
+    };
+}
+function loadDataSize(slice) {
+    const sc_0 = slice;
+    const _cells = sc_0.loadIntBig(257);
+    const _bits = sc_0.loadIntBig(257);
+    const _refs = sc_0.loadIntBig(257);
+    return { $$type: 'DataSize', cells: _cells, bits: _bits, refs: _refs };
+}
+function loadTupleDataSize(source) {
+    const _cells = source.readBigNumber();
+    const _bits = source.readBigNumber();
+    const _refs = source.readBigNumber();
+    return { $$type: 'DataSize', cells: _cells, bits: _bits, refs: _refs };
+}
+function loadGetterTupleDataSize(source) {
+    const _cells = source.readBigNumber();
+    const _bits = source.readBigNumber();
+    const _refs = source.readBigNumber();
+    return { $$type: 'DataSize', cells: _cells, bits: _bits, refs: _refs };
+}
+function storeTupleDataSize(source) {
+    const builder = new core_1.TupleBuilder();
+    builder.writeNumber(source.cells);
+    builder.writeNumber(source.bits);
+    builder.writeNumber(source.refs);
+    return builder.build();
+}
+function dictValueParserDataSize() {
+    return {
+        serialize: (src, builder) => {
+            builder.storeRef((0, core_1.beginCell)().store(storeDataSize(src)).endCell());
+        },
+        parse: (src) => {
+            return loadDataSize(src.loadRef().beginParse());
+        }
+    };
+}
+function storeStateInit(src) {
+    return (builder) => {
+        const b_0 = builder;
+        b_0.storeRef(src.code);
+        b_0.storeRef(src.data);
+    };
+}
+function loadStateInit(slice) {
+    const sc_0 = slice;
+    const _code = sc_0.loadRef();
+    const _data = sc_0.loadRef();
+    return { $$type: 'StateInit', code: _code, data: _data };
+}
+function loadTupleStateInit(source) {
+    const _code = source.readCell();
+    const _data = source.readCell();
+    return { $$type: 'StateInit', code: _code, data: _data };
+}
+function loadGetterTupleStateInit(source) {
+    const _code = source.readCell();
+    const _data = source.readCell();
+    return { $$type: 'StateInit', code: _code, data: _data };
+}
+function storeTupleStateInit(source) {
+    const builder = new core_1.TupleBuilder();
+    builder.writeCell(source.code);
+    builder.writeCell(source.data);
+    return builder.build();
+}
+function dictValueParserStateInit() {
+    return {
+        serialize: (src, builder) => {
+            builder.storeRef((0, core_1.beginCell)().store(storeStateInit(src)).endCell());
+        },
+        parse: (src) => {
+            return loadStateInit(src.loadRef().beginParse());
+        }
+    };
+}
+function storeContext(src) {
+    return (builder) => {
+        const b_0 = builder;
+        b_0.storeBit(src.bounceable);
+        b_0.storeAddress(src.sender);
+        b_0.storeInt(src.value, 257);
+        b_0.storeRef(src.raw.asCell());
+    };
+}
+function loadContext(slice) {
+    const sc_0 = slice;
+    const _bounceable = sc_0.loadBit();
+    const _sender = sc_0.loadAddress();
+    const _value = sc_0.loadIntBig(257);
+    const _raw = sc_0.loadRef().asSlice();
+    return { $$type: 'Context', bounceable: _bounceable, sender: _sender, value: _value, raw: _raw };
+}
+function loadTupleContext(source) {
+    const _bounceable = source.readBoolean();
+    const _sender = source.readAddress();
+    const _value = source.readBigNumber();
+    const _raw = source.readCell().asSlice();
+    return { $$type: 'Context', bounceable: _bounceable, sender: _sender, value: _value, raw: _raw };
+}
+function loadGetterTupleContext(source) {
+    const _bounceable = source.readBoolean();
+    const _sender = source.readAddress();
+    const _value = source.readBigNumber();
+    const _raw = source.readCell().asSlice();
+    return { $$type: 'Context', bounceable: _bounceable, sender: _sender, value: _value, raw: _raw };
+}
+function storeTupleContext(source) {
+    const builder = new core_1.TupleBuilder();
+    builder.writeBoolean(source.bounceable);
+    builder.writeAddress(source.sender);
+    builder.writeNumber(source.value);
+    builder.writeSlice(source.raw.asCell());
+    return builder.build();
+}
+function dictValueParserContext() {
+    return {
+        serialize: (src, builder) => {
+            builder.storeRef((0, core_1.beginCell)().store(storeContext(src)).endCell());
+        },
+        parse: (src) => {
+            return loadContext(src.loadRef().beginParse());
+        }
+    };
+}
+function storeSendParameters(src) {
+    return (builder) => {
+        const b_0 = builder;
+        b_0.storeInt(src.mode, 257);
+        if (src.body !== null && src.body !== undefined) {
+            b_0.storeBit(true).storeRef(src.body);
+        }
+        else {
+            b_0.storeBit(false);
+        }
+        if (src.code !== null && src.code !== undefined) {
+            b_0.storeBit(true).storeRef(src.code);
+        }
+        else {
+            b_0.storeBit(false);
+        }
+        if (src.data !== null && src.data !== undefined) {
+            b_0.storeBit(true).storeRef(src.data);
+        }
+        else {
+            b_0.storeBit(false);
+        }
+        b_0.storeInt(src.value, 257);
+        b_0.storeAddress(src.to);
+        b_0.storeBit(src.bounce);
+    };
+}
+function loadSendParameters(slice) {
+    const sc_0 = slice;
+    const _mode = sc_0.loadIntBig(257);
+    const _body = sc_0.loadBit() ? sc_0.loadRef() : null;
+    const _code = sc_0.loadBit() ? sc_0.loadRef() : null;
+    const _data = sc_0.loadBit() ? sc_0.loadRef() : null;
+    const _value = sc_0.loadIntBig(257);
+    const _to = sc_0.loadAddress();
+    const _bounce = sc_0.loadBit();
+    return { $$type: 'SendParameters', mode: _mode, body: _body, code: _code, data: _data, value: _value, to: _to, bounce: _bounce };
+}
+function loadTupleSendParameters(source) {
+    const _mode = source.readBigNumber();
+    const _body = source.readCellOpt();
+    const _code = source.readCellOpt();
+    const _data = source.readCellOpt();
+    const _value = source.readBigNumber();
+    const _to = source.readAddress();
+    const _bounce = source.readBoolean();
+    return { $$type: 'SendParameters', mode: _mode, body: _body, code: _code, data: _data, value: _value, to: _to, bounce: _bounce };
+}
+function loadGetterTupleSendParameters(source) {
+    const _mode = source.readBigNumber();
+    const _body = source.readCellOpt();
+    const _code = source.readCellOpt();
+    const _data = source.readCellOpt();
+    const _value = source.readBigNumber();
+    const _to = source.readAddress();
+    const _bounce = source.readBoolean();
+    return { $$type: 'SendParameters', mode: _mode, body: _body, code: _code, data: _data, value: _value, to: _to, bounce: _bounce };
+}
+function storeTupleSendParameters(source) {
+    const builder = new core_1.TupleBuilder();
+    builder.writeNumber(source.mode);
+    builder.writeCell(source.body);
+    builder.writeCell(source.code);
+    builder.writeCell(source.data);
+    builder.writeNumber(source.value);
+    builder.writeAddress(source.to);
+    builder.writeBoolean(source.bounce);
+    return builder.build();
+}
+function dictValueParserSendParameters() {
+    return {
+        serialize: (src, builder) => {
+            builder.storeRef((0, core_1.beginCell)().store(storeSendParameters(src)).endCell());
+        },
+        parse: (src) => {
+            return loadSendParameters(src.loadRef().beginParse());
+        }
+    };
+}
+function storeMessageParameters(src) {
+    return (builder) => {
+        const b_0 = builder;
+        b_0.storeInt(src.mode, 257);
+        if (src.body !== null && src.body !== undefined) {
+            b_0.storeBit(true).storeRef(src.body);
+        }
+        else {
+            b_0.storeBit(false);
+        }
+        b_0.storeInt(src.value, 257);
+        b_0.storeAddress(src.to);
+        b_0.storeBit(src.bounce);
+    };
+}
+function loadMessageParameters(slice) {
+    const sc_0 = slice;
+    const _mode = sc_0.loadIntBig(257);
+    const _body = sc_0.loadBit() ? sc_0.loadRef() : null;
+    const _value = sc_0.loadIntBig(257);
+    const _to = sc_0.loadAddress();
+    const _bounce = sc_0.loadBit();
+    return { $$type: 'MessageParameters', mode: _mode, body: _body, value: _value, to: _to, bounce: _bounce };
+}
+function loadTupleMessageParameters(source) {
+    const _mode = source.readBigNumber();
+    const _body = source.readCellOpt();
+    const _value = source.readBigNumber();
+    const _to = source.readAddress();
+    const _bounce = source.readBoolean();
+    return { $$type: 'MessageParameters', mode: _mode, body: _body, value: _value, to: _to, bounce: _bounce };
+}
+function loadGetterTupleMessageParameters(source) {
+    const _mode = source.readBigNumber();
+    const _body = source.readCellOpt();
+    const _value = source.readBigNumber();
+    const _to = source.readAddress();
+    const _bounce = source.readBoolean();
+    return { $$type: 'MessageParameters', mode: _mode, body: _body, value: _value, to: _to, bounce: _bounce };
+}
+function storeTupleMessageParameters(source) {
+    const builder = new core_1.TupleBuilder();
+    builder.writeNumber(source.mode);
+    builder.writeCell(source.body);
+    builder.writeNumber(source.value);
+    builder.writeAddress(source.to);
+    builder.writeBoolean(source.bounce);
+    return builder.build();
+}
+function dictValueParserMessageParameters() {
+    return {
+        serialize: (src, builder) => {
+            builder.storeRef((0, core_1.beginCell)().store(storeMessageParameters(src)).endCell());
+        },
+        parse: (src) => {
+            return loadMessageParameters(src.loadRef().beginParse());
+        }
+    };
+}
+function storeDeployParameters(src) {
+    return (builder) => {
+        const b_0 = builder;
+        b_0.storeInt(src.mode, 257);
+        if (src.body !== null && src.body !== undefined) {
+            b_0.storeBit(true).storeRef(src.body);
+        }
+        else {
+            b_0.storeBit(false);
+        }
+        b_0.storeInt(src.value, 257);
+        b_0.storeBit(src.bounce);
+        b_0.store(storeStateInit(src.init));
+    };
+}
+function loadDeployParameters(slice) {
+    const sc_0 = slice;
+    const _mode = sc_0.loadIntBig(257);
+    const _body = sc_0.loadBit() ? sc_0.loadRef() : null;
+    const _value = sc_0.loadIntBig(257);
+    const _bounce = sc_0.loadBit();
+    const _init = loadStateInit(sc_0);
+    return { $$type: 'DeployParameters', mode: _mode, body: _body, value: _value, bounce: _bounce, init: _init };
+}
+function loadTupleDeployParameters(source) {
+    const _mode = source.readBigNumber();
+    const _body = source.readCellOpt();
+    const _value = source.readBigNumber();
+    const _bounce = source.readBoolean();
+    const _init = loadTupleStateInit(source);
+    return { $$type: 'DeployParameters', mode: _mode, body: _body, value: _value, bounce: _bounce, init: _init };
+}
+function loadGetterTupleDeployParameters(source) {
+    const _mode = source.readBigNumber();
+    const _body = source.readCellOpt();
+    const _value = source.readBigNumber();
+    const _bounce = source.readBoolean();
+    const _init = loadGetterTupleStateInit(source);
+    return { $$type: 'DeployParameters', mode: _mode, body: _body, value: _value, bounce: _bounce, init: _init };
+}
+function storeTupleDeployParameters(source) {
+    const builder = new core_1.TupleBuilder();
+    builder.writeNumber(source.mode);
+    builder.writeCell(source.body);
+    builder.writeNumber(source.value);
+    builder.writeBoolean(source.bounce);
+    builder.writeTuple(storeTupleStateInit(source.init));
+    return builder.build();
+}
+function dictValueParserDeployParameters() {
+    return {
+        serialize: (src, builder) => {
+            builder.storeRef((0, core_1.beginCell)().store(storeDeployParameters(src)).endCell());
+        },
+        parse: (src) => {
+            return loadDeployParameters(src.loadRef().beginParse());
+        }
+    };
+}
+function storeStdAddress(src) {
+    return (builder) => {
+        const b_0 = builder;
+        b_0.storeInt(src.workchain, 8);
+        b_0.storeUint(src.address, 256);
+    };
+}
+function loadStdAddress(slice) {
+    const sc_0 = slice;
+    const _workchain = sc_0.loadIntBig(8);
+    const _address = sc_0.loadUintBig(256);
+    return { $$type: 'StdAddress', workchain: _workchain, address: _address };
+}
+function loadTupleStdAddress(source) {
+    const _workchain = source.readBigNumber();
+    const _address = source.readBigNumber();
+    return { $$type: 'StdAddress', workchain: _workchain, address: _address };
+}
+function loadGetterTupleStdAddress(source) {
+    const _workchain = source.readBigNumber();
+    const _address = source.readBigNumber();
+    return { $$type: 'StdAddress', workchain: _workchain, address: _address };
+}
+function storeTupleStdAddress(source) {
+    const builder = new core_1.TupleBuilder();
+    builder.writeNumber(source.workchain);
+    builder.writeNumber(source.address);
+    return builder.build();
+}
+function dictValueParserStdAddress() {
+    return {
+        serialize: (src, builder) => {
+            builder.storeRef((0, core_1.beginCell)().store(storeStdAddress(src)).endCell());
+        },
+        parse: (src) => {
+            return loadStdAddress(src.loadRef().beginParse());
+        }
+    };
+}
+function storeVarAddress(src) {
+    return (builder) => {
+        const b_0 = builder;
+        b_0.storeInt(src.workchain, 32);
+        b_0.storeRef(src.address.asCell());
+    };
+}
+function loadVarAddress(slice) {
+    const sc_0 = slice;
+    const _workchain = sc_0.loadIntBig(32);
+    const _address = sc_0.loadRef().asSlice();
+    return { $$type: 'VarAddress', workchain: _workchain, address: _address };
+}
+function loadTupleVarAddress(source) {
+    const _workchain = source.readBigNumber();
+    const _address = source.readCell().asSlice();
+    return { $$type: 'VarAddress', workchain: _workchain, address: _address };
+}
+function loadGetterTupleVarAddress(source) {
+    const _workchain = source.readBigNumber();
+    const _address = source.readCell().asSlice();
+    return { $$type: 'VarAddress', workchain: _workchain, address: _address };
+}
+function storeTupleVarAddress(source) {
+    const builder = new core_1.TupleBuilder();
+    builder.writeNumber(source.workchain);
+    builder.writeSlice(source.address.asCell());
+    return builder.build();
+}
+function dictValueParserVarAddress() {
+    return {
+        serialize: (src, builder) => {
+            builder.storeRef((0, core_1.beginCell)().store(storeVarAddress(src)).endCell());
+        },
+        parse: (src) => {
+            return loadVarAddress(src.loadRef().beginParse());
+        }
+    };
+}
+function storeBasechainAddress(src) {
+    return (builder) => {
+        const b_0 = builder;
+        if (src.hash !== null && src.hash !== undefined) {
+            b_0.storeBit(true).storeInt(src.hash, 257);
+        }
+        else {
+            b_0.storeBit(false);
+        }
+    };
+}
+function loadBasechainAddress(slice) {
+    const sc_0 = slice;
+    const _hash = sc_0.loadBit() ? sc_0.loadIntBig(257) : null;
+    return { $$type: 'BasechainAddress', hash: _hash };
+}
+function loadTupleBasechainAddress(source) {
+    const _hash = source.readBigNumberOpt();
+    return { $$type: 'BasechainAddress', hash: _hash };
+}
+function loadGetterTupleBasechainAddress(source) {
+    const _hash = source.readBigNumberOpt();
+    return { $$type: 'BasechainAddress', hash: _hash };
+}
+function storeTupleBasechainAddress(source) {
+    const builder = new core_1.TupleBuilder();
+    builder.writeNumber(source.hash);
+    return builder.build();
+}
+function dictValueParserBasechainAddress() {
+    return {
+        serialize: (src, builder) => {
+            builder.storeRef((0, core_1.beginCell)().store(storeBasechainAddress(src)).endCell());
+        },
+        parse: (src) => {
+            return loadBasechainAddress(src.loadRef().beginParse());
+        }
+    };
+}
+function storeDeploy(src) {
+    return (builder) => {
+        const b_0 = builder;
+        b_0.storeUint(2490013878, 32);
+        b_0.storeUint(src.queryId, 64);
+    };
+}
+function loadDeploy(slice) {
+    const sc_0 = slice;
+    if (sc_0.loadUint(32) !== 2490013878) {
+        throw Error('Invalid prefix');
+    }
+    const _queryId = sc_0.loadUintBig(64);
+    return { $$type: 'Deploy', queryId: _queryId };
+}
+function loadTupleDeploy(source) {
+    const _queryId = source.readBigNumber();
+    return { $$type: 'Deploy', queryId: _queryId };
+}
+function loadGetterTupleDeploy(source) {
+    const _queryId = source.readBigNumber();
+    return { $$type: 'Deploy', queryId: _queryId };
+}
+function storeTupleDeploy(source) {
+    const builder = new core_1.TupleBuilder();
+    builder.writeNumber(source.queryId);
+    return builder.build();
+}
+function dictValueParserDeploy() {
+    return {
+        serialize: (src, builder) => {
+            builder.storeRef((0, core_1.beginCell)().store(storeDeploy(src)).endCell());
+        },
+        parse: (src) => {
+            return loadDeploy(src.loadRef().beginParse());
+        }
+    };
+}
+function storeDeployOk(src) {
+    return (builder) => {
+        const b_0 = builder;
+        b_0.storeUint(2952335191, 32);
+        b_0.storeUint(src.queryId, 64);
+    };
+}
+function loadDeployOk(slice) {
+    const sc_0 = slice;
+    if (sc_0.loadUint(32) !== 2952335191) {
+        throw Error('Invalid prefix');
+    }
+    const _queryId = sc_0.loadUintBig(64);
+    return { $$type: 'DeployOk', queryId: _queryId };
+}
+function loadTupleDeployOk(source) {
+    const _queryId = source.readBigNumber();
+    return { $$type: 'DeployOk', queryId: _queryId };
+}
+function loadGetterTupleDeployOk(source) {
+    const _queryId = source.readBigNumber();
+    return { $$type: 'DeployOk', queryId: _queryId };
+}
+function storeTupleDeployOk(source) {
+    const builder = new core_1.TupleBuilder();
+    builder.writeNumber(source.queryId);
+    return builder.build();
+}
+function dictValueParserDeployOk() {
+    return {
+        serialize: (src, builder) => {
+            builder.storeRef((0, core_1.beginCell)().store(storeDeployOk(src)).endCell());
+        },
+        parse: (src) => {
+            return loadDeployOk(src.loadRef().beginParse());
+        }
+    };
+}
+function storeFactoryDeploy(src) {
+    return (builder) => {
+        const b_0 = builder;
+        b_0.storeUint(1829761339, 32);
+        b_0.storeUint(src.queryId, 64);
+        b_0.storeAddress(src.cashback);
+    };
+}
+function loadFactoryDeploy(slice) {
+    const sc_0 = slice;
+    if (sc_0.loadUint(32) !== 1829761339) {
+        throw Error('Invalid prefix');
+    }
+    const _queryId = sc_0.loadUintBig(64);
+    const _cashback = sc_0.loadAddress();
+    return { $$type: 'FactoryDeploy', queryId: _queryId, cashback: _cashback };
+}
+function loadTupleFactoryDeploy(source) {
+    const _queryId = source.readBigNumber();
+    const _cashback = source.readAddress();
+    return { $$type: 'FactoryDeploy', queryId: _queryId, cashback: _cashback };
+}
+function loadGetterTupleFactoryDeploy(source) {
+    const _queryId = source.readBigNumber();
+    const _cashback = source.readAddress();
+    return { $$type: 'FactoryDeploy', queryId: _queryId, cashback: _cashback };
+}
+function storeTupleFactoryDeploy(source) {
+    const builder = new core_1.TupleBuilder();
+    builder.writeNumber(source.queryId);
+    builder.writeAddress(source.cashback);
+    return builder.build();
+}
+function dictValueParserFactoryDeploy() {
+    return {
+        serialize: (src, builder) => {
+            builder.storeRef((0, core_1.beginCell)().store(storeFactoryDeploy(src)).endCell());
+        },
+        parse: (src) => {
+            return loadFactoryDeploy(src.loadRef().beginParse());
+        }
+    };
+}
+function storeChangeOwner(src) {
+    return (builder) => {
+        const b_0 = builder;
+        b_0.storeUint(2174598809, 32);
+        b_0.storeUint(src.queryId, 64);
+        b_0.storeAddress(src.newOwner);
+    };
+}
+function loadChangeOwner(slice) {
+    const sc_0 = slice;
+    if (sc_0.loadUint(32) !== 2174598809) {
+        throw Error('Invalid prefix');
+    }
+    const _queryId = sc_0.loadUintBig(64);
+    const _newOwner = sc_0.loadAddress();
+    return { $$type: 'ChangeOwner', queryId: _queryId, newOwner: _newOwner };
+}
+function loadTupleChangeOwner(source) {
+    const _queryId = source.readBigNumber();
+    const _newOwner = source.readAddress();
+    return { $$type: 'ChangeOwner', queryId: _queryId, newOwner: _newOwner };
+}
+function loadGetterTupleChangeOwner(source) {
+    const _queryId = source.readBigNumber();
+    const _newOwner = source.readAddress();
+    return { $$type: 'ChangeOwner', queryId: _queryId, newOwner: _newOwner };
+}
+function storeTupleChangeOwner(source) {
+    const builder = new core_1.TupleBuilder();
+    builder.writeNumber(source.queryId);
+    builder.writeAddress(source.newOwner);
+    return builder.build();
+}
+function dictValueParserChangeOwner() {
+    return {
+        serialize: (src, builder) => {
+            builder.storeRef((0, core_1.beginCell)().store(storeChangeOwner(src)).endCell());
+        },
+        parse: (src) => {
+            return loadChangeOwner(src.loadRef().beginParse());
+        }
+    };
+}
+function storeChangeOwnerOk(src) {
+    return (builder) => {
+        const b_0 = builder;
+        b_0.storeUint(846932810, 32);
+        b_0.storeUint(src.queryId, 64);
+        b_0.storeAddress(src.newOwner);
+    };
+}
+function loadChangeOwnerOk(slice) {
+    const sc_0 = slice;
+    if (sc_0.loadUint(32) !== 846932810) {
+        throw Error('Invalid prefix');
+    }
+    const _queryId = sc_0.loadUintBig(64);
+    const _newOwner = sc_0.loadAddress();
+    return { $$type: 'ChangeOwnerOk', queryId: _queryId, newOwner: _newOwner };
+}
+function loadTupleChangeOwnerOk(source) {
+    const _queryId = source.readBigNumber();
+    const _newOwner = source.readAddress();
+    return { $$type: 'ChangeOwnerOk', queryId: _queryId, newOwner: _newOwner };
+}
+function loadGetterTupleChangeOwnerOk(source) {
+    const _queryId = source.readBigNumber();
+    const _newOwner = source.readAddress();
+    return { $$type: 'ChangeOwnerOk', queryId: _queryId, newOwner: _newOwner };
+}
+function storeTupleChangeOwnerOk(source) {
+    const builder = new core_1.TupleBuilder();
+    builder.writeNumber(source.queryId);
+    builder.writeAddress(source.newOwner);
+    return builder.build();
+}
+function dictValueParserChangeOwnerOk() {
+    return {
+        serialize: (src, builder) => {
+            builder.storeRef((0, core_1.beginCell)().store(storeChangeOwnerOk(src)).endCell());
+        },
+        parse: (src) => {
+            return loadChangeOwnerOk(src.loadRef().beginParse());
+        }
+    };
+}
+function storeStartVotingMessage(src) {
+    return (builder) => {
+        const b_0 = builder;
+        b_0.storeUint(3130093394, 32);
+    };
+}
+function loadStartVotingMessage(slice) {
+    const sc_0 = slice;
+    if (sc_0.loadUint(32) !== 3130093394) {
+        throw Error('Invalid prefix');
+    }
+    return { $$type: 'StartVotingMessage' };
+}
+function loadTupleStartVotingMessage(source) {
+    return { $$type: 'StartVotingMessage' };
+}
+function loadGetterTupleStartVotingMessage(source) {
+    return { $$type: 'StartVotingMessage' };
+}
+function storeTupleStartVotingMessage(source) {
+    const builder = new core_1.TupleBuilder();
+    return builder.build();
+}
+function dictValueParserStartVotingMessage() {
+    return {
+        serialize: (src, builder) => {
+            builder.storeRef((0, core_1.beginCell)().store(storeStartVotingMessage(src)).endCell());
+        },
+        parse: (src) => {
+            return loadStartVotingMessage(src.loadRef().beginParse());
+        }
+    };
+}
+function storeAddProposalMessage(src) {
+    return (builder) => {
+        const b_0 = builder;
+        b_0.storeUint(2450303598, 32);
+        b_0.storeAddress(src.shelter_address);
+        b_0.storeStringRefTail(src.name);
+        b_0.storeStringRefTail(src.description);
+    };
+}
+function loadAddProposalMessage(slice) {
+    const sc_0 = slice;
+    if (sc_0.loadUint(32) !== 2450303598) {
+        throw Error('Invalid prefix');
+    }
+    const _shelter_address = sc_0.loadAddress();
+    const _name = sc_0.loadStringRefTail();
+    const _description = sc_0.loadStringRefTail();
+    return { $$type: 'AddProposalMessage', shelter_address: _shelter_address, name: _name, description: _description };
+}
+function loadTupleAddProposalMessage(source) {
+    const _shelter_address = source.readAddress();
+    const _name = source.readString();
+    const _description = source.readString();
+    return { $$type: 'AddProposalMessage', shelter_address: _shelter_address, name: _name, description: _description };
+}
+function loadGetterTupleAddProposalMessage(source) {
+    const _shelter_address = source.readAddress();
+    const _name = source.readString();
+    const _description = source.readString();
+    return { $$type: 'AddProposalMessage', shelter_address: _shelter_address, name: _name, description: _description };
+}
+function storeTupleAddProposalMessage(source) {
+    const builder = new core_1.TupleBuilder();
+    builder.writeAddress(source.shelter_address);
+    builder.writeString(source.name);
+    builder.writeString(source.description);
+    return builder.build();
+}
+function dictValueParserAddProposalMessage() {
+    return {
+        serialize: (src, builder) => {
+            builder.storeRef((0, core_1.beginCell)().store(storeAddProposalMessage(src)).endCell());
+        },
+        parse: (src) => {
+            return loadAddProposalMessage(src.loadRef().beginParse());
+        }
+    };
+}
+function storeVoteMessage(src) {
+    return (builder) => {
+        const b_0 = builder;
+        b_0.storeUint(967831583, 32);
+        b_0.storeUint(src.proposal_id, 32);
+    };
+}
+function loadVoteMessage(slice) {
+    const sc_0 = slice;
+    if (sc_0.loadUint(32) !== 967831583) {
+        throw Error('Invalid prefix');
+    }
+    const _proposal_id = sc_0.loadUintBig(32);
+    return { $$type: 'VoteMessage', proposal_id: _proposal_id };
+}
+function loadTupleVoteMessage(source) {
+    const _proposal_id = source.readBigNumber();
+    return { $$type: 'VoteMessage', proposal_id: _proposal_id };
+}
+function loadGetterTupleVoteMessage(source) {
+    const _proposal_id = source.readBigNumber();
+    return { $$type: 'VoteMessage', proposal_id: _proposal_id };
+}
+function storeTupleVoteMessage(source) {
+    const builder = new core_1.TupleBuilder();
+    builder.writeNumber(source.proposal_id);
+    return builder.build();
+}
+function dictValueParserVoteMessage() {
+    return {
+        serialize: (src, builder) => {
+            builder.storeRef((0, core_1.beginCell)().store(storeVoteMessage(src)).endCell());
+        },
+        parse: (src) => {
+            return loadVoteMessage(src.loadRef().beginParse());
+        }
+    };
+}
+function storeFinalizeVotingMessage(src) {
+    return (builder) => {
+        const b_0 = builder;
+        b_0.storeUint(200036361, 32);
+    };
+}
+function loadFinalizeVotingMessage(slice) {
+    const sc_0 = slice;
+    if (sc_0.loadUint(32) !== 200036361) {
+        throw Error('Invalid prefix');
+    }
+    return { $$type: 'FinalizeVotingMessage' };
+}
+function loadTupleFinalizeVotingMessage(source) {
+    return { $$type: 'FinalizeVotingMessage' };
+}
+function loadGetterTupleFinalizeVotingMessage(source) {
+    return { $$type: 'FinalizeVotingMessage' };
+}
+function storeTupleFinalizeVotingMessage(source) {
+    const builder = new core_1.TupleBuilder();
+    return builder.build();
+}
+function dictValueParserFinalizeVotingMessage() {
+    return {
+        serialize: (src, builder) => {
+            builder.storeRef((0, core_1.beginCell)().store(storeFinalizeVotingMessage(src)).endCell());
+        },
+        parse: (src) => {
+            return loadFinalizeVotingMessage(src.loadRef().beginParse());
+        }
+    };
+}
+function storeGetVotingStatusMessage(src) {
+    return (builder) => {
+        const b_0 = builder;
+        b_0.storeUint(404158069, 32);
+    };
+}
+function loadGetVotingStatusMessage(slice) {
+    const sc_0 = slice;
+    if (sc_0.loadUint(32) !== 404158069) {
+        throw Error('Invalid prefix');
+    }
+    return { $$type: 'GetVotingStatusMessage' };
+}
+function loadTupleGetVotingStatusMessage(source) {
+    return { $$type: 'GetVotingStatusMessage' };
+}
+function loadGetterTupleGetVotingStatusMessage(source) {
+    return { $$type: 'GetVotingStatusMessage' };
+}
+function storeTupleGetVotingStatusMessage(source) {
+    const builder = new core_1.TupleBuilder();
+    return builder.build();
+}
+function dictValueParserGetVotingStatusMessage() {
+    return {
+        serialize: (src, builder) => {
+            builder.storeRef((0, core_1.beginCell)().store(storeGetVotingStatusMessage(src)).endCell());
+        },
+        parse: (src) => {
+            return loadGetVotingStatusMessage(src.loadRef().beginParse());
+        }
+    };
+}
+function storeGetProposalMessage(src) {
+    return (builder) => {
+        const b_0 = builder;
+        b_0.storeUint(2297840248, 32);
+        b_0.storeUint(src.proposal_id, 32);
+    };
+}
+function loadGetProposalMessage(slice) {
+    const sc_0 = slice;
+    if (sc_0.loadUint(32) !== 2297840248) {
+        throw Error('Invalid prefix');
+    }
+    const _proposal_id = sc_0.loadUintBig(32);
+    return { $$type: 'GetProposalMessage', proposal_id: _proposal_id };
+}
+function loadTupleGetProposalMessage(source) {
+    const _proposal_id = source.readBigNumber();
+    return { $$type: 'GetProposalMessage', proposal_id: _proposal_id };
+}
+function loadGetterTupleGetProposalMessage(source) {
+    const _proposal_id = source.readBigNumber();
+    return { $$type: 'GetProposalMessage', proposal_id: _proposal_id };
+}
+function storeTupleGetProposalMessage(source) {
+    const builder = new core_1.TupleBuilder();
+    builder.writeNumber(source.proposal_id);
+    return builder.build();
+}
+function dictValueParserGetProposalMessage() {
+    return {
+        serialize: (src, builder) => {
+            builder.storeRef((0, core_1.beginCell)().store(storeGetProposalMessage(src)).endCell());
+        },
+        parse: (src) => {
+            return loadGetProposalMessage(src.loadRef().beginParse());
+        }
+    };
+}
+function storeGetLastResultsMessage(src) {
+    return (builder) => {
+        const b_0 = builder;
+        b_0.storeUint(2416196686, 32);
+    };
+}
+function loadGetLastResultsMessage(slice) {
+    const sc_0 = slice;
+    if (sc_0.loadUint(32) !== 2416196686) {
+        throw Error('Invalid prefix');
+    }
+    return { $$type: 'GetLastResultsMessage' };
+}
+function loadTupleGetLastResultsMessage(source) {
+    return { $$type: 'GetLastResultsMessage' };
+}
+function loadGetterTupleGetLastResultsMessage(source) {
+    return { $$type: 'GetLastResultsMessage' };
+}
+function storeTupleGetLastResultsMessage(source) {
+    const builder = new core_1.TupleBuilder();
+    return builder.build();
+}
+function dictValueParserGetLastResultsMessage() {
+    return {
+        serialize: (src, builder) => {
+            builder.storeRef((0, core_1.beginCell)().store(storeGetLastResultsMessage(src)).endCell());
+        },
+        parse: (src) => {
+            return loadGetLastResultsMessage(src.loadRef().beginParse());
+        }
+    };
+}
+function storeUpdateMinBalanceMessage(src) {
+    return (builder) => {
+        const b_0 = builder;
+        b_0.storeUint(3069928351, 32);
+        b_0.storeUint(src.min_balance, 64);
+    };
+}
+function loadUpdateMinBalanceMessage(slice) {
+    const sc_0 = slice;
+    if (sc_0.loadUint(32) !== 3069928351) {
+        throw Error('Invalid prefix');
+    }
+    const _min_balance = sc_0.loadUintBig(64);
+    return { $$type: 'UpdateMinBalanceMessage', min_balance: _min_balance };
+}
+function loadTupleUpdateMinBalanceMessage(source) {
+    const _min_balance = source.readBigNumber();
+    return { $$type: 'UpdateMinBalanceMessage', min_balance: _min_balance };
+}
+function loadGetterTupleUpdateMinBalanceMessage(source) {
+    const _min_balance = source.readBigNumber();
+    return { $$type: 'UpdateMinBalanceMessage', min_balance: _min_balance };
+}
+function storeTupleUpdateMinBalanceMessage(source) {
+    const builder = new core_1.TupleBuilder();
+    builder.writeNumber(source.min_balance);
+    return builder.build();
+}
+function dictValueParserUpdateMinBalanceMessage() {
+    return {
+        serialize: (src, builder) => {
+            builder.storeRef((0, core_1.beginCell)().store(storeUpdateMinBalanceMessage(src)).endCell());
+        },
+        parse: (src) => {
+            return loadUpdateMinBalanceMessage(src.loadRef().beginParse());
+        }
+    };
+}
+function storeUpdateTokenContractMessage(src) {
+    return (builder) => {
+        const b_0 = builder;
+        b_0.storeUint(221433619, 32);
+        b_0.storeAddress(src.new_address);
+    };
+}
+function loadUpdateTokenContractMessage(slice) {
+    const sc_0 = slice;
+    if (sc_0.loadUint(32) !== 221433619) {
+        throw Error('Invalid prefix');
+    }
+    const _new_address = sc_0.loadAddress();
+    return { $$type: 'UpdateTokenContractMessage', new_address: _new_address };
+}
+function loadTupleUpdateTokenContractMessage(source) {
+    const _new_address = source.readAddress();
+    return { $$type: 'UpdateTokenContractMessage', new_address: _new_address };
+}
+function loadGetterTupleUpdateTokenContractMessage(source) {
+    const _new_address = source.readAddress();
+    return { $$type: 'UpdateTokenContractMessage', new_address: _new_address };
+}
+function storeTupleUpdateTokenContractMessage(source) {
+    const builder = new core_1.TupleBuilder();
+    builder.writeAddress(source.new_address);
+    return builder.build();
+}
+function dictValueParserUpdateTokenContractMessage() {
+    return {
+        serialize: (src, builder) => {
+            builder.storeRef((0, core_1.beginCell)().store(storeUpdateTokenContractMessage(src)).endCell());
+        },
+        parse: (src) => {
+            return loadUpdateTokenContractMessage(src.loadRef().beginParse());
+        }
+    };
+}
+function storeUpdateAnimalHelperPoolMessage(src) {
+    return (builder) => {
+        const b_0 = builder;
+        b_0.storeUint(3337059901, 32);
+        b_0.storeAddress(src.new_address);
+    };
+}
+function loadUpdateAnimalHelperPoolMessage(slice) {
+    const sc_0 = slice;
+    if (sc_0.loadUint(32) !== 3337059901) {
+        throw Error('Invalid prefix');
+    }
+    const _new_address = sc_0.loadAddress();
+    return { $$type: 'UpdateAnimalHelperPoolMessage', new_address: _new_address };
+}
+function loadTupleUpdateAnimalHelperPoolMessage(source) {
+    const _new_address = source.readAddress();
+    return { $$type: 'UpdateAnimalHelperPoolMessage', new_address: _new_address };
+}
+function loadGetterTupleUpdateAnimalHelperPoolMessage(source) {
+    const _new_address = source.readAddress();
+    return { $$type: 'UpdateAnimalHelperPoolMessage', new_address: _new_address };
+}
+function storeTupleUpdateAnimalHelperPoolMessage(source) {
+    const builder = new core_1.TupleBuilder();
+    builder.writeAddress(source.new_address);
+    return builder.build();
+}
+function dictValueParserUpdateAnimalHelperPoolMessage() {
+    return {
+        serialize: (src, builder) => {
+            builder.storeRef((0, core_1.beginCell)().store(storeUpdateAnimalHelperPoolMessage(src)).endCell());
+        },
+        parse: (src) => {
+            return loadUpdateAnimalHelperPoolMessage(src.loadRef().beginParse());
+        }
+    };
+}
+function storeEmergencyWithdrawMessage(src) {
+    return (builder) => {
+        const b_0 = builder;
+        b_0.storeUint(4207437585, 32);
+    };
+}
+function loadEmergencyWithdrawMessage(slice) {
+    const sc_0 = slice;
+    if (sc_0.loadUint(32) !== 4207437585) {
+        throw Error('Invalid prefix');
+    }
+    return { $$type: 'EmergencyWithdrawMessage' };
+}
+function loadTupleEmergencyWithdrawMessage(source) {
+    return { $$type: 'EmergencyWithdrawMessage' };
+}
+function loadGetterTupleEmergencyWithdrawMessage(source) {
+    return { $$type: 'EmergencyWithdrawMessage' };
+}
+function storeTupleEmergencyWithdrawMessage(source) {
+    const builder = new core_1.TupleBuilder();
+    return builder.build();
+}
+function dictValueParserEmergencyWithdrawMessage() {
+    return {
+        serialize: (src, builder) => {
+            builder.storeRef((0, core_1.beginCell)().store(storeEmergencyWithdrawMessage(src)).endCell());
+        },
+        parse: (src) => {
+            return loadEmergencyWithdrawMessage(src.loadRef().beginParse());
+        }
+    };
+}
+function storeProposal(src) {
+    return (builder) => {
+        const b_0 = builder;
+        b_0.storeInt(src.id, 257);
+        b_0.storeAddress(src.shelterAddress);
+        b_0.storeStringRefTail(src.name);
+        b_0.storeStringRefTail(src.description);
+        b_0.storeInt(src.votes, 257);
+    };
+}
+function loadProposal(slice) {
+    const sc_0 = slice;
+    const _id = sc_0.loadIntBig(257);
+    const _shelterAddress = sc_0.loadAddress();
+    const _name = sc_0.loadStringRefTail();
+    const _description = sc_0.loadStringRefTail();
+    const _votes = sc_0.loadIntBig(257);
+    return { $$type: 'Proposal', id: _id, shelterAddress: _shelterAddress, name: _name, description: _description, votes: _votes };
+}
+function loadTupleProposal(source) {
+    const _id = source.readBigNumber();
+    const _shelterAddress = source.readAddress();
+    const _name = source.readString();
+    const _description = source.readString();
+    const _votes = source.readBigNumber();
+    return { $$type: 'Proposal', id: _id, shelterAddress: _shelterAddress, name: _name, description: _description, votes: _votes };
+}
+function loadGetterTupleProposal(source) {
+    const _id = source.readBigNumber();
+    const _shelterAddress = source.readAddress();
+    const _name = source.readString();
+    const _description = source.readString();
+    const _votes = source.readBigNumber();
+    return { $$type: 'Proposal', id: _id, shelterAddress: _shelterAddress, name: _name, description: _description, votes: _votes };
+}
+function storeTupleProposal(source) {
+    const builder = new core_1.TupleBuilder();
+    builder.writeNumber(source.id);
+    builder.writeAddress(source.shelterAddress);
+    builder.writeString(source.name);
+    builder.writeString(source.description);
+    builder.writeNumber(source.votes);
+    return builder.build();
+}
+function dictValueParserProposal() {
+    return {
+        serialize: (src, builder) => {
+            builder.storeRef((0, core_1.beginCell)().store(storeProposal(src)).endCell());
+        },
+        parse: (src) => {
+            return loadProposal(src.loadRef().beginParse());
+        }
+    };
+}
+function storeAnimalHelperVoting$Data(src) {
+    return (builder) => {
+        const b_0 = builder;
+        b_0.storeAddress(src.owner);
+        b_0.storeAddress(src.tokenContract);
+        b_0.storeAddress(src.animalHelperPool);
+        const b_1 = new core_1.Builder();
+        b_1.storeInt(src.proposalsCount, 257);
+        b_1.storeBit(src.votingActive);
+        b_1.storeInt(src.votingStartTime, 257);
+        b_1.storeInt(src.votingEndTime, 257);
+        const b_2 = new core_1.Builder();
+        b_2.storeInt(src.minTokenBalance, 257);
+        b_2.storeRef(src.lastVotingResults);
+        b_2.storeDict(src.proposals, core_1.Dictionary.Keys.BigInt(257), dictValueParserProposal());
+        b_2.storeDict(src.votes, core_1.Dictionary.Keys.Address(), core_1.Dictionary.Values.BigInt(257));
+        b_2.storeDict(src.voterTokenBalances, core_1.Dictionary.Keys.Address(), core_1.Dictionary.Values.BigInt(257));
+        b_1.storeRef(b_2.endCell());
+        b_0.storeRef(b_1.endCell());
+    };
+}
+function loadAnimalHelperVoting$Data(slice) {
+    const sc_0 = slice;
+    const _owner = sc_0.loadAddress();
+    const _tokenContract = sc_0.loadAddress();
+    const _animalHelperPool = sc_0.loadAddress();
+    const sc_1 = sc_0.loadRef().beginParse();
+    const _proposalsCount = sc_1.loadIntBig(257);
+    const _votingActive = sc_1.loadBit();
+    const _votingStartTime = sc_1.loadIntBig(257);
+    const _votingEndTime = sc_1.loadIntBig(257);
+    const sc_2 = sc_1.loadRef().beginParse();
+    const _minTokenBalance = sc_2.loadIntBig(257);
+    const _lastVotingResults = sc_2.loadRef();
+    const _proposals = core_1.Dictionary.load(core_1.Dictionary.Keys.BigInt(257), dictValueParserProposal(), sc_2);
+    const _votes = core_1.Dictionary.load(core_1.Dictionary.Keys.Address(), core_1.Dictionary.Values.BigInt(257), sc_2);
+    const _voterTokenBalances = core_1.Dictionary.load(core_1.Dictionary.Keys.Address(), core_1.Dictionary.Values.BigInt(257), sc_2);
+    return { $$type: 'AnimalHelperVoting$Data', owner: _owner, tokenContract: _tokenContract, animalHelperPool: _animalHelperPool, proposalsCount: _proposalsCount, votingActive: _votingActive, votingStartTime: _votingStartTime, votingEndTime: _votingEndTime, minTokenBalance: _minTokenBalance, lastVotingResults: _lastVotingResults, proposals: _proposals, votes: _votes, voterTokenBalances: _voterTokenBalances };
+}
+function loadTupleAnimalHelperVoting$Data(source) {
+    const _owner = source.readAddress();
+    const _tokenContract = source.readAddress();
+    const _animalHelperPool = source.readAddress();
+    const _proposalsCount = source.readBigNumber();
+    const _votingActive = source.readBoolean();
+    const _votingStartTime = source.readBigNumber();
+    const _votingEndTime = source.readBigNumber();
+    const _minTokenBalance = source.readBigNumber();
+    const _lastVotingResults = source.readCell();
+    const _proposals = core_1.Dictionary.loadDirect(core_1.Dictionary.Keys.BigInt(257), dictValueParserProposal(), source.readCellOpt());
+    const _votes = core_1.Dictionary.loadDirect(core_1.Dictionary.Keys.Address(), core_1.Dictionary.Values.BigInt(257), source.readCellOpt());
+    const _voterTokenBalances = core_1.Dictionary.loadDirect(core_1.Dictionary.Keys.Address(), core_1.Dictionary.Values.BigInt(257), source.readCellOpt());
+    return { $$type: 'AnimalHelperVoting$Data', owner: _owner, tokenContract: _tokenContract, animalHelperPool: _animalHelperPool, proposalsCount: _proposalsCount, votingActive: _votingActive, votingStartTime: _votingStartTime, votingEndTime: _votingEndTime, minTokenBalance: _minTokenBalance, lastVotingResults: _lastVotingResults, proposals: _proposals, votes: _votes, voterTokenBalances: _voterTokenBalances };
+}
+function loadGetterTupleAnimalHelperVoting$Data(source) {
+    const _owner = source.readAddress();
+    const _tokenContract = source.readAddress();
+    const _animalHelperPool = source.readAddress();
+    const _proposalsCount = source.readBigNumber();
+    const _votingActive = source.readBoolean();
+    const _votingStartTime = source.readBigNumber();
+    const _votingEndTime = source.readBigNumber();
+    const _minTokenBalance = source.readBigNumber();
+    const _lastVotingResults = source.readCell();
+    const _proposals = core_1.Dictionary.loadDirect(core_1.Dictionary.Keys.BigInt(257), dictValueParserProposal(), source.readCellOpt());
+    const _votes = core_1.Dictionary.loadDirect(core_1.Dictionary.Keys.Address(), core_1.Dictionary.Values.BigInt(257), source.readCellOpt());
+    const _voterTokenBalances = core_1.Dictionary.loadDirect(core_1.Dictionary.Keys.Address(), core_1.Dictionary.Values.BigInt(257), source.readCellOpt());
+    return { $$type: 'AnimalHelperVoting$Data', owner: _owner, tokenContract: _tokenContract, animalHelperPool: _animalHelperPool, proposalsCount: _proposalsCount, votingActive: _votingActive, votingStartTime: _votingStartTime, votingEndTime: _votingEndTime, minTokenBalance: _minTokenBalance, lastVotingResults: _lastVotingResults, proposals: _proposals, votes: _votes, voterTokenBalances: _voterTokenBalances };
+}
+function storeTupleAnimalHelperVoting$Data(source) {
+    const builder = new core_1.TupleBuilder();
+    builder.writeAddress(source.owner);
+    builder.writeAddress(source.tokenContract);
+    builder.writeAddress(source.animalHelperPool);
+    builder.writeNumber(source.proposalsCount);
+    builder.writeBoolean(source.votingActive);
+    builder.writeNumber(source.votingStartTime);
+    builder.writeNumber(source.votingEndTime);
+    builder.writeNumber(source.minTokenBalance);
+    builder.writeCell(source.lastVotingResults);
+    builder.writeCell(source.proposals.size > 0 ? (0, core_1.beginCell)().storeDictDirect(source.proposals, core_1.Dictionary.Keys.BigInt(257), dictValueParserProposal()).endCell() : null);
+    builder.writeCell(source.votes.size > 0 ? (0, core_1.beginCell)().storeDictDirect(source.votes, core_1.Dictionary.Keys.Address(), core_1.Dictionary.Values.BigInt(257)).endCell() : null);
+    builder.writeCell(source.voterTokenBalances.size > 0 ? (0, core_1.beginCell)().storeDictDirect(source.voterTokenBalances, core_1.Dictionary.Keys.Address(), core_1.Dictionary.Values.BigInt(257)).endCell() : null);
+    return builder.build();
+}
+function dictValueParserAnimalHelperVoting$Data() {
+    return {
+        serialize: (src, builder) => {
+            builder.storeRef((0, core_1.beginCell)().store(storeAnimalHelperVoting$Data(src)).endCell());
+        },
+        parse: (src) => {
+            return loadAnimalHelperVoting$Data(src.loadRef().beginParse());
+        }
+    };
+}
+function initAnimalHelperVoting_init_args(src) {
+    return (builder) => {
+        const b_0 = builder;
+        b_0.storeAddress(src.owner);
+        b_0.storeAddress(src.tokenContract);
+        b_0.storeAddress(src.animalHelperPool);
+    };
+}
+async function AnimalHelperVoting_init(owner, tokenContract, animalHelperPool) {
+    const __code = core_1.Cell.fromHex('b5ee9c7241021f010009f0000114ff00f4a413f4bcf2c80b01020162021d01f6d001d072d721d200d200fa4021103450666f04f86102f862ed44d0d200018e32fa40fa40fa40d401d0810101d700d200810101d700810101d700d430d0810101d700d4f404f404f40430109c109b109a6c1c8e19fa40fa40fa40552003d158707053118103e86d6d6dc8c95520e20d925f0de00bd70d1ff2e082210301fc8210ba916f52ba8e735f0335385b368138c6f8425250c705f2f481616506b316f2f47ff823208208278d00a0105710461035700555036d6d6dc87f01ca0055b050cbcf165009cf165007cf1605c8810101cf0014ca0012810101cf00810101cf0001c8810101cf0013cc13f40014f40012f400c958ccc901ccc9ed54e02104044a8210920caa6ebae30221821039aff01fbae3022182100bec5009bae3022182101816f675ba05070b1102fe31fa40d401d001d401d043303381203629f2f4813c8df82328b9f2f4f84210cd10bd10ad109d108d107d106d105d104d103d4ef0db3c815d675116bef2f4284e1350fd70553081010105c855405045810101cf0058cf16c858cf16c901ccc858cf16c901cc810101cf00c927103c01206e953059f45a30944133f415e205a4080600a0108b107a106908104710364540c87f01ca0055b050cbcf165009cf165007cf1605c8810101cf0014ca0012810101cf00810101cf0001c8810101cf0013cc13f40014f40012f400c958ccc901ccc9ed5402fc31d31f013181203627f2f4813c8df82326b9f2f48200e7e981010bf8422e598101014133f40a6fa19401d70030925b6de26ef2f48147345318b9f2f4f84210bc10ab109a10891078106710561045103443d0db3c815d675316bef2f481010bf842221034810101216e955b59f4593098c801cf004133f441e2238101012f0809003a81010b22028101014133f40a6fa19401d70030925b6de2206eb3dc302401ea59f40d6fa192306ddf206e92306d8e1bd0810101d700fa40d401d001d401d001810101d70055406c156f05e26f255006a00581010106c855405045810101cf0058cf16c858cf16c901ccc858cf16c901cc810101cf00c9444052e0206e953059f45a30944133f415e281010bf8420ea441e08101010a00ce216e955b59f4593098c801cf004133f441e210ab109a1089107810671056104510344300c87f01ca0055b050cbcf165009cf165007cf1605c8810101cf0014ca0012810101cf00810101cf0001c8810101cf0013cc13f40014f40012f400c958ccc901ccc9ed5404fe5b8200dfa6f84252b0c705917f94f82325bee2f2f481559226f2f4109b5518db3c23104555201110111111100f11110f0e11110e0d11110d0c11110c0b11110b0a11110a0911110908111108071111070611110605111105db3c34377f820afaf08072c87101cb1f500fcf16c92b0450ff146d50436d4133c8cf8580ca00890c0e0f1001b670530093530bb98e41258101012259f40d6fa192306ddf206e92306d8e1bd0810101d700fa40d401d001d401d001810101d70055406c156f05e26f256c415303bc946c2251109130e2a4e83031810101240259f40d6fa192306ddf0d004a206e92306d8e1bd0810101d700fa40d401d001d401d001810101d70055406c156f05e26f2500286c21c8c9c814cb1f58cf1612cccb7f5260cb3fc900011000f0cf16ce01fa028069cf40025c6e016eb0935bcf819d58cf8680cf8480f400f400cf81e2f400c901fb00109a10891078106770075505c87f01ca0055b050cbcf165009cf165007cf1605c8810101cf0014ca0012810101cf00810101cf0001c8810101cf0013cc13f40014f40012f400c958ccc901ccc9ed5404e68ed45bc85260ca005250cb3f5240cb3f5270cb1fc9f84270588042015a6d6d40037fc8cf8580ca00cf8440ce01fa028069cf40025c6e016eb0935bcf819d58cf8680cf8480f400f400cf81e2f400c901fb00109b5518e021821088f64278bae30221821090043c4ebae302218210b6fb639fba1a12151602fc31d31f01318147345318b9f2f4810101220259f40d6fa192306ddf206e92306d8e1bd0810101d700fa40d401d001d401d001810101d70055406c156f05e26f256c21c8c9c8c9c815cb1f5003cf1613cccccb7fc9f84270588042015a6d6d40037fc8cf8580ca00cf8440ce01fa028069cf40025c6e016eb0935bcf818ae21314001a58cf8680cf8480f400f400cf81009af400c901fb00109b5518c87f01ca0055b050cbcf165009cf165007cf1605c8810101cf0014ca0012810101cf00810101cf0001c8810101cf0013cc13f40014f40012f400c958ccc901ccc9ed5401825bf842708042245a6d6d40037fc8cf8580ca00cf8440ce01fa028069cf40025c6e016eb0935bcf819d58cf8680cf8480f400f400cf81e2f400c901fb00109b55181a03fc8e66313302d33f01318138c6f84252b0c705f2f4109b108a10791068105710461035504403c87f01ca0055b050cbcf165009cf165007cf1605c8810101cf0014ca0012810101cf00810101cf0001c8810101cf0013cc13f40014f40012f400c958ccc901ccc9ed54e02182100d32cf13bae302218210c6e77e3dbae3022117181900c8313908fa4001318138c6f84252b0c705f2f4109b0a107910681057104610354403c87f01ca0055b050cbcf165009cf165007cf1605c8810101cf0014ca0012810101cf00810101cf0001c8810101cf0013cc13f40014f40012f400c958ccc901ccc9ed5400ca313807fa4001318138c6f84252b0c705f2f4109b108a091068105710461035443012c87f01ca0055b050cbcf165009cf165007cf1605c8810101cf0014ca0012810101cf00810101cf0001c8810101cf0013cc13f40014f40012f400c958ccc901ccc9ed5402d08210fac86711ba8ecf5b8138c6f84252b0c705f2f4f8427070810082036d6d50436d4133c8cf8580ca00cf8440ce01fa028069cf40025c6e016eb0935bcf819d58cf8680cf8480f400f400cf81e2f400c901fb00109b5518e0018210946a98b6bae3025f0df2c0821a1b0086c87f01ca0055b050cbcf165009cf165007cf1605c8810101cf0014ca0012810101cf00810101cf0001c8810101cf0013cc13f40014f40012f400c958ccc901ccc9ed5401ded33f0131c8018210aff90f5758cb1fcb3fc910ac109b108a10791068105710461035443012f84201706ddb3cc87f01ca0055b050cbcf165009cf165007cf1605c8810101cf0014ca0012810101cf00810101cf0001c8810101cf0013cc13f40014f40012f400c958ccc901ccc9ed541c00966d6d226eb3945b6f22019132e21024700304804250231036552212c8cf8580ca00cf8440ce01fa028069cf40025c6e016eb0935bcf819d58cf8680cf8480f400f400cf81e2f400c901fb0001b9a08a3bda89a1a400031c65f481f481f481a803a1020203ae01a401020203ae01020203ae01a861a1020203ae01a9e809e809e80860213821362134d8391c33f481f481f480aa4007a2b0e0e0a6230207d0dadadb9192aa41c5b678d9831e00022b509dea9f');
+    const builder = (0, core_1.beginCell)();
+    builder.storeUint(0, 1);
+    initAnimalHelperVoting_init_args({ $$type: 'AnimalHelperVoting_init_args', owner, tokenContract, animalHelperPool })(builder);
+    const __data = builder.endCell();
+    return { code: __code, data: __data };
+}
+exports.AnimalHelperVoting_errors = {
+    2: { message: `Stack underflow` },
+    3: { message: `Stack overflow` },
+    4: { message: `Integer overflow` },
+    5: { message: `Integer out of expected range` },
+    6: { message: `Invalid opcode` },
+    7: { message: `Type check error` },
+    8: { message: `Cell overflow` },
+    9: { message: `Cell underflow` },
+    10: { message: `Dictionary error` },
+    11: { message: `'Unknown' error` },
+    12: { message: `Fatal error` },
+    13: { message: `Out of gas error` },
+    14: { message: `Virtualization error` },
+    32: { message: `Action list is invalid` },
+    33: { message: `Action list is too long` },
+    34: { message: `Action is invalid or not supported` },
+    35: { message: `Invalid source address in outbound message` },
+    36: { message: `Invalid destination address in outbound message` },
+    37: { message: `Not enough Toncoin` },
+    38: { message: `Not enough extra currencies` },
+    39: { message: `Outbound message does not fit into a cell after rewriting` },
+    40: { message: `Cannot process a message` },
+    41: { message: `Library reference is null` },
+    42: { message: `Library change action error` },
+    43: { message: `Exceeded maximum number of cells in the library or the maximum depth of the Merkle tree` },
+    50: { message: `Account state size exceeded limits` },
+    128: { message: `Null reference exception` },
+    129: { message: `Invalid serialization prefix` },
+    130: { message: `Invalid incoming message` },
+    131: { message: `Constraints error` },
+    132: { message: `Access denied` },
+    133: { message: `Contract stopped` },
+    134: { message: `Invalid argument` },
+    135: { message: `Code of a contract was not found` },
+    136: { message: `Invalid standard address` },
+    138: { message: `Not a basechain address` },
+    8246: { message: `Voting not active` },
+    14534: { message: `Not owner` },
+    15501: { message: `Voting period ended` },
+    18228: { message: `Invalid proposal ID` },
+    21906: { message: `No active voting` },
+    23911: { message: `Insufficient token balance` },
+    24933: { message: `Voting already active` },
+    57254: { message: `Not allowed or voting not ended` },
+    59369: { message: `Already voted` },
+};
+exports.AnimalHelperVoting_errors_backward = {
+    "Stack underflow": 2,
+    "Stack overflow": 3,
+    "Integer overflow": 4,
+    "Integer out of expected range": 5,
+    "Invalid opcode": 6,
+    "Type check error": 7,
+    "Cell overflow": 8,
+    "Cell underflow": 9,
+    "Dictionary error": 10,
+    "'Unknown' error": 11,
+    "Fatal error": 12,
+    "Out of gas error": 13,
+    "Virtualization error": 14,
+    "Action list is invalid": 32,
+    "Action list is too long": 33,
+    "Action is invalid or not supported": 34,
+    "Invalid source address in outbound message": 35,
+    "Invalid destination address in outbound message": 36,
+    "Not enough Toncoin": 37,
+    "Not enough extra currencies": 38,
+    "Outbound message does not fit into a cell after rewriting": 39,
+    "Cannot process a message": 40,
+    "Library reference is null": 41,
+    "Library change action error": 42,
+    "Exceeded maximum number of cells in the library or the maximum depth of the Merkle tree": 43,
+    "Account state size exceeded limits": 50,
+    "Null reference exception": 128,
+    "Invalid serialization prefix": 129,
+    "Invalid incoming message": 130,
+    "Constraints error": 131,
+    "Access denied": 132,
+    "Contract stopped": 133,
+    "Invalid argument": 134,
+    "Code of a contract was not found": 135,
+    "Invalid standard address": 136,
+    "Not a basechain address": 138,
+    "Voting not active": 8246,
+    "Not owner": 14534,
+    "Voting period ended": 15501,
+    "Invalid proposal ID": 18228,
+    "No active voting": 21906,
+    "Insufficient token balance": 23911,
+    "Voting already active": 24933,
+    "Not allowed or voting not ended": 57254,
+    "Already voted": 59369,
+};
+const AnimalHelperVoting_types = [
+    { "name": "DataSize", "header": null, "fields": [{ "name": "cells", "type": { "kind": "simple", "type": "int", "optional": false, "format": 257 } }, { "name": "bits", "type": { "kind": "simple", "type": "int", "optional": false, "format": 257 } }, { "name": "refs", "type": { "kind": "simple", "type": "int", "optional": false, "format": 257 } }] },
+    { "name": "StateInit", "header": null, "fields": [{ "name": "code", "type": { "kind": "simple", "type": "cell", "optional": false } }, { "name": "data", "type": { "kind": "simple", "type": "cell", "optional": false } }] },
+    { "name": "Context", "header": null, "fields": [{ "name": "bounceable", "type": { "kind": "simple", "type": "bool", "optional": false } }, { "name": "sender", "type": { "kind": "simple", "type": "address", "optional": false } }, { "name": "value", "type": { "kind": "simple", "type": "int", "optional": false, "format": 257 } }, { "name": "raw", "type": { "kind": "simple", "type": "slice", "optional": false } }] },
+    { "name": "SendParameters", "header": null, "fields": [{ "name": "mode", "type": { "kind": "simple", "type": "int", "optional": false, "format": 257 } }, { "name": "body", "type": { "kind": "simple", "type": "cell", "optional": true } }, { "name": "code", "type": { "kind": "simple", "type": "cell", "optional": true } }, { "name": "data", "type": { "kind": "simple", "type": "cell", "optional": true } }, { "name": "value", "type": { "kind": "simple", "type": "int", "optional": false, "format": 257 } }, { "name": "to", "type": { "kind": "simple", "type": "address", "optional": false } }, { "name": "bounce", "type": { "kind": "simple", "type": "bool", "optional": false } }] },
+    { "name": "MessageParameters", "header": null, "fields": [{ "name": "mode", "type": { "kind": "simple", "type": "int", "optional": false, "format": 257 } }, { "name": "body", "type": { "kind": "simple", "type": "cell", "optional": true } }, { "name": "value", "type": { "kind": "simple", "type": "int", "optional": false, "format": 257 } }, { "name": "to", "type": { "kind": "simple", "type": "address", "optional": false } }, { "name": "bounce", "type": { "kind": "simple", "type": "bool", "optional": false } }] },
+    { "name": "DeployParameters", "header": null, "fields": [{ "name": "mode", "type": { "kind": "simple", "type": "int", "optional": false, "format": 257 } }, { "name": "body", "type": { "kind": "simple", "type": "cell", "optional": true } }, { "name": "value", "type": { "kind": "simple", "type": "int", "optional": false, "format": 257 } }, { "name": "bounce", "type": { "kind": "simple", "type": "bool", "optional": false } }, { "name": "init", "type": { "kind": "simple", "type": "StateInit", "optional": false } }] },
+    { "name": "StdAddress", "header": null, "fields": [{ "name": "workchain", "type": { "kind": "simple", "type": "int", "optional": false, "format": 8 } }, { "name": "address", "type": { "kind": "simple", "type": "uint", "optional": false, "format": 256 } }] },
+    { "name": "VarAddress", "header": null, "fields": [{ "name": "workchain", "type": { "kind": "simple", "type": "int", "optional": false, "format": 32 } }, { "name": "address", "type": { "kind": "simple", "type": "slice", "optional": false } }] },
+    { "name": "BasechainAddress", "header": null, "fields": [{ "name": "hash", "type": { "kind": "simple", "type": "int", "optional": true, "format": 257 } }] },
+    { "name": "Deploy", "header": 2490013878, "fields": [{ "name": "queryId", "type": { "kind": "simple", "type": "uint", "optional": false, "format": 64 } }] },
+    { "name": "DeployOk", "header": 2952335191, "fields": [{ "name": "queryId", "type": { "kind": "simple", "type": "uint", "optional": false, "format": 64 } }] },
+    { "name": "FactoryDeploy", "header": 1829761339, "fields": [{ "name": "queryId", "type": { "kind": "simple", "type": "uint", "optional": false, "format": 64 } }, { "name": "cashback", "type": { "kind": "simple", "type": "address", "optional": false } }] },
+    { "name": "ChangeOwner", "header": 2174598809, "fields": [{ "name": "queryId", "type": { "kind": "simple", "type": "uint", "optional": false, "format": 64 } }, { "name": "newOwner", "type": { "kind": "simple", "type": "address", "optional": false } }] },
+    { "name": "ChangeOwnerOk", "header": 846932810, "fields": [{ "name": "queryId", "type": { "kind": "simple", "type": "uint", "optional": false, "format": 64 } }, { "name": "newOwner", "type": { "kind": "simple", "type": "address", "optional": false } }] },
+    { "name": "StartVotingMessage", "header": 3130093394, "fields": [] },
+    { "name": "AddProposalMessage", "header": 2450303598, "fields": [{ "name": "shelter_address", "type": { "kind": "simple", "type": "address", "optional": false } }, { "name": "name", "type": { "kind": "simple", "type": "string", "optional": false } }, { "name": "description", "type": { "kind": "simple", "type": "string", "optional": false } }] },
+    { "name": "VoteMessage", "header": 967831583, "fields": [{ "name": "proposal_id", "type": { "kind": "simple", "type": "uint", "optional": false, "format": 32 } }] },
+    { "name": "FinalizeVotingMessage", "header": 200036361, "fields": [] },
+    { "name": "GetVotingStatusMessage", "header": 404158069, "fields": [] },
+    { "name": "GetProposalMessage", "header": 2297840248, "fields": [{ "name": "proposal_id", "type": { "kind": "simple", "type": "uint", "optional": false, "format": 32 } }] },
+    { "name": "GetLastResultsMessage", "header": 2416196686, "fields": [] },
+    { "name": "UpdateMinBalanceMessage", "header": 3069928351, "fields": [{ "name": "min_balance", "type": { "kind": "simple", "type": "uint", "optional": false, "format": 64 } }] },
+    { "name": "UpdateTokenContractMessage", "header": 221433619, "fields": [{ "name": "new_address", "type": { "kind": "simple", "type": "address", "optional": false } }] },
+    { "name": "UpdateAnimalHelperPoolMessage", "header": 3337059901, "fields": [{ "name": "new_address", "type": { "kind": "simple", "type": "address", "optional": false } }] },
+    { "name": "EmergencyWithdrawMessage", "header": 4207437585, "fields": [] },
+    { "name": "Proposal", "header": null, "fields": [{ "name": "id", "type": { "kind": "simple", "type": "int", "optional": false, "format": 257 } }, { "name": "shelterAddress", "type": { "kind": "simple", "type": "address", "optional": false } }, { "name": "name", "type": { "kind": "simple", "type": "string", "optional": false } }, { "name": "description", "type": { "kind": "simple", "type": "string", "optional": false } }, { "name": "votes", "type": { "kind": "simple", "type": "int", "optional": false, "format": 257 } }] },
+    { "name": "AnimalHelperVoting$Data", "header": null, "fields": [{ "name": "owner", "type": { "kind": "simple", "type": "address", "optional": false } }, { "name": "tokenContract", "type": { "kind": "simple", "type": "address", "optional": false } }, { "name": "animalHelperPool", "type": { "kind": "simple", "type": "address", "optional": false } }, { "name": "proposalsCount", "type": { "kind": "simple", "type": "int", "optional": false, "format": 257 } }, { "name": "votingActive", "type": { "kind": "simple", "type": "bool", "optional": false } }, { "name": "votingStartTime", "type": { "kind": "simple", "type": "int", "optional": false, "format": 257 } }, { "name": "votingEndTime", "type": { "kind": "simple", "type": "int", "optional": false, "format": 257 } }, { "name": "minTokenBalance", "type": { "kind": "simple", "type": "int", "optional": false, "format": 257 } }, { "name": "lastVotingResults", "type": { "kind": "simple", "type": "cell", "optional": false } }, { "name": "proposals", "type": { "kind": "dict", "key": "int", "value": "Proposal", "valueFormat": "ref" } }, { "name": "votes", "type": { "kind": "dict", "key": "address", "value": "int" } }, { "name": "voterTokenBalances", "type": { "kind": "dict", "key": "address", "value": "int" } }] },
+];
+const AnimalHelperVoting_opcodes = {
+    "Deploy": 2490013878,
+    "DeployOk": 2952335191,
+    "FactoryDeploy": 1829761339,
+    "ChangeOwner": 2174598809,
+    "ChangeOwnerOk": 846932810,
+    "StartVotingMessage": 3130093394,
+    "AddProposalMessage": 2450303598,
+    "VoteMessage": 967831583,
+    "FinalizeVotingMessage": 200036361,
+    "GetVotingStatusMessage": 404158069,
+    "GetProposalMessage": 2297840248,
+    "GetLastResultsMessage": 2416196686,
+    "UpdateMinBalanceMessage": 3069928351,
+    "UpdateTokenContractMessage": 221433619,
+    "UpdateAnimalHelperPoolMessage": 3337059901,
+    "EmergencyWithdrawMessage": 4207437585,
+};
+const AnimalHelperVoting_getters = [
+    { "name": "owner", "methodId": 83229, "arguments": [], "returnType": { "kind": "simple", "type": "address", "optional": false } },
+];
+exports.AnimalHelperVoting_getterMapping = {
+    'owner': 'getOwner',
+};
+const AnimalHelperVoting_receivers = [
+    { "receiver": "internal", "message": { "kind": "typed", "type": "StartVotingMessage" } },
+    { "receiver": "internal", "message": { "kind": "typed", "type": "AddProposalMessage" } },
+    { "receiver": "internal", "message": { "kind": "typed", "type": "VoteMessage" } },
+    { "receiver": "internal", "message": { "kind": "typed", "type": "FinalizeVotingMessage" } },
+    { "receiver": "internal", "message": { "kind": "typed", "type": "GetVotingStatusMessage" } },
+    { "receiver": "internal", "message": { "kind": "typed", "type": "GetProposalMessage" } },
+    { "receiver": "internal", "message": { "kind": "typed", "type": "GetLastResultsMessage" } },
+    { "receiver": "internal", "message": { "kind": "typed", "type": "UpdateMinBalanceMessage" } },
+    { "receiver": "internal", "message": { "kind": "typed", "type": "UpdateTokenContractMessage" } },
+    { "receiver": "internal", "message": { "kind": "typed", "type": "UpdateAnimalHelperPoolMessage" } },
+    { "receiver": "internal", "message": { "kind": "typed", "type": "EmergencyWithdrawMessage" } },
+    { "receiver": "internal", "message": { "kind": "typed", "type": "Deploy" } },
+];
+class AnimalHelperVoting {
+    static async init(owner, tokenContract, animalHelperPool) {
+        return await AnimalHelperVoting_init(owner, tokenContract, animalHelperPool);
+    }
+    static async fromInit(owner, tokenContract, animalHelperPool) {
+        const __gen_init = await AnimalHelperVoting_init(owner, tokenContract, animalHelperPool);
+        const address = (0, core_1.contractAddress)(0, __gen_init);
+        return new AnimalHelperVoting(address, __gen_init);
+    }
+    static fromAddress(address) {
+        return new AnimalHelperVoting(address);
+    }
+    constructor(address, init) {
+        this.abi = {
+            types: AnimalHelperVoting_types,
+            getters: AnimalHelperVoting_getters,
+            receivers: AnimalHelperVoting_receivers,
+            errors: exports.AnimalHelperVoting_errors,
+        };
+        this.address = address;
+        this.init = init;
+    }
+    async send(provider, via, args, message) {
+        let body = null;
+        if (message && typeof message === 'object' && !(message instanceof core_1.Slice) && message.$$type === 'StartVotingMessage') {
+            body = (0, core_1.beginCell)().store(storeStartVotingMessage(message)).endCell();
+        }
+        if (message && typeof message === 'object' && !(message instanceof core_1.Slice) && message.$$type === 'AddProposalMessage') {
+            body = (0, core_1.beginCell)().store(storeAddProposalMessage(message)).endCell();
+        }
+        if (message && typeof message === 'object' && !(message instanceof core_1.Slice) && message.$$type === 'VoteMessage') {
+            body = (0, core_1.beginCell)().store(storeVoteMessage(message)).endCell();
+        }
+        if (message && typeof message === 'object' && !(message instanceof core_1.Slice) && message.$$type === 'FinalizeVotingMessage') {
+            body = (0, core_1.beginCell)().store(storeFinalizeVotingMessage(message)).endCell();
+        }
+        if (message && typeof message === 'object' && !(message instanceof core_1.Slice) && message.$$type === 'GetVotingStatusMessage') {
+            body = (0, core_1.beginCell)().store(storeGetVotingStatusMessage(message)).endCell();
+        }
+        if (message && typeof message === 'object' && !(message instanceof core_1.Slice) && message.$$type === 'GetProposalMessage') {
+            body = (0, core_1.beginCell)().store(storeGetProposalMessage(message)).endCell();
+        }
+        if (message && typeof message === 'object' && !(message instanceof core_1.Slice) && message.$$type === 'GetLastResultsMessage') {
+            body = (0, core_1.beginCell)().store(storeGetLastResultsMessage(message)).endCell();
+        }
+        if (message && typeof message === 'object' && !(message instanceof core_1.Slice) && message.$$type === 'UpdateMinBalanceMessage') {
+            body = (0, core_1.beginCell)().store(storeUpdateMinBalanceMessage(message)).endCell();
+        }
+        if (message && typeof message === 'object' && !(message instanceof core_1.Slice) && message.$$type === 'UpdateTokenContractMessage') {
+            body = (0, core_1.beginCell)().store(storeUpdateTokenContractMessage(message)).endCell();
+        }
+        if (message && typeof message === 'object' && !(message instanceof core_1.Slice) && message.$$type === 'UpdateAnimalHelperPoolMessage') {
+            body = (0, core_1.beginCell)().store(storeUpdateAnimalHelperPoolMessage(message)).endCell();
+        }
+        if (message && typeof message === 'object' && !(message instanceof core_1.Slice) && message.$$type === 'EmergencyWithdrawMessage') {
+            body = (0, core_1.beginCell)().store(storeEmergencyWithdrawMessage(message)).endCell();
+        }
+        if (message && typeof message === 'object' && !(message instanceof core_1.Slice) && message.$$type === 'Deploy') {
+            body = (0, core_1.beginCell)().store(storeDeploy(message)).endCell();
+        }
+        if (body === null) {
+            throw new Error('Invalid message type');
+        }
+        await provider.internal(via, { ...args, body: body });
+    }
+    async getOwner(provider) {
+        const builder = new core_1.TupleBuilder();
+        const source = (await provider.get('owner', builder.build())).stack;
+        const result = source.readAddress();
+        return result;
+    }
+}
+exports.AnimalHelperVoting = AnimalHelperVoting;
+AnimalHelperVoting.storageReserve = 0n;
+AnimalHelperVoting.errors = exports.AnimalHelperVoting_errors_backward;
+AnimalHelperVoting.opcodes = AnimalHelperVoting_opcodes;

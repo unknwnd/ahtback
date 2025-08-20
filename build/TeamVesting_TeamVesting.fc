@@ -1,0 +1,580 @@
+#pragma version =0.4.6;
+#pragma allow-post-modification;
+#pragma compute-asm-ltr;
+
+;; TeamVesting_TeamVesting.headers.fc
+;;
+;; Header files for TeamVesting
+;; NOTE: declarations are sorted for optimal order
+;;
+
+;; __tact_load_address_opt
+(slice, slice) __tact_load_address_opt(slice cs) inline;
+
+;; __tact_store_address_opt
+builder __tact_store_address_opt(builder b, slice address) inline;
+
+;; __tact_context_get
+(int, slice, int, slice) __tact_context_get() inline;
+
+;; __tact_context_get_sender
+slice __tact_context_get_sender() inline;
+
+;; $Deploy$_load_without_opcode
+(slice, ((int))) $Deploy$_load_without_opcode(slice sc_0) inline;
+
+;; $DeployOk$_store
+builder $DeployOk$_store(builder build_0, (int) v) inline;
+
+;; $DeployOk$_store_cell
+cell $DeployOk$_store_cell((int) v) inline;
+
+;; $ClaimMessage$_load_without_opcode
+(slice, ((int))) $ClaimMessage$_load_without_opcode(slice sc_0) inline;
+
+;; $SetJettonWallet$_load_without_opcode
+(slice, ((int, slice))) $SetJettonWallet$_load_without_opcode(slice sc_0) inline;
+
+;; $TeamVesting$_store
+builder $TeamVesting$_store(builder build_0, (slice, slice, slice, slice, int, int, int, int, int) v) inline;
+
+;; $TeamVesting$_load
+(slice, ((slice, slice, slice, slice, int, int, int, int, int))) $TeamVesting$_load(slice sc_0) inline;
+
+;; $StateInit$_not_null
+((cell, cell)) $StateInit$_not_null(tuple v) inline;
+
+;; $VestingData$_to_external
+(slice, slice, slice, slice, int, int, int, int, int) $VestingData$_to_external(((slice, slice, slice, slice, int, int, int, int, int)) v) inline;
+
+;; $TeamVesting$init$_load
+(slice, ((slice, slice, slice, int, int))) $TeamVesting$init$_load(slice sc_0) inline;
+
+;; $TeamVesting$_contract_init
+(slice, slice, slice, slice, int, int, int, int, int) $TeamVesting$_contract_init(slice $owner, slice $teamWallet, slice $jettonMaster, int $cliffDuration, int $vestingDuration) impure inline;
+
+;; $TeamVesting$_contract_load
+(slice, slice, slice, slice, int, int, int, int, int) $TeamVesting$_contract_load() impure inline;
+
+;; $TeamVesting$_contract_store
+() $TeamVesting$_contract_store((slice, slice, slice, slice, int, int, int, int, int) v) impure inline;
+
+;; $SendParameters$_constructor_bounce_to_value_mode_body_code_data
+((int, cell, cell, cell, int, slice, int)) $SendParameters$_constructor_bounce_to_value_mode_body_code_data(int $bounce, slice $to, int $value, int $mode, cell $body, cell $code, cell $data) inline;
+
+;; $VestingData$_constructor_owner_teamWallet_jettonMaster_jettonWallet_totalAmount_claimedAmount_createdAt_cliffDate_vestingPeriod
+((slice, slice, slice, slice, int, int, int, int, int)) $VestingData$_constructor_owner_teamWallet_jettonMaster_jettonWallet_totalAmount_claimedAmount_createdAt_cliffDate_vestingPeriod(slice $owner, slice $teamWallet, slice $jettonMaster, slice $jettonWallet, int $totalAmount, int $claimedAmount, int $createdAt, int $cliffDate, int $vestingPeriod) inline;
+
+;; $TeamVesting$_fun_getJettonWallet
+((slice, slice, slice, slice, int, int, int, int, int), slice) $TeamVesting$_fun_getJettonWallet((slice, slice, slice, slice, int, int, int, int, int) $self) impure inline_ref;
+
+;; $TeamVesting$_fun_getVestingData
+((slice, slice, slice, slice, int, int, int, int, int), (slice, slice, slice, slice, int, int, int, int, int)) $TeamVesting$_fun_getVestingData((slice, slice, slice, slice, int, int, int, int, int) $self) impure inline_ref;
+
+;; $TeamVesting$_fun_calculateAvailableToClaim
+((slice, slice, slice, slice, int, int, int, int, int), int) $TeamVesting$_fun_calculateAvailableToClaim((slice, slice, slice, slice, int, int, int, int, int) $self) impure inline_ref;
+
+;; $TeamVesting$_fun_forward
+((slice, slice, slice, slice, int, int, int, int, int), ()) $TeamVesting$_fun_forward((slice, slice, slice, slice, int, int, int, int, int) $self, slice $to, cell $body, int $bounce, tuple $init) impure inline_ref;
+
+;; $TeamVesting$_fun_notify
+((slice, slice, slice, slice, int, int, int, int, int), ()) $TeamVesting$_fun_notify((slice, slice, slice, slice, int, int, int, int, int) $self, cell $body) impure inline;
+
+;; $TeamVesting$_fun_requireOwner
+((slice, slice, slice, slice, int, int, int, int, int), ()) $TeamVesting$_fun_requireOwner((slice, slice, slice, slice, int, int, int, int, int) $self) impure inline_ref;
+
+;; $TeamVesting$_fun_owner
+((slice, slice, slice, slice, int, int, int, int, int), slice) $TeamVesting$_fun_owner((slice, slice, slice, slice, int, int, int, int, int) $self) impure inline_ref;
+
+;; $SendParameters$_constructor_to_value_mode_body
+((int, cell, cell, cell, int, slice, int)) $SendParameters$_constructor_to_value_mode_body(slice $to, int $value, int $mode, cell $body) inline;
+
+;; $DeployOk$_constructor_queryId
+((int)) $DeployOk$_constructor_queryId(int $queryId) inline;
+
+
+;; TeamVesting_TeamVesting.stdlib.fc
+global (int, slice, int, slice) __tact_context;
+global slice __tact_context_sender;
+global cell __tact_child_contract_codes;
+global int __tact_randomized;
+
+(slice, slice) __tact_load_address_opt(slice cs) inline {
+    if (cs.preload_uint(2) != 0) {
+        slice raw = cs~load_msg_addr();
+        return (cs, raw);
+    } else {
+        cs~skip_bits(2);
+        return (cs, null());
+    }
+}
+
+builder __tact_store_address_opt(builder b, slice address) inline {
+    if (null?(address)) {
+        b = b.store_uint(0, 2);
+        return b;
+    } else {
+        return b.store_slice(address);
+    }
+}
+
+(int, slice, int, slice) __tact_context_get() inline {
+    return __tact_context;
+}
+
+slice __tact_context_get_sender() inline {
+    return __tact_context_sender;
+}
+
+forall X0, X1 -> (X0, X1) __tact_tuple_destroy_2(tuple v) asm """
+    2 UNTUPLE
+""";
+
+int $global_now() impure asm """
+    NOW
+""";
+
+builder $global_beginCell() impure asm """
+    NEWC
+""";
+
+slice $global_myAddress() impure asm """
+    MYADDR
+""";
+
+int $global_myBalance() impure asm """
+    BALANCE FIRST
+""";
+
+() $global_nativeReserve(int $amount, int $mode) impure asm """
+    RAWRESERVE
+""";
+
+() $global_send((int, cell, cell, cell, int, slice, int) $params) impure asm """
+    NEWC
+    b{01} STSLICECONST  // store tag = $0 and ihr_disabled = true
+    1 STI               // store `bounce`
+    b{000} STSLICECONST // store bounced = false and src = addr_none
+    STSLICE             // store `to`
+    SWAP
+    STGRAMS             // store `value`
+    105 PUSHINT         // 1 + 4 + 4 + 64 + 32
+    STZEROES            // store currency_collection, ihr_fee, fwd_fee, created_lt and created_at
+    // → Stack state
+    // s0: Builder
+    // s1: `data`
+    // s2: `code`
+    // s3: `body`
+    // s4: `mode`
+
+    // Group 2: Placing the Builder after code and data, then checking those for nullability
+    s2 XCHG0
+    DUP2
+    ISNULL
+    SWAP
+    ISNULL
+    AND
+    // → Stack state
+    // s0: -1 (true) if `data` and `code` are both null, 0 (false) otherwise
+    // s1: `code`
+    // s2: `data`
+    // s3: Builder
+    // s4: `body`
+    // s5: `mode`
+
+    // Group 3: Left branch of the IFELSE, executed if s0 is -1 (true)
+    <{
+        DROP2 // drop `data` and `code`, since either of those is null
+        b{0} STSLICECONST
+    }> PUSHCONT
+
+    // Group 3: Right branch of the IFELSE, executed if s0 is 0 (false)
+    <{
+        // _ split_depth:(Maybe (## 5))
+        //   special:(Maybe TickTock)
+        //   code:(Maybe ^Cell)
+        //   data:(Maybe ^Cell)
+        //   library:(Maybe ^Cell)
+        // = StateInit;
+        ROT                // place message Builder on top
+        b{10} STSLICECONST // store Maybe = true, Either = false
+        // Start composing inlined StateInit
+        b{00} STSLICECONST // store split_depth and special first
+        STDICT             // store code
+        STDICT             // store data
+        b{0} STSLICECONST  // store library
+    }> PUSHCONT
+
+    // Group 3: IFELSE that does the branching shown above
+    IFELSE
+    // → Stack state
+    // s0: Builder
+    // s1: null or StateInit
+    // s2: `body`
+    // s3: `mode`
+
+    // Group 4: Finalizing the message
+    STDICT // store `body` as ref with an extra Maybe bit, since `body` might be null
+    ENDC
+    // → Stack state
+    // s0: Cell
+    // s1: `mode`
+
+    // Group 5: Sending the message, with `mode` on top
+    SWAP
+    SENDRAWMSG // https://github.com/tact-lang/tact/issues/1558
+""";
+
+builder $Builder$_fun_storeBit(int $value, builder $self) impure asm """
+    1 STI
+""";
+
+builder $Builder$_fun_storeCoins(builder $self, int $value) impure asm """
+    STVARUINT16
+""";
+
+cell $Builder$_fun_endCell(builder $self) impure asm """
+    ENDC
+""";
+
+builder $Builder$_fun_storeAddress(builder $self, slice $address) impure asm """
+    STSLICER
+""";
+
+((slice, slice, slice, slice, int, int, int, int, int), ()) $TeamVesting$_fun_forward((slice, slice, slice, slice, int, int, int, int, int) $self, slice $to, cell $body, int $bounce, tuple $init) impure inline_ref {
+    var (($self'owner, $self'teamWallet, $self'jettonMaster, $self'jettonWallet, $self'totalAmount, $self'claimedAmount, $self'createdAt, $self'cliffDate, $self'vestingPeriod)) = $self;
+    var ($init) = $init;
+    cell $code = null();
+    cell $data = null();
+    if ((~ null?($init))) {
+        var ($init2'code, $init2'data) = $StateInit$_not_null($init);
+        $code = $init2'code;
+        $data = $init2'data;
+    }
+    if (false) {
+        var ($ctx'bounceable, $ctx'sender, $ctx'value, $ctx'raw) = __tact_context_get();
+        int $balance = $global_myBalance();
+        int $balanceBeforeMessage = ($balance - $ctx'value);
+        if (($balanceBeforeMessage < 0)) {
+            $global_nativeReserve(0, 0);
+            $global_send($SendParameters$_constructor_bounce_to_value_mode_body_code_data($bounce, $to, 0, 130, $body, $code, $data));
+            return (($self'owner, $self'teamWallet, $self'jettonMaster, $self'jettonWallet, $self'totalAmount, $self'claimedAmount, $self'createdAt, $self'cliffDate, $self'vestingPeriod), ());
+        }
+    }
+    $global_send($SendParameters$_constructor_bounce_to_value_mode_body_code_data($bounce, $to, 0, 66, $body, $code, $data));
+    return (($self'owner, $self'teamWallet, $self'jettonMaster, $self'jettonWallet, $self'totalAmount, $self'claimedAmount, $self'createdAt, $self'cliffDate, $self'vestingPeriod), ());
+}
+
+((slice, slice, slice, slice, int, int, int, int, int), ()) $TeamVesting$_fun_notify((slice, slice, slice, slice, int, int, int, int, int) $self, cell $body) impure inline {
+    var (($self'owner, $self'teamWallet, $self'jettonMaster, $self'jettonWallet, $self'totalAmount, $self'claimedAmount, $self'createdAt, $self'cliffDate, $self'vestingPeriod)) = $self;
+    ($self'owner, $self'teamWallet, $self'jettonMaster, $self'jettonWallet, $self'totalAmount, $self'claimedAmount, $self'createdAt, $self'cliffDate, $self'vestingPeriod)~$TeamVesting$_fun_forward(__tact_context_get_sender(), $body, false, null());
+    return (($self'owner, $self'teamWallet, $self'jettonMaster, $self'jettonWallet, $self'totalAmount, $self'claimedAmount, $self'createdAt, $self'cliffDate, $self'vestingPeriod), ());
+}
+
+((slice, slice, slice, slice, int, int, int, int, int), ()) $TeamVesting$_fun_requireOwner((slice, slice, slice, slice, int, int, int, int, int) $self) impure inline_ref {
+    var (($self'owner, $self'teamWallet, $self'jettonMaster, $self'jettonWallet, $self'totalAmount, $self'claimedAmount, $self'createdAt, $self'cliffDate, $self'vestingPeriod)) = $self;
+    throw_unless(132, ( equal_slices_bits($self'owner, __tact_context_get_sender()) ));
+    return (($self'owner, $self'teamWallet, $self'jettonMaster, $self'jettonWallet, $self'totalAmount, $self'claimedAmount, $self'createdAt, $self'cliffDate, $self'vestingPeriod), ());
+}
+
+((slice, slice, slice, slice, int, int, int, int, int), slice) $TeamVesting$_fun_owner((slice, slice, slice, slice, int, int, int, int, int) $self) impure inline_ref {
+    var (($self'owner, $self'teamWallet, $self'jettonMaster, $self'jettonWallet, $self'totalAmount, $self'claimedAmount, $self'createdAt, $self'cliffDate, $self'vestingPeriod)) = $self;
+    var $fresh$ret_54 = $self'owner;
+    return (($self'owner, $self'teamWallet, $self'jettonMaster, $self'jettonWallet, $self'totalAmount, $self'claimedAmount, $self'createdAt, $self'cliffDate, $self'vestingPeriod), $fresh$ret_54);
+}
+
+;; TeamVesting_TeamVesting.storage.fc
+;;
+;; Type: StateInit
+;; TLB: _ code:^cell data:^cell = StateInit
+;;
+
+((cell, cell)) $StateInit$_not_null(tuple v) inline {
+    var (cell vvv'code, cell vvv'data) = __tact_tuple_destroy_2(v);
+    return (vvv'code, vvv'data);
+}
+
+;;
+;; Type: SendParameters
+;; TLB: _ mode:int257 body:Maybe ^cell code:Maybe ^cell data:Maybe ^cell value:int257 to:address bounce:bool = SendParameters
+;;
+
+((int, cell, cell, cell, int, slice, int)) $SendParameters$_constructor_bounce_to_value_mode_body_code_data(int $bounce, slice $to, int $value, int $mode, cell $body, cell $code, cell $data) inline {
+    return ($mode, $body, $code, $data, $value, $to, $bounce);
+}
+
+((int, cell, cell, cell, int, slice, int)) $SendParameters$_constructor_to_value_mode_body(slice $to, int $value, int $mode, cell $body) inline {
+    return ($mode, $body, null(), null(), $value, $to, true);
+}
+
+;;
+;; Type: Deploy
+;; Header: 0x946a98b6
+;; TLB: deploy#946a98b6 queryId:uint64 = Deploy
+;;
+
+(slice, ((int))) $Deploy$_load_without_opcode(slice sc_0) inline {
+    var v'queryId = sc_0~load_uint(64);
+    return (sc_0, (v'queryId));
+}
+
+;;
+;; Type: DeployOk
+;; Header: 0xaff90f57
+;; TLB: deploy_ok#aff90f57 queryId:uint64 = DeployOk
+;;
+
+builder $DeployOk$_store(builder build_0, (int) v) inline {
+    var (v'queryId) = v;
+    build_0 = store_uint(build_0, 2952335191, 32);
+    build_0 = build_0.store_uint(v'queryId, 64);
+    return build_0;
+}
+
+cell $DeployOk$_store_cell((int) v) inline {
+    return $DeployOk$_store(begin_cell(), v).end_cell();
+}
+
+((int)) $DeployOk$_constructor_queryId(int $queryId) inline {
+    return ($queryId);
+}
+
+;;
+;; Type: ClaimMessage
+;; Header: 0xa5869272
+;; TLB: claim_message#a5869272 queryId:int257 = ClaimMessage
+;;
+
+(slice, ((int))) $ClaimMessage$_load_without_opcode(slice sc_0) inline {
+    var v'queryId = sc_0~load_int(257);
+    return (sc_0, (v'queryId));
+}
+
+;;
+;; Type: SetJettonWallet
+;; Header: 0x39c011d0
+;; TLB: set_jetton_wallet#39c011d0 queryId:int257 address:address = SetJettonWallet
+;;
+
+(slice, ((int, slice))) $SetJettonWallet$_load_without_opcode(slice sc_0) inline {
+    var v'queryId = sc_0~load_int(257);
+    var v'address = sc_0~load_msg_addr();
+    return (sc_0, (v'queryId, v'address));
+}
+
+;;
+;; Type: VestingData
+;; TLB: _ owner:address teamWallet:address jettonMaster:address jettonWallet:address totalAmount:int257 claimedAmount:int257 createdAt:int257 cliffDate:int257 vestingPeriod:int257 = VestingData
+;;
+
+(slice, slice, slice, slice, int, int, int, int, int) $VestingData$_to_external(((slice, slice, slice, slice, int, int, int, int, int)) v) inline {
+    var (v'owner, v'teamWallet, v'jettonMaster, v'jettonWallet, v'totalAmount, v'claimedAmount, v'createdAt, v'cliffDate, v'vestingPeriod) = v; 
+    return (v'owner, v'teamWallet, v'jettonMaster, v'jettonWallet, v'totalAmount, v'claimedAmount, v'createdAt, v'cliffDate, v'vestingPeriod);
+}
+
+((slice, slice, slice, slice, int, int, int, int, int)) $VestingData$_constructor_owner_teamWallet_jettonMaster_jettonWallet_totalAmount_claimedAmount_createdAt_cliffDate_vestingPeriod(slice $owner, slice $teamWallet, slice $jettonMaster, slice $jettonWallet, int $totalAmount, int $claimedAmount, int $createdAt, int $cliffDate, int $vestingPeriod) inline {
+    return ($owner, $teamWallet, $jettonMaster, $jettonWallet, $totalAmount, $claimedAmount, $createdAt, $cliffDate, $vestingPeriod);
+}
+
+;;
+;; Type: TeamVesting
+;; TLB: _ owner:address teamWallet:address jettonMaster:address jettonWallet:address totalAmount:int257 claimedAmount:int257 createdAt:int257 cliffDate:int257 vestingPeriod:int257 = TeamVesting
+;;
+
+builder $TeamVesting$_store(builder build_0, (slice, slice, slice, slice, int, int, int, int, int) v) inline {
+    var (v'owner, v'teamWallet, v'jettonMaster, v'jettonWallet, v'totalAmount, v'claimedAmount, v'createdAt, v'cliffDate, v'vestingPeriod) = v;
+    build_0 = build_0.store_slice(v'owner);
+    build_0 = build_0.store_slice(v'teamWallet);
+    build_0 = build_0.store_slice(v'jettonMaster);
+    var build_1 = begin_cell();
+    build_1 = __tact_store_address_opt(build_1, v'jettonWallet);
+    build_1 = build_1.store_int(v'totalAmount, 257);
+    build_1 = build_1.store_int(v'claimedAmount, 257);
+    var build_2 = begin_cell();
+    build_2 = build_2.store_int(v'createdAt, 257);
+    build_2 = build_2.store_int(v'cliffDate, 257);
+    build_2 = build_2.store_int(v'vestingPeriod, 257);
+    build_1 = store_ref(build_1, build_2.end_cell());
+    build_0 = store_ref(build_0, build_1.end_cell());
+    return build_0;
+}
+
+(slice, ((slice, slice, slice, slice, int, int, int, int, int))) $TeamVesting$_load(slice sc_0) inline {
+    var v'owner = sc_0~load_msg_addr();
+    var v'teamWallet = sc_0~load_msg_addr();
+    var v'jettonMaster = sc_0~load_msg_addr();
+    slice sc_1 = sc_0~load_ref().begin_parse();
+    var v'jettonWallet = sc_1~__tact_load_address_opt();
+    var v'totalAmount = sc_1~load_int(257);
+    var v'claimedAmount = sc_1~load_int(257);
+    slice sc_2 = sc_1~load_ref().begin_parse();
+    var v'createdAt = sc_2~load_int(257);
+    var v'cliffDate = sc_2~load_int(257);
+    var v'vestingPeriod = sc_2~load_int(257);
+    return (sc_0, (v'owner, v'teamWallet, v'jettonMaster, v'jettonWallet, v'totalAmount, v'claimedAmount, v'createdAt, v'cliffDate, v'vestingPeriod));
+}
+
+(slice, ((slice, slice, slice, int, int))) $TeamVesting$init$_load(slice sc_0) inline {
+    var v'owner = sc_0~load_msg_addr();
+    var v'teamWallet = sc_0~load_msg_addr();
+    var v'jettonMaster = sc_0~load_msg_addr();
+    slice sc_1 = sc_0~load_ref().begin_parse();
+    var v'cliffDuration = sc_1~load_int(257);
+    var v'vestingDuration = sc_1~load_int(257);
+    return (sc_0, (v'owner, v'teamWallet, v'jettonMaster, v'cliffDuration, v'vestingDuration));
+}
+
+(slice, slice, slice, slice, int, int, int, int, int) $TeamVesting$_contract_load() impure inline {
+    slice $sc = get_data().begin_parse();
+    int $loaded = $sc~load_int(1);
+    if ($loaded) {
+        return $sc~$TeamVesting$_load();
+    }
+    else {
+        (slice $owner, slice $teamWallet, slice $jettonMaster, int $cliffDuration, int $vestingDuration) = $sc~$TeamVesting$init$_load();
+        $sc.end_parse();
+        return $TeamVesting$_contract_init($owner, $teamWallet, $jettonMaster, $cliffDuration, $vestingDuration);
+    }
+}
+
+() $TeamVesting$_contract_store((slice, slice, slice, slice, int, int, int, int, int) v) impure inline {
+    builder b = begin_cell();
+    b = b.store_int(true, 1);
+    b = $TeamVesting$_store(b, v);
+    set_data(b.end_cell());
+}
+
+;;
+;; Contract TeamVesting functions
+;;
+
+(slice, slice, slice, slice, int, int, int, int, int) $TeamVesting$_contract_init(slice $owner, slice $teamWallet, slice $jettonMaster, int $cliffDuration, int $vestingDuration) impure inline {
+    var (($self'owner, $self'teamWallet, $self'jettonMaster, $self'jettonWallet, $self'totalAmount, $self'claimedAmount, $self'createdAt, $self'cliffDate, $self'vestingPeriod)) = (null(), null(), null(), null(), null(), null(), null(), null(), null());
+    $self'owner = $owner;
+    $self'teamWallet = $teamWallet;
+    $self'jettonMaster = $jettonMaster;
+    $self'jettonWallet = null();
+    $self'totalAmount = 0;
+    $self'claimedAmount = 0;
+    $self'createdAt = $global_now();
+    $self'cliffDate = ($self'createdAt + $cliffDuration);
+    $self'vestingPeriod = $vestingDuration;
+    throw_unless(20595, ($self'vestingPeriod > 0));
+    throw_unless(39562, ($self'cliffDate >= $self'createdAt));
+    return ($self'owner, $self'teamWallet, $self'jettonMaster, $self'jettonWallet, $self'totalAmount, $self'claimedAmount, $self'createdAt, $self'cliffDate, $self'vestingPeriod);
+}
+
+((slice, slice, slice, slice, int, int, int, int, int), slice) $TeamVesting$_fun_getJettonWallet((slice, slice, slice, slice, int, int, int, int, int) $self) impure inline_ref {
+    var (($self'owner, $self'teamWallet, $self'jettonMaster, $self'jettonWallet, $self'totalAmount, $self'claimedAmount, $self'createdAt, $self'cliffDate, $self'vestingPeriod)) = $self;
+    throw_unless(10891, (~ null?($self'jettonWallet)));
+    var $fresh$ret_53 = $self'jettonWallet;
+    return (($self'owner, $self'teamWallet, $self'jettonMaster, $self'jettonWallet, $self'totalAmount, $self'claimedAmount, $self'createdAt, $self'cliffDate, $self'vestingPeriod), $fresh$ret_53);
+}
+
+((slice, slice, slice, slice, int, int, int, int, int), (slice, slice, slice, slice, int, int, int, int, int)) $TeamVesting$_fun_getVestingData((slice, slice, slice, slice, int, int, int, int, int) $self) impure inline_ref {
+    var (($self'owner, $self'teamWallet, $self'jettonMaster, $self'jettonWallet, $self'totalAmount, $self'claimedAmount, $self'createdAt, $self'cliffDate, $self'vestingPeriod)) = $self;
+    slice $jWallet = ($self'owner, $self'teamWallet, $self'jettonMaster, $self'jettonWallet, $self'totalAmount, $self'claimedAmount, $self'createdAt, $self'cliffDate, $self'vestingPeriod)~$TeamVesting$_fun_getJettonWallet();
+    var $fresh$ret_49 = $VestingData$_constructor_owner_teamWallet_jettonMaster_jettonWallet_totalAmount_claimedAmount_createdAt_cliffDate_vestingPeriod($self'owner, $self'teamWallet, $self'jettonMaster, $jWallet, $self'totalAmount, $self'claimedAmount, $self'createdAt, $self'cliffDate, $self'vestingPeriod);
+    return (($self'owner, $self'teamWallet, $self'jettonMaster, $self'jettonWallet, $self'totalAmount, $self'claimedAmount, $self'createdAt, $self'cliffDate, $self'vestingPeriod), $fresh$ret_49);
+}
+
+((slice, slice, slice, slice, int, int, int, int, int), int) $TeamVesting$_fun_calculateAvailableToClaim((slice, slice, slice, slice, int, int, int, int, int) $self) impure inline_ref {
+    var (($self'owner, $self'teamWallet, $self'jettonMaster, $self'jettonWallet, $self'totalAmount, $self'claimedAmount, $self'createdAt, $self'cliffDate, $self'vestingPeriod)) = $self;
+    if (($global_now() < $self'cliffDate)) {
+        var $fresh$ret_50 = 0;
+        return (($self'owner, $self'teamWallet, $self'jettonMaster, $self'jettonWallet, $self'totalAmount, $self'claimedAmount, $self'createdAt, $self'cliffDate, $self'vestingPeriod), $fresh$ret_50);
+    }
+    int $timePassed = ($global_now() - $self'createdAt);
+    if (($timePassed >= $self'vestingPeriod)) {
+        var $fresh$ret_51 = ($self'totalAmount - $self'claimedAmount);
+        return (($self'owner, $self'teamWallet, $self'jettonMaster, $self'jettonWallet, $self'totalAmount, $self'claimedAmount, $self'createdAt, $self'cliffDate, $self'vestingPeriod), $fresh$ret_51);
+    }
+    int $vestedAmount = (($self'totalAmount * $timePassed) / $self'vestingPeriod);
+    var $fresh$ret_52 = ($vestedAmount - $self'claimedAmount);
+    return (($self'owner, $self'teamWallet, $self'jettonMaster, $self'jettonWallet, $self'totalAmount, $self'claimedAmount, $self'createdAt, $self'cliffDate, $self'vestingPeriod), $fresh$ret_52);
+}
+
+;;
+;; Get methods of a Contract TeamVesting
+;;
+
+_ %getVestingData() method_id(106920) {
+    var self = $TeamVesting$_contract_load();
+    var res = self~$TeamVesting$_fun_getVestingData();
+    return $VestingData$_to_external(res);
+}
+
+_ %owner() method_id(83229) {
+    var self = $TeamVesting$_contract_load();
+    var res = self~$TeamVesting$_fun_owner();
+    return res;
+}
+
+;;
+;; Routing of a Contract TeamVesting
+;;
+
+;; message opcode reader utility: only binary receivers
+;; Returns 32 bit message opcode, otherwise throws the "Invalid incoming message" exit code
+(slice, int) ~load_opcode_internal(slice s) asm( -> 1 0) "32 LDUQ 130 THROWIFNOT";
+
+() recv_internal(int msg_value, cell in_msg_cell, slice in_msg) impure {
+    
+    ;; Context
+    var cs = in_msg_cell.begin_parse();
+    cs~skip_bits(2);
+    var msg_bounceable = cs~load_int(1);
+    var msg_bounced = cs~load_int(1);
+    slice msg_sender_addr = cs~load_msg_addr();
+    __tact_context = (msg_bounceable, msg_sender_addr, msg_value, cs);
+    __tact_context_sender = msg_sender_addr;
+    
+    ;; Load contract data
+    var ($self'owner, $self'teamWallet, $self'jettonMaster, $self'jettonWallet, $self'totalAmount, $self'claimedAmount, $self'createdAt, $self'cliffDate, $self'vestingPeriod) = $TeamVesting$_contract_load();
+    
+    ;; Handle bounced messages
+    if (msg_bounced) { return (); }
+    int op = 0;
+    int in_msg_length = slice_bits(in_msg);
+    if (in_msg_length >= 32) {
+        op = in_msg~load_uint(32);
+    }
+    ;; Receive SetJettonWallet message
+    if (op == 968888784) {
+        var ($msg'queryId, $msg'address) = in_msg~$SetJettonWallet$_load_without_opcode();
+        ($self'owner, $self'teamWallet, $self'jettonMaster, $self'jettonWallet, $self'totalAmount, $self'claimedAmount, $self'createdAt, $self'cliffDate, $self'vestingPeriod)~$TeamVesting$_fun_requireOwner();
+        throw_unless(27330, null?($self'jettonWallet));
+        $self'jettonWallet = $msg'address;
+        $TeamVesting$_contract_store(($self'owner, $self'teamWallet, $self'jettonMaster, $self'jettonWallet, $self'totalAmount, $self'claimedAmount, $self'createdAt, $self'cliffDate, $self'vestingPeriod));
+        return ();
+    }
+    
+    ;; Receive ClaimMessage message
+    if (op == 2777059954) {
+        var ($msg'queryId) = in_msg~$ClaimMessage$_load_without_opcode();
+        ($self'owner, $self'teamWallet, $self'jettonMaster, $self'jettonWallet, $self'totalAmount, $self'claimedAmount, $self'createdAt, $self'cliffDate, $self'vestingPeriod)~$TeamVesting$_fun_requireOwner();
+        slice $jWallet = ($self'owner, $self'teamWallet, $self'jettonMaster, $self'jettonWallet, $self'totalAmount, $self'claimedAmount, $self'createdAt, $self'cliffDate, $self'vestingPeriod)~$TeamVesting$_fun_getJettonWallet();
+        int $availableAmount = ($self'owner, $self'teamWallet, $self'jettonMaster, $self'jettonWallet, $self'totalAmount, $self'claimedAmount, $self'createdAt, $self'cliffDate, $self'vestingPeriod)~$TeamVesting$_fun_calculateAvailableToClaim();
+        throw_unless(60727, ($availableAmount > 0));
+        $self'claimedAmount = ($self'claimedAmount + $availableAmount);
+        $global_send($SendParameters$_constructor_to_value_mode_body($jWallet, 100000000, 1, $Builder$_fun_endCell($Builder$_fun_storeBit(false, $Builder$_fun_storeCoins($Builder$_fun_storeAddress($Builder$_fun_storeAddress($Builder$_fun_storeCoins(store_uint(store_uint($global_beginCell(), 395134233, 32), $msg'queryId, 64), $availableAmount), $global_myAddress()), $self'owner), 0)))));
+        $TeamVesting$_contract_store(($self'owner, $self'teamWallet, $self'jettonMaster, $self'jettonWallet, $self'totalAmount, $self'claimedAmount, $self'createdAt, $self'cliffDate, $self'vestingPeriod));
+        return ();
+    }
+    
+    ;; Receive Deploy message
+    if (op == 0x946a98b6) {
+        var ($deploy'queryId) = in_msg~$Deploy$_load_without_opcode();
+        ($self'owner, $self'teamWallet, $self'jettonMaster, $self'jettonWallet, $self'totalAmount, $self'claimedAmount, $self'createdAt, $self'cliffDate, $self'vestingPeriod)~$TeamVesting$_fun_notify($DeployOk$_store_cell($DeployOk$_constructor_queryId($deploy'queryId)));
+        $TeamVesting$_contract_store(($self'owner, $self'teamWallet, $self'jettonMaster, $self'jettonWallet, $self'totalAmount, $self'claimedAmount, $self'createdAt, $self'cliffDate, $self'vestingPeriod));
+        return ();
+    }
+    
+    ;; Receive empty message
+    if ((op == 0) & (in_msg_length <= 32)) {
+        $TeamVesting$_contract_store(($self'owner, $self'teamWallet, $self'jettonMaster, $self'jettonWallet, $self'totalAmount, $self'claimedAmount, $self'createdAt, $self'cliffDate, $self'vestingPeriod));
+        return ();
+    }
+    ;; Throw if not handled
+    throw(130);
+}

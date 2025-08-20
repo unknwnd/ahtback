@@ -1,270 +1,296 @@
-import { config } from 'dotenv';
-import path from 'path';
-import { Address, beginCell, toNano } from '@ton/core';
-import { TonClient, WalletContractV4 } from '@ton/ton';
-import { mnemonicToPrivateKey } from '@ton/crypto';
-import { AnimalHelperToken } from '../build/AnimalHelperToken/tact_AnimalHelperToken';
-import { FundsDistributor } from '../build/FundsDistributor/tact_FundsDistributor';
+import { toNano, Address, beginCell, Cell } from '@ton/core';
+import { TonClient, WalletContractV4, internal } from '@ton/ton';
 import fs from 'fs';
+import path from 'path';
+import { buildTokenMetadata } from './utils';
+import { mnemonicToPrivateKey } from '@ton/crypto';
+import * as dotenv from 'dotenv';
 
-// Загрузка переменных окружения из .env.mainnet
-config({ path: path.resolve(__dirname, '../.env.mainnet') });
+// Импортируем модули контрактов
+import { AnimalHelperToken } from '../build/AnimalHelperToken_AnimalHelperToken';
+import { FundsDistributor } from '../build/FundsDistributor_FundsDistributor';
+import { AnimalHelperVoting } from '../build/AnimalHelperVoting_AnimalHelperVoting';
+import { AnimalHelperPool } from '../build/AnimalHelperPool_AnimalHelperPool';
+import { LiquidityLock } from '../build/LiquidityLock_LiquidityLock';
+import { TeamVesting } from '../build/TeamVesting_TeamVesting';
+import { TokenSale } from '../build/TokenSale_TokenSale';
 
-// Путь для сохранения информации о деплое
-const DEPLOY_INFO_PATH = path.resolve(__dirname, '../deploy-info-mainnet.json');
+// Загружаем переменные окружения из .env.mainnet
+dotenv.config({ path: path.resolve(__dirname, '../.env.mainnet') });
 
-// Проверка опции --dry-run
-const isDryRun = process.argv.includes('--dry-run');
+// --- КОНФИГУРАЦИЯ МАЙННЕТ ---
+const NETWORK = process.env.NETWORK;
+const OWNER_ADDRESS = process.env.OWNER_ADDRESS;
+const TEAM_ADDRESS = process.env.TEAM_ADDRESS;
+const LIQUIDITY_POOL_ADDRESS = process.env.LIQUIDITY_POOL_ADDRESS;
+const PROJECT_POOL_ADDRESS = process.env.PROJECT_POOL_ADDRESS;
+const INVESTORS_CREATORS_POOL_ADDRESS = process.env.INVESTORS_CREATORS_POOL_ADDRESS;
+const MNEMONIC = process.env.MNEMONIC;
+const ENDPOINT = process.env.ENDPOINT || 'https://toncenter.com/api/v2/jsonRPC';
 
-/**
- * Конфигурация для деплоя контрактов
- */
-const DEPLOY_CONFIG = {
-    // Адрес владельца контрактов
-    ownerAddress: process.env.OWNER_ADDRESS || '',
-    // Общий запас токенов
-    totalSupply: BigInt(process.env.JETTON_TOTAL_SUPPLY || '1000000000000'),
-    // Адреса благотворительных организаций и их доли
-    charities: [
-        {
-            address: process.env.CHARITY_1_ADDRESS || '',
-            percentage: parseInt(process.env.CHARITY_1_PERCENTAGE || '30')
-        },
-        {
-            address: process.env.CHARITY_2_ADDRESS || '',
-            percentage: parseInt(process.env.CHARITY_2_PERCENTAGE || '30')
-        },
-        {
-            address: process.env.CHARITY_3_ADDRESS || '',
-            percentage: parseInt(process.env.CHARITY_3_PERCENTAGE || '40')
-        }
-    ],
-    // URL для метаданных токена
-    contentUrl: 'https://raw.githubusercontent.com/ton-community/ton-docs/main/docs/develop/dapps/defi/examples/data/jetton-content.json',
-    // Сумма для деплоя каждого контракта
-    deployAmount: toNano('0.5')
-};
-
-/**
- * Валидация конфигурации перед деплоем
- */
-function validateConfig() {
-    // Проверка наличия мнемонической фразы
-    if (!process.env.MNEMONIC) {
-        throw new Error('MNEMONIC not set in .env.mainnet');
-    }
-
-    // Проверка наличия адреса владельца
-    if (!DEPLOY_CONFIG.ownerAddress) {
-        throw new Error('OWNER_ADDRESS not set in .env.mainnet');
-    }
-
-    // Проверка адресов благотворительных организаций
-    for (let i = 0; i < DEPLOY_CONFIG.charities.length; i++) {
-        if (!DEPLOY_CONFIG.charities[i].address) {
-            throw new Error(`CHARITY_${i+1}_ADDRESS not set in .env.mainnet`);
+// Проверка переменных окружения
+function validateEnvironmentVariables() {
+    const required = [
+        'NETWORK', 'OWNER_ADDRESS', 'TEAM_ADDRESS', 'LIQUIDITY_POOL_ADDRESS',
+        'PROJECT_POOL_ADDRESS', 'INVESTORS_CREATORS_POOL_ADDRESS', 'MNEMONIC'
+    ];
+    
+    for (const varName of required) {
+        if (!process.env[varName]) {
+            throw new Error(`❌ Missing required environment variable: ${varName}`);
         }
     }
-
-    // Проверка суммы процентов
-    const totalPercentage = DEPLOY_CONFIG.charities.reduce((sum, charity) => sum + charity.percentage, 0);
-    if (totalPercentage !== 100) {
-        throw new Error(`Total percentage must be 100%, got ${totalPercentage}%`);
+    
+    if (NETWORK !== 'mainnet') {
+        throw new Error(`❌ Expected NETWORK=mainnet, got: ${NETWORK}`);
     }
-
-    console.log('Configuration validated successfully');
+    
+    if (!ENDPOINT?.includes('toncenter.com')) {
+        throw new Error(`❌ Expected mainnet endpoint, got: ${ENDPOINT}`);
+    }
+    
+    console.log('✅ Environment variables validated');
 }
 
-/**
- * Сохранение информации о деплое
- */
-function saveDeployInfo(info: any) {
-    fs.writeFileSync(
-        DEPLOY_INFO_PATH,
-        JSON.stringify(info, null, 2)
+const client = new TonClient({
+    endpoint: ENDPOINT,
+    apiKey: process.env.API_KEY,
+});
+
+// Константы (2 года блокировки)
+const LOCK_DURATION_SECONDS = 31536000 * 2; // 24 месяца
+const TEAM_CLIFF_SECONDS = 31536000;      // 1 год клифф
+const TEAM_VESTING_SECONDS = 31536000 * 2; // 2 года вестинг
+const TOKEN_SALE_RATE = BigInt(process.env.TOKEN_SALE_RATE || '100000'); // 1 TON = 100,000 токенов
+const TOTAL_SUPPLY = BigInt(process.env.JETTON_TOTAL_SUPPLY || '1000000000000000'); // 1 квадриллион
+
+async function waitSeqno(walletContract: any, currentSeqno: number) {
+    for (let attempt = 0; attempt < 20; attempt++) {
+        await new Promise(resolve => setTimeout(resolve, 5000));
+        const newSeqno = await walletContract.getSeqno();
+        if (newSeqno > currentSeqno) {
+            console.log(`✅ Transaction confirmed! New seqno: ${newSeqno}`);
+            return;
+        }
+        console.log(`⏳ Waiting for seqno to change... (attempt ${attempt + 1}/20)`);
+    }
+    throw new Error('❌ Transaction confirmation timed out.');
+}
+
+async function deployContract(
+    walletContract: any,
+    keyPair: any,
+    contractName: string,
+    contract: any,
+    value: bigint,
+    payload?: Cell,
+    dryRun: boolean = false
+) {
+    console.log(`\n--- ${dryRun ? 'DRY RUN' : 'Deploying'} ${contractName} ---`);
+    console.log(`Address: ${contract.address}`);
+    console.log(`Value: ${Number(value) / 1e9} TON`);
+    
+    if (dryRun) {
+        console.log('🟡 DRY RUN - не отправляем транзакцию');
+        return;
+    }
+    
+    const seqno = await walletContract.getSeqno();
+
+    await walletContract.sendTransfer({
+        secretKey: keyPair.secretKey,
+        seqno: seqno,
+        messages: [
+            internal({
+                to: contract.address,
+                value: value,
+                init: contract.init,
+                body: payload,
+            }),
+        ],
+    });
+
+    await waitSeqno(walletContract, seqno);
+    console.log(`✅ ${contractName} deployed at: ${contract.address}`);
+}
+
+async function sendMessage(
+    walletContract: any,
+    keyPair: any,
+    to: Address,
+    value: bigint,
+    body: Cell,
+    description: string = 'Message',
+    dryRun: boolean = false
+) {
+    console.log(`\n--- ${dryRun ? 'DRY RUN' : 'Sending'} ${description} ---`);
+    console.log(`To: ${to}`);
+    console.log(`Value: ${Number(value) / 1e9} TON`);
+    
+    if (dryRun) {
+        console.log('🟡 DRY RUN - не отправляем сообщение');
+        return;
+    }
+    
+    const seqno = await walletContract.getSeqno();
+    await walletContract.sendTransfer({
+        secretKey: keyPair.secretKey,
+        seqno: seqno,
+        messages: [ internal({ to, value, body, }) ],
+    });
+    await waitSeqno(walletContract, seqno);
+    console.log(`✅ ${description} sent successfully`);
+}
+
+async function main() {
+    console.log('🚀 --- MAINNET DEPLOYMENT SCRIPT ---');
+    
+    // Проверяем аргументы командной строки
+    const isDryRun = process.argv.includes('--dry-run');
+    if (isDryRun) {
+        console.log('🟡 RUNNING IN DRY-RUN MODE - NO TRANSACTIONS WILL BE SENT');
+    }
+    
+    // Валидация переменных окружения
+    validateEnvironmentVariables();
+    
+    if (!MNEMONIC) {
+        throw new Error('❌ MNEMONIC не установлен в .env.mainnet');
+    }
+
+    const keyPair = await mnemonicToPrivateKey(MNEMONIC!.split(' '));
+    const wallet = WalletContractV4.create({ publicKey: keyPair.publicKey, workchain: 0 });
+    const walletContract = client.open(wallet);
+    console.log(`📱 Deployer wallet address: ${walletContract.address}`);
+
+    const balance = await client.getBalance(walletContract.address);
+    console.log(`💰 Wallet balance: ${Number(balance) / 1e9} TON`);
+    
+    const requiredBalance = toNano('10'); // Увеличиваем минимум для майннета
+    if (balance < requiredBalance) {
+        throw new Error(`❌ Insufficient balance. Need at least ${Number(requiredBalance) / 1e9} TON for mainnet deployment.`);
+    }
+
+    // --- 1. Инициализация всех контрактов ---
+    console.log('\n--- 📋 Initializing contracts ---');
+    
+    // Код кошелька Jetton
+    const walletCodeBuffer = fs.readFileSync(path.join(__dirname, '..', 'build', 'JettonWallet_JettonWallet.code.boc'));
+    const walletCode = Cell.fromBoc(walletCodeBuffer)[0];
+
+    const ownerAddr = Address.parse(OWNER_ADDRESS!);
+    const teamAddr = Address.parse(TEAM_ADDRESS!);
+    const liquidityPoolAddr = Address.parse(LIQUIDITY_POOL_ADDRESS!);
+    const projectPoolAddr = Address.parse(PROJECT_POOL_ADDRESS!);
+    const investorsCreatorsPoolAddr = Address.parse(INVESTORS_CREATORS_POOL_ADDRESS!);
+
+    // Инициализируем контракты
+    const liquidityLock = await LiquidityLock.fromInit(ownerAddr, liquidityPoolAddr, BigInt(LOCK_DURATION_SECONDS));
+    const animalHelperPool = await AnimalHelperPool.fromInit(ownerAddr, ownerAddr);
+    const animalHelperVoting = await AnimalHelperVoting.fromInit(ownerAddr, ownerAddr, animalHelperPool.address);
+    
+    const fundsDistributor = await FundsDistributor.fromInit(
+        ownerAddr,
+        liquidityPoolAddr,
+        liquidityLock.address,
+        animalHelperPool.address,
+        projectPoolAddr,
+        investorsCreatorsPoolAddr
     );
-    console.log(`Deploy info saved to ${DEPLOY_INFO_PATH}`);
-}
 
-/**
- * Отправка транзакции для деплоя
- */
-async function sendDeployTransaction(client: TonClient, wallet: WalletContractV4, recipient: Address, amount: bigint, payload: any = null) {
-    // Получение текущего номера последовательности кошелька
-    const seqno = await wallet.getSeqno();
-    
-    // Проверка баланса кошелька
-    const walletBalance = await client.getBalance(wallet.address);
-    const requiredBalance = amount + toNano('0.1'); // Добавляем немного для комиссии
-    
-    if (walletBalance < requiredBalance) {
-        throw new Error(`Insufficient wallet balance: ${walletBalance} TON, required ${requiredBalance} TON`);
-    }
-    
-    console.log(`Sending ${amount} TON to ${recipient.toString()}`);
-    
-    if (isDryRun) {
-        console.log(`[DRY RUN] Would send transaction from ${wallet.address.toString()} to ${recipient.toString()} with amount ${amount} TON`);
-        return true;
-    }
-    
-    // Отправка транзакции
-    await wallet.sendTransfer({
-        secretKey: await getSecretKey(),
-        seqno,
-        to: recipient,
-        value: amount,
-        bounce: false,
-        payload: payload
-    });
-    
-    // Ожидание изменения номера последовательности (подтверждение транзакции)
-    console.log(`Waiting for transaction confirmation...`);
-    let currentSeqno = seqno;
-    let attempts = 0;
-    const maxAttempts = 20;
-    
-    while (currentSeqno === seqno && attempts < maxAttempts) {
-        await sleep(3000);
-        attempts++;
-        console.log(`Waiting... (attempt ${attempts}/${maxAttempts})`);
-        currentSeqno = await wallet.getSeqno();
-    }
-    
-    if (currentSeqno === seqno) {
-        throw new Error(`Transaction not confirmed after ${maxAttempts} attempts`);
-    }
-    
-    console.log(`Transaction confirmed! New seqno: ${currentSeqno}`);
-    return true;
-}
+    const teamVesting = await TeamVesting.fromInit(ownerAddr, teamAddr, ownerAddr, BigInt(TEAM_CLIFF_SECONDS), BigInt(TEAM_VESTING_SECONDS));
+    const tokenSale = await TokenSale.fromInit(ownerAddr, ownerAddr, ownerAddr, fundsDistributor.address, TOKEN_SALE_RATE);
 
-/**
- * Получение секретного ключа из мнемонической фразы
- */
-async function getSecretKey() {
-    if (!process.env.MNEMONIC) {
-        throw new Error('MNEMONIC not set in .env.mainnet');
+    // Главный контракт токена
+    const tokenMetadata = buildTokenMetadata();
+    const tokenContract = await AnimalHelperToken.fromInit(
+        ownerAddr,
+        tokenMetadata,
+        walletCode,
+        teamVesting.address,
+        tokenSale.address
+    );
+
+    // Показываем все адреса контрактов
+    console.log('\n📝 Contracts to be deployed:');
+    console.log(`- AnimalHelperToken: ${tokenContract.address}`);
+    console.log(`- TeamVesting: ${teamVesting.address}`);
+    console.log(`- TokenSale: ${tokenSale.address}`);
+    console.log(`- FundsDistributor: ${fundsDistributor.address}`);
+    console.log(`- AnimalHelperPool: ${animalHelperPool.address}`);
+    console.log(`- AnimalHelperVoting: ${animalHelperVoting.address}`);
+    console.log(`- LiquidityLock: ${liquidityLock.address}`);
+
+    // Расчет общей стоимости деплоя
+    const totalCost = toNano('0.1') * 6n + toNano('0.2') + toNano('0.3'); // 6 контрактов по 0.1 + токен 0.2 + минтинг 0.3
+    console.log(`💸 Estimated total deployment cost: ${Number(totalCost) / 1e9} TON`);
+
+    if (!isDryRun) {
+        console.log('\n⚠️  ВНИМАНИЕ: Это деплой в МАЙННЕТ!');
+        console.log('⚠️  Убедитесь, что все параметры корректны!');
+        console.log('⚠️  Продолжение через 10 секунд...');
+        await new Promise(resolve => setTimeout(resolve, 10000));
     }
-    
-    const mnemonicArray = process.env.MNEMONIC.split(' ');
-    const keyPair = await mnemonicToPrivateKey(mnemonicArray);
-    return keyPair.secretKey;
-}
 
-/**
- * Функция задержки
- */
-function sleep(ms: number) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
+    // --- 2. Деплоим все контракты ---
+    await deployContract(walletContract, keyPair, 'LiquidityLock', liquidityLock, toNano('0.1'), undefined, isDryRun);
+    await deployContract(walletContract, keyPair, 'AnimalHelperPool', animalHelperPool, toNano('0.1'), undefined, isDryRun);
+    await deployContract(walletContract, keyPair, 'AnimalHelperVoting', animalHelperVoting, toNano('0.1'), undefined, isDryRun);
+    await deployContract(walletContract, keyPair, 'FundsDistributor', fundsDistributor, toNano('0.1'), undefined, isDryRun);
+    await deployContract(walletContract, keyPair, 'TeamVesting', teamVesting, toNano('0.1'), undefined, isDryRun);
+    await deployContract(walletContract, keyPair, 'TokenSale', tokenSale, toNano('0.1'), undefined, isDryRun);
+    await deployContract(walletContract, keyPair, 'AnimalHelperToken', tokenContract, toNano('0.2'), undefined, isDryRun);
 
-/**
- * Создание контента для токена в формате Cell
- */
-function createTokenContent() {
-    const content = beginCell()
-        .storeBuffer(Buffer.from(DEPLOY_CONFIG.contentUrl))
-        .endCell();
-    return content;
-}
+    if (!isDryRun) {
+        // --- 3. Настройка адресов ---
+        console.log('\n--- ⚙️  Configuring contracts ---');
+        
+        const createSetAddressPayload = (op_code: number, address: Address) => {
+            return beginCell()
+                .storeUint(op_code, 32)
+                .storeUint(0, 64)
+                .storeAddress(address)
+                .endCell();
+        };
 
-/**
- * Основная функция деплоя
- */
-async function deploy() {
-    // Валидация конфигурации
-    validateConfig();
-    
-    console.log('Starting mainnet deployment...');
-    if (isDryRun) {
-        console.log('Running in DRY RUN mode - no transactions will be sent');
+        await sendMessage(walletContract, keyPair, animalHelperPool.address, toNano('0.05'), createSetAddressPayload(0x6a6048d0, animalHelperVoting.address), 'Set voting address');
+        await sendMessage(walletContract, keyPair, animalHelperVoting.address, toNano('0.05'), createSetAddressPayload(0x2d5e2193, tokenContract.address), 'Set jetton address (voting)');
+        await sendMessage(walletContract, keyPair, teamVesting.address, toNano('0.05'), createSetAddressPayload(0x2d5e2193, tokenContract.address), 'Set jetton address (vesting)');
+        await sendMessage(walletContract, keyPair, tokenSale.address, toNano('0.05'), createSetAddressPayload(0x2d5e2193, tokenContract.address), 'Set jetton address (sale)');
+        
+        const openedTokenContract = client.open(AnimalHelperToken.fromAddress(tokenContract.address));
+        const tokenSaleJettonWallet = await openedTokenContract.getGetWalletAddress(tokenSale.address);
+        await sendMessage(walletContract, keyPair, tokenSale.address, toNano('0.05'), createSetAddressPayload(0x454d8f28, tokenSaleJettonWallet), 'Set jetton wallet address');
+
+        // --- 4. Выполняем начальный минтинг ---
+        console.log('\n--- 🪙 Performing initial minting ---');
+        
+        const mintPayload = beginCell()
+            .storeUint(0, 32)
+            .storeStringTail("mint_initial")
+            .endCell();
+        await sendMessage(walletContract, keyPair, tokenContract.address, toNano('0.3'), mintPayload, 'Initial minting');
+
+        const ownerJettonWalletAddress = await openedTokenContract.getGetWalletAddress(ownerAddr);
+        
+        console.log('\n🎉 === MAINNET DEPLOYMENT COMPLETED SUCCESSFULLY! ===');
+        console.log('📋 Deployed contract addresses:');
+        console.log(`- AnimalHelperToken: ${tokenContract.address}`);
+        console.log(`- TeamVesting: ${teamVesting.address}`);
+        console.log(`- TokenSale: ${tokenSale.address}`);
+        console.log(`- FundsDistributor: ${fundsDistributor.address}`);
+        console.log(`- AnimalHelperPool: ${animalHelperPool.address}`);
+        console.log(`- AnimalHelperVoting: ${animalHelperVoting.address}`);
+        console.log(`- LiquidityLock: ${liquidityLock.address}`);
+        console.log(`- Owner's Jetton Wallet: ${ownerJettonWalletAddress}`);
+        console.log('\n⚠️  СОХРАНИТЕ ЭТИ АДРЕСА - ОНИ ПОНАДОБЯТСЯ ДЛЯ ФРОНТЕНДА!');
     } else {
-        console.log('Running in LIVE mode - real transactions will be sent');
-        console.log('\x1b[31m%s\x1b[0m', 'WARNING: This will deploy contracts to the MAIN NETWORK!');
-        console.log('\x1b[31m%s\x1b[0m', 'Press Ctrl+C within 5 seconds to abort');
-        await sleep(5000);
+        console.log('\n🟡 DRY RUN COMPLETED - NO ACTUAL DEPLOYMENT WAS PERFORMED');
+        console.log('📋 Run without --dry-run to perform actual deployment');
     }
-    
-    // Инициализация клиента TON
-    const client = new TonClient({
-        endpoint: 'https://toncenter.com/api/v2/jsonRPC',
-        apiKey: process.env.TONCENTER_API_KEY
-    });
-    
-    // Инициализация кошелька
-    const secretKey = await getSecretKey();
-    const wallet = WalletContractV4.create({
-        publicKey: (await mnemonicToPrivateKey(process.env.MNEMONIC!.split(' '))).publicKey,
-        workchain: 0
-    });
-    
-    console.log(`Wallet address: ${wallet.address.toString()}`);
-    
-    // Проверка баланса кошелька
-    const walletBalance = await client.getBalance(wallet.address);
-    console.log(`Wallet balance: ${walletBalance} TON`);
-    
-    const requiredBalance = DEPLOY_CONFIG.deployAmount * 2n + toNano('0.5');
-    if (walletBalance < requiredBalance) {
-        throw new Error(`Insufficient wallet balance. Required at least ${requiredBalance} TON for deployment`);
-    }
-    
-    // Создание и деплой контракта распределения средств
-    console.log('\nDeploying FundsDistributor contract...');
-    const fundsDistributor = FundsDistributor.createFromConfig({
-        owner: Address.parse(DEPLOY_CONFIG.ownerAddress),
-        charity1: Address.parse(DEPLOY_CONFIG.charities[0].address),
-        charity1Percentage: DEPLOY_CONFIG.charities[0].percentage,
-        charity2: Address.parse(DEPLOY_CONFIG.charities[1].address),
-        charity2Percentage: DEPLOY_CONFIG.charities[1].percentage,
-        charity3: Address.parse(DEPLOY_CONFIG.charities[2].address),
-        charity3Percentage: DEPLOY_CONFIG.charities[2].percentage
-    }, createTokenContent());
-    
-    const fundsDistributorAddress = fundsDistributor.address;
-    console.log(`FundsDistributor address: ${fundsDistributorAddress.toString()}`);
-    
-    // Отправка транзакции для деплоя распределителя средств
-    await sendDeployTransaction(client, wallet, fundsDistributorAddress, DEPLOY_CONFIG.deployAmount);
-    
-    // Создание и деплой контракта токена
-    console.log('\nDeploying AnimalHelperToken contract...');
-    const animalHelperToken = AnimalHelperToken.createFromConfig({
-        owner: Address.parse(DEPLOY_CONFIG.ownerAddress),
-        distributionContract: fundsDistributorAddress,
-        nftContract: fundsDistributorAddress, // Временно используем тот же адрес
-        totalSupply: DEPLOY_CONFIG.totalSupply,
-        mintable: true,
-        content: createTokenContent()
-    }, createTokenContent());
-    
-    const tokenAddress = animalHelperToken.address;
-    console.log(`AnimalHelperToken address: ${tokenAddress.toString()}`);
-    
-    // Отправка транзакции для деплоя токена
-    await sendDeployTransaction(client, wallet, tokenAddress, DEPLOY_CONFIG.deployAmount);
-    
-    // Сохранение информации о деплое
-    saveDeployInfo({
-        network: 'mainnet',
-        timestamp: new Date().toISOString(),
-        deployerWallet: wallet.address.toString(),
-        distributorContract: fundsDistributorAddress.toString(),
-        tokenContract: tokenAddress.toString(),
-        ownerAddress: DEPLOY_CONFIG.ownerAddress,
-        charities: DEPLOY_CONFIG.charities
-    });
-    
-    console.log('\nDeployment completed successfully');
-    console.log('Next steps:');
-    console.log('1. Verify contracts on TON Explorer (https://tonscan.org)');
-    console.log('2. Update web UI with new contract addresses');
-    console.log('3. Run initial tests on the main network');
 }
 
-// Запуск деплоя
-deploy().catch(e => {
-    console.error(e);
+main().catch(e => {
+    console.error('❌ Deployment failed:', e);
     process.exit(1);
 }); 

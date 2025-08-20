@@ -1,6 +1,6 @@
 # Tact compilation report
 Contract: AnimalHelperVoting
-BoC Size: 2597 bytes
+BoC Size: 2556 bytes
 
 ## Structures (Structs and Messages)
 Total structures: 27

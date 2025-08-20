@@ -1,6 +1,6 @@
 # Tact compilation report
 Contract: AnimalHelperPool
-BoC Size: 1467 bytes
+BoC Size: 1457 bytes
 
 ## Structures (Structs and Messages)
 Total structures: 22

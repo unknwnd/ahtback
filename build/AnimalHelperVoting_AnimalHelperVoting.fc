@@ -8,9 +8,6 @@
 ;; NOTE: declarations are sorted for optimal order
 ;;
 
-;; __tact_not_null
-forall X -> X __tact_not_null(X x) impure inline;
-
 ;; __tact_context_get
 (int, slice, int, slice) __tact_context_get() inline;
 
@@ -152,10 +149,6 @@ global (int, slice, int, slice) __tact_context;
 global slice __tact_context_sender;
 global cell __tact_child_contract_codes;
 global int __tact_randomized;
-
-forall X -> X __tact_not_null(X x) impure inline {
-    throw_if(128, null?(x)); return x;
-}
 
 (cell, int) __tact_dict_delete(cell dict, int key_len, slice index) asm(index dict key_len) """
     DICTDEL
@@ -360,8 +353,8 @@ builder $Builder$_fun_storeAddress(builder $self, slice $address) impure asm """
 
 ((slice, slice, slice, int, int, int, int, int, cell, cell, cell, cell), slice) $AnimalHelperVoting$_fun_owner((slice, slice, slice, int, int, int, int, int, cell, cell, cell, cell) $self) impure inline_ref {
     var (($self'owner, $self'tokenContract, $self'animalHelperPool, $self'proposalsCount, $self'votingActive, $self'votingStartTime, $self'votingEndTime, $self'minTokenBalance, $self'lastVotingResults, $self'proposals, $self'votes, $self'voterTokenBalances)) = $self;
-    var $fresh$ret_17 = $self'owner;
-    return (($self'owner, $self'tokenContract, $self'animalHelperPool, $self'proposalsCount, $self'votingActive, $self'votingStartTime, $self'votingEndTime, $self'minTokenBalance, $self'lastVotingResults, $self'proposals, $self'votes, $self'voterTokenBalances), $fresh$ret_17);
+    var $fresh$ret_25 = $self'owner;
+    return (($self'owner, $self'tokenContract, $self'animalHelperPool, $self'proposalsCount, $self'votingActive, $self'votingStartTime, $self'votingEndTime, $self'minTokenBalance, $self'lastVotingResults, $self'proposals, $self'votes, $self'voterTokenBalances), $fresh$ret_25);
 }
 
 ;; AnimalHelperVoting_AnimalHelperVoting.storage.fc
@@ -371,7 +364,6 @@ builder $Builder$_fun_storeAddress(builder $self, slice $address) impure asm """
 ;;
 
 ((cell, cell)) $StateInit$_not_null(tuple v) inline {
-    throw_if(128, null?(v));
     var (cell vvv'code, cell vvv'data) = __tact_tuple_destroy_2(v);
     return (vvv'code, vvv'data);
 }
@@ -591,7 +583,6 @@ tuple $Proposal$_load_opt(cell cl) inline {
 ((int, slice, slice, slice, int)) $Proposal$_tensor_cast((int, slice, slice, slice, int) v) asm "NOP";
 
 ((int, slice, slice, slice, int)) $Proposal$_not_null(tuple v) inline {
-    throw_if(128, null?(v));
     var (int vvv'id, slice vvv'shelterAddress, slice vvv'name, slice vvv'description, int vvv'votes) = __tact_tuple_destroy_5(v);
     return (vvv'id, vvv'shelterAddress, vvv'name, vvv'description, vvv'votes);
 }
@@ -688,11 +679,11 @@ builder $AnimalHelperVoting$_store(builder build_0, (slice, slice, slice, int, i
     var (($self'owner, $self'tokenContract, $self'animalHelperPool, $self'proposalsCount, $self'votingActive, $self'votingStartTime, $self'votingEndTime, $self'minTokenBalance, $self'lastVotingResults, $self'proposals, $self'votes, $self'voterTokenBalances)) = $self;
     int $savedBalance = __tact_dict_get_slice_int($self'voterTokenBalances, 267, $addr, 257);
     if ((~ null?($savedBalance))) {
-        var $fresh$ret_13 = __tact_not_null($savedBalance);
-        return (($self'owner, $self'tokenContract, $self'animalHelperPool, $self'proposalsCount, $self'votingActive, $self'votingStartTime, $self'votingEndTime, $self'minTokenBalance, $self'lastVotingResults, $self'proposals, $self'votes, $self'voterTokenBalances), $fresh$ret_13);
+        var $fresh$ret_21 = $savedBalance;
+        return (($self'owner, $self'tokenContract, $self'animalHelperPool, $self'proposalsCount, $self'votingActive, $self'votingStartTime, $self'votingEndTime, $self'minTokenBalance, $self'lastVotingResults, $self'proposals, $self'votes, $self'voterTokenBalances), $fresh$ret_21);
     }
-    var $fresh$ret_14 = $self'minTokenBalance;
-    return (($self'owner, $self'tokenContract, $self'animalHelperPool, $self'proposalsCount, $self'votingActive, $self'votingStartTime, $self'votingEndTime, $self'minTokenBalance, $self'lastVotingResults, $self'proposals, $self'votes, $self'voterTokenBalances), $fresh$ret_14);
+    var $fresh$ret_22 = $self'minTokenBalance;
+    return (($self'owner, $self'tokenContract, $self'animalHelperPool, $self'proposalsCount, $self'votingActive, $self'votingStartTime, $self'votingEndTime, $self'minTokenBalance, $self'lastVotingResults, $self'proposals, $self'votes, $self'voterTokenBalances), $fresh$ret_22);
 }
 
 ((slice, slice, slice, int, int, int, int, int, cell, cell, cell, cell), (int, slice, slice, slice, int)) $AnimalHelperVoting$_fun_findWinningProposal((slice, slice, slice, int, int, int, int, int, cell, cell, cell, cell) $self) impure inline_ref {
@@ -708,15 +699,15 @@ builder $AnimalHelperVoting$_store(builder build_0, (slice, slice, slice, int, i
         }
         $i = ($i + 1);
     }
-    var $fresh$ret_15 = $Proposal$_not_null($Proposal$_load_opt(__tact_dict_get_int_cell($self'proposals, 257, $winningId)));
-    return (($self'owner, $self'tokenContract, $self'animalHelperPool, $self'proposalsCount, $self'votingActive, $self'votingStartTime, $self'votingEndTime, $self'minTokenBalance, $self'lastVotingResults, $self'proposals, $self'votes, $self'voterTokenBalances), $fresh$ret_15);
+    var $fresh$ret_23 = $Proposal$_not_null($Proposal$_load_opt(__tact_dict_get_int_cell($self'proposals, 257, $winningId)));
+    return (($self'owner, $self'tokenContract, $self'animalHelperPool, $self'proposalsCount, $self'votingActive, $self'votingStartTime, $self'votingEndTime, $self'minTokenBalance, $self'lastVotingResults, $self'proposals, $self'votes, $self'voterTokenBalances), $fresh$ret_23);
 }
 
 ((slice, slice, slice, int, int, int, int, int, cell, cell, cell, cell), cell) $AnimalHelperVoting$_fun_serializeResults((slice, slice, slice, int, int, int, int, int, cell, cell, cell, cell) $self, (int, slice, slice, slice, int) $winner) impure inline_ref {
     var (($self'owner, $self'tokenContract, $self'animalHelperPool, $self'proposalsCount, $self'votingActive, $self'votingStartTime, $self'votingEndTime, $self'minTokenBalance, $self'lastVotingResults, $self'proposals, $self'votes, $self'voterTokenBalances)) = $self;
     var (($winner'id, $winner'shelterAddress, $winner'name, $winner'description, $winner'votes)) = $winner;
-    var $fresh$ret_16 = $Builder$_fun_endCell(store_uint(store_uint($Builder$_fun_storeRef($Builder$_fun_endCell($global_beginCell()), $Builder$_fun_storeAddress(store_uint($global_beginCell(), $winner'id, 32), $winner'shelterAddress)), $winner'votes, 128), $self'votingEndTime, 64));
-    return (($self'owner, $self'tokenContract, $self'animalHelperPool, $self'proposalsCount, $self'votingActive, $self'votingStartTime, $self'votingEndTime, $self'minTokenBalance, $self'lastVotingResults, $self'proposals, $self'votes, $self'voterTokenBalances), $fresh$ret_16);
+    var $fresh$ret_24 = $Builder$_fun_endCell(store_uint(store_uint($Builder$_fun_storeRef($Builder$_fun_endCell($global_beginCell()), $Builder$_fun_storeAddress(store_uint($global_beginCell(), $winner'id, 32), $winner'shelterAddress)), $winner'votes, 128), $self'votingEndTime, 64));
+    return (($self'owner, $self'tokenContract, $self'animalHelperPool, $self'proposalsCount, $self'votingActive, $self'votingStartTime, $self'votingEndTime, $self'minTokenBalance, $self'lastVotingResults, $self'proposals, $self'votes, $self'voterTokenBalances), $fresh$ret_24);
 }
 
 ;;
@@ -894,87 +885,4 @@ _ %owner() method_id(83229) {
     
     ;; Throw if not handled
     throw(130);
-}
-
-
-() __tact_selector_hack_asm() impure asm """
-@atend @ 1 {
-        execute current@ context@ current!
-        {
-            // The core idea of this function is to save gas by avoiding unnecessary dict jump, when recv_internal/recv_external is called
-            // We want to extract recv_internal/recv_external from the dict and select needed function
-            // not by jumping to the needed function by it's index, but by using usual IF statements.
-            
-            }END> b> // Close previous builder, now we have a cell of previous code on top of the stack
-            
-            <{ // Start of the new code builder
-                SETCP0
-                // Swap the new code builder with the previous code, now we have previous code on top of the stack
-                swap
-                // Transform cell to slice and load first ref from the previous code, now we have the dict on top of the stack
-                <s ref@
-
-                // Extract the recv_internal from the dict
-                dup 0 swap @procdictkeylen idict@ { "internal shortcut error" abort } ifnot 
-                swap
-                
-                // Delete the recv_internal from the dict
-                0 swap @procdictkeylen idict- drop 
-                // Delete the recv_external from the dict (it's okay if it's not there)
-                -1 swap @procdictkeylen idict- drop 
-                // Delete the __tact_selector_hack from the dict
-                65535 swap @procdictkeylen idict- drop 
-
-                // Bring the code builder from the bottom of the stack
-                // because if recv_external extraction is optional, and the number of elements on the stack is not fixed
-                depth 1- roll
-                // Swap with the dict from which we extracted recv_internal and (maybe) recv_external
-                swap
-                
-                // Check if the dict is empty
-                dup null?
-                // Store a copy of this flag in the bottom of the stack
-                dup depth 1- -roll 
-                {
-                    // If the dict is empty, just drop it (it will be null if it's empty)
-                    drop 
-                } 
-                {
-                    // If the dict is not empty, prepare continuation to be stored in c3
-                    <{
-                        // Save this dict as first ref in this continuation, it will be pushed in runtime by DICTPUSHCONST
-                        swap @procdictkeylen DICTPUSHCONST
-                        // Jump to the needed function by it's index
-                        DICTIGETJMPZ
-                        // If such key is not found, throw 11 along with the key as an argument
-                        11 THROWARG
-                    }> PUSHCONT
-                    // Store the continuation in c3
-                    c3 POP
-                } cond
-                
-                // Function id is on top of the (runtime) stack
-                DUP IFNOTJMP:<{
-                    // place recv_internal here
-                    DROP swap @addop
-                }>
-
-                // Bring back the flag, indicating if the dict is empty or not from the bottom of the stack
-                depth 1- roll 
-                { 
-                    // If the dict is empty, throw 11
-                    11 THROWARG 
-                } 
-                { 
-                    // If the dict is not empty, jump to continuation from c3
-                    c3 PUSH JMPX 
-                } cond 
-            }> b>
-        } : }END>c
-        current@ context! current!
-    } does @atend !
-""";
-
-() __tact_selector_hack() method_id(65535) {
-    return __tact_selector_hack_asm();
 }

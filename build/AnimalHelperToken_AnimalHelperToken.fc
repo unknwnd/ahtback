@@ -8,15 +8,6 @@
 ;; NOTE: declarations are sorted for optimal order
 ;;
 
-;; __tact_load_address_opt
-(slice, slice) __tact_load_address_opt(slice cs) inline;
-
-;; __tact_store_address_opt
-builder __tact_store_address_opt(builder b, slice address) inline;
-
-;; __tact_not_null
-forall X -> X __tact_not_null(X x) impure inline;
-
 ;; __tact_context_get
 (int, slice, int, slice) __tact_context_get() inline;
 
@@ -41,62 +32,29 @@ cell $JettonData$_store_cell((int, int, slice, cell, cell, int) v) inline;
 ;; $GetWalletAddress$_load_without_opcode
 (slice, ((slice))) $GetWalletAddress$_load_without_opcode(slice sc_0) inline;
 
-;; $UpdateDistributionContractMessage$_load_without_opcode
-(slice, ((int, slice))) $UpdateDistributionContractMessage$_load_without_opcode(slice sc_0) inline;
-
-;; $UpdateNFTContractMessage$_load_without_opcode
-(slice, ((int, slice))) $UpdateNFTContractMessage$_load_without_opcode(slice sc_0) inline;
-
 ;; $UpdateContentMessage$_load_without_opcode
 (slice, ((int, cell))) $UpdateContentMessage$_load_without_opcode(slice sc_0) inline;
 
-;; $BuyTokensMessage$_load_without_opcode
-(slice, ((int))) $BuyTokensMessage$_load_without_opcode(slice sc_0) inline;
-
-;; $ToggleMintingMessage$_load_without_opcode
-(slice, ((int))) $ToggleMintingMessage$_load_without_opcode(slice sc_0) inline;
-
-;; $EmergencyWithdrawMessage$_load_without_opcode
-(slice, ((int))) $EmergencyWithdrawMessage$_load_without_opcode(slice sc_0) inline;
-
-;; $UpdateTokenRateMessage$_load_without_opcode
-(slice, ((int, int))) $UpdateTokenRateMessage$_load_without_opcode(slice sc_0) inline;
-
-;; $AdminParams$_store
-builder $AdminParams$_store(builder build_0, (slice, slice, int) v) inline;
-
-;; $AdminParams$_load
-(slice, ((slice, slice, int))) $AdminParams$_load(slice sc_0) inline;
-
 ;; $AnimalHelperToken$_store
-builder $AnimalHelperToken$_store(builder build_0, (int, int, int, slice, cell, cell, slice, slice, int, (slice, slice, int)) v) inline;
+builder $AnimalHelperToken$_store(builder build_0, (int, int, int, slice, cell, cell, int, slice, slice) v) inline;
 
 ;; $AnimalHelperToken$_load
-(slice, ((int, int, int, slice, cell, cell, slice, slice, int, (slice, slice, int)))) $AnimalHelperToken$_load(slice sc_0) inline;
+(slice, ((int, int, int, slice, cell, cell, int, slice, slice))) $AnimalHelperToken$_load(slice sc_0) inline;
 
 ;; $StateInit$_not_null
 ((cell, cell)) $StateInit$_not_null(tuple v) inline;
 
-;; $Context$_get_value
-_ $Context$_get_value((int, slice, int, slice) v) inline;
-
-;; $Context$_get_raw
-_ $Context$_get_raw((int, slice, int, slice) v) inline;
-
 ;; $AnimalHelperToken$init$_load
-(slice, ((slice, slice, slice, cell, cell))) $AnimalHelperToken$init$_load(slice sc_0) inline;
-
-;; $AdminParams$_constructor_tempAdmin_recoveryAddress_lockUntil
-((slice, slice, int)) $AdminParams$_constructor_tempAdmin_recoveryAddress_lockUntil(slice $tempAdmin, slice $recoveryAddress, int $lockUntil) inline;
+(slice, ((slice, cell, cell, slice, slice))) $AnimalHelperToken$init$_load(slice sc_0) inline;
 
 ;; $AnimalHelperToken$_contract_init
-(int, int, int, slice, cell, cell, slice, slice, int, (slice, slice, int)) $AnimalHelperToken$_contract_init(slice $owner, slice $distributionContract, slice $nftContract, cell $content, cell $walletCode) impure inline;
+(int, int, int, slice, cell, cell, int, slice, slice) $AnimalHelperToken$_contract_init(slice $owner, cell $content, cell $walletCode, slice $teamVestingContract, slice $tokenSaleContract) impure inline;
 
 ;; $AnimalHelperToken$_contract_load
-(int, int, int, slice, cell, cell, slice, slice, int, (slice, slice, int)) $AnimalHelperToken$_contract_load() impure inline;
+(int, int, int, slice, cell, cell, int, slice, slice) $AnimalHelperToken$_contract_load() impure inline;
 
 ;; $AnimalHelperToken$_contract_store
-() $AnimalHelperToken$_contract_store((int, int, int, slice, cell, cell, slice, slice, int, (slice, slice, int)) v) impure inline;
+() $AnimalHelperToken$_contract_store((int, int, int, slice, cell, cell, int, slice, slice) v) impure inline;
 
 ;; $Cell$_fun_asSlice
 slice $Cell$_fun_asSlice(cell $self) impure inline;
@@ -110,47 +68,44 @@ slice $global_contractAddressExt(int $chain, cell $code, cell $data) impure inli
 ;; $global_contractAddress
 slice $global_contractAddress((cell, cell) $s) impure inline;
 
-;; $AnimalHelperToken$_fun_requireAdmin
-((int, int, int, slice, cell, cell, slice, slice, int, (slice, slice, int)), ()) $AnimalHelperToken$_fun_requireAdmin((int, int, int, slice, cell, cell, slice, slice, int, (slice, slice, int)) $self) impure inline_ref;
-
-;; $SendParameters$_constructor_to_bounce_value_mode_body
-((int, cell, cell, cell, int, slice, int)) $SendParameters$_constructor_to_bounce_value_mode_body(slice $to, int $bounce, int $value, int $mode, cell $body) inline;
-
 ;; $StateInit$_constructor_code_data
 ((cell, cell)) $StateInit$_constructor_code_data(cell $code, cell $data) inline;
-
-;; $AnimalHelperToken$_fun_calculateWalletInit
-((int, int, int, slice, cell, cell, slice, slice, int, (slice, slice, int)), (cell, cell)) $AnimalHelperToken$_fun_calculateWalletInit((int, int, int, slice, cell, cell, slice, slice, int, (slice, slice, int)) $self, slice $owner) impure inline_ref;
-
-;; $AnimalHelperToken$_fun_calculate_user_wallet_address
-((int, int, int, slice, cell, cell, slice, slice, int, (slice, slice, int)), slice) $AnimalHelperToken$_fun_calculate_user_wallet_address((int, int, int, slice, cell, cell, slice, slice, int, (slice, slice, int)) $self, slice $owner) impure inline_ref;
-
-;; $AnimalHelperToken$_fun_mint
-((int, int, int, slice, cell, cell, slice, slice, int, (slice, slice, int)), ()) $AnimalHelperToken$_fun_mint((int, int, int, slice, cell, cell, slice, slice, int, (slice, slice, int)) $self, slice $to, int $amount, int $queryId) impure inline_ref;
-
-;; $AnimalHelperToken$_fun_calculateTokenAmount
-((int, int, int, slice, cell, cell, slice, slice, int, (slice, slice, int)), int) $AnimalHelperToken$_fun_calculateTokenAmount((int, int, int, slice, cell, cell, slice, slice, int, (slice, slice, int)) $self, int $tonAmount) impure inline_ref;
 
 ;; $SendParameters$_constructor_bounce_to_value_mode_body_code_data
 ((int, cell, cell, cell, int, slice, int)) $SendParameters$_constructor_bounce_to_value_mode_body_code_data(int $bounce, slice $to, int $value, int $mode, cell $body, cell $code, cell $data) inline;
 
+;; $SendParameters$_constructor_to_bounce_value_mode_body
+((int, cell, cell, cell, int, slice, int)) $SendParameters$_constructor_to_bounce_value_mode_body(slice $to, int $bounce, int $value, int $mode, cell $body) inline;
+
+;; $AnimalHelperToken$_fun_calculateWalletInit
+((int, int, int, slice, cell, cell, int, slice, slice), (cell, cell)) $AnimalHelperToken$_fun_calculateWalletInit((int, int, int, slice, cell, cell, int, slice, slice) $self, slice $owner) impure inline_ref;
+
+;; $AnimalHelperToken$_fun_calculate_user_wallet_address
+((int, int, int, slice, cell, cell, int, slice, slice), slice) $AnimalHelperToken$_fun_calculate_user_wallet_address((int, int, int, slice, cell, cell, int, slice, slice) $self, slice $owner) impure inline_ref;
+
+;; $AnimalHelperToken$_fun_mint
+((int, int, int, slice, cell, cell, int, slice, slice), ()) $AnimalHelperToken$_fun_mint((int, int, int, slice, cell, cell, int, slice, slice) $self, slice $to, int $amount, int $queryId) impure inline_ref;
+
+;; $AnimalHelperToken$_fun_get_wallet_address
+((int, int, int, slice, cell, cell, int, slice, slice), slice) $AnimalHelperToken$_fun_get_wallet_address((int, int, int, slice, cell, cell, int, slice, slice) $self, slice $owner) impure inline_ref;
+
 ;; $AnimalHelperToken$_fun_forward
-((int, int, int, slice, cell, cell, slice, slice, int, (slice, slice, int)), ()) $AnimalHelperToken$_fun_forward((int, int, int, slice, cell, cell, slice, slice, int, (slice, slice, int)) $self, slice $to, cell $body, int $bounce, tuple $init) impure inline_ref;
+((int, int, int, slice, cell, cell, int, slice, slice), ()) $AnimalHelperToken$_fun_forward((int, int, int, slice, cell, cell, int, slice, slice) $self, slice $to, cell $body, int $bounce, tuple $init) impure inline_ref;
 
 ;; $AnimalHelperToken$_fun_notify
-((int, int, int, slice, cell, cell, slice, slice, int, (slice, slice, int)), ()) $AnimalHelperToken$_fun_notify((int, int, int, slice, cell, cell, slice, slice, int, (slice, slice, int)) $self, cell $body) impure inline;
+((int, int, int, slice, cell, cell, int, slice, slice), ()) $AnimalHelperToken$_fun_notify((int, int, int, slice, cell, cell, int, slice, slice) $self, cell $body) impure inline;
+
+;; $AnimalHelperToken$_fun_requireOwner
+((int, int, int, slice, cell, cell, int, slice, slice), ()) $AnimalHelperToken$_fun_requireOwner((int, int, int, slice, cell, cell, int, slice, slice) $self) impure inline_ref;
 
 ;; $AnimalHelperToken$_fun_owner
-((int, int, int, slice, cell, cell, slice, slice, int, (slice, slice, int)), slice) $AnimalHelperToken$_fun_owner((int, int, int, slice, cell, cell, slice, slice, int, (slice, slice, int)) $self) impure inline_ref;
+((int, int, int, slice, cell, cell, int, slice, slice), slice) $AnimalHelperToken$_fun_owner((int, int, int, slice, cell, cell, int, slice, slice) $self) impure inline_ref;
 
 ;; $JettonData$_constructor_totalSupply_mintable_owner_content_walletCode_tokenRate
 ((int, int, slice, cell, cell, int)) $JettonData$_constructor_totalSupply_mintable_owner_content_walletCode_tokenRate(int $totalSupply, int $mintable, slice $owner, cell $content, cell $walletCode, int $tokenRate) inline;
 
 ;; $AnimalHelperToken$_fun_get_jetton_data
-((int, int, int, slice, cell, cell, slice, slice, int, (slice, slice, int)), (int, int, slice, cell, cell, int)) $AnimalHelperToken$_fun_get_jetton_data((int, int, int, slice, cell, cell, slice, slice, int, (slice, slice, int)) $self) impure inline_ref;
-
-;; $SendParameters$_constructor_to_bounce_value_mode
-((int, cell, cell, cell, int, slice, int)) $SendParameters$_constructor_to_bounce_value_mode(slice $to, int $bounce, int $value, int $mode) inline;
+((int, int, int, slice, cell, cell, int, slice, slice), (int, int, slice, cell, cell, int)) $AnimalHelperToken$_fun_get_jetton_data((int, int, int, slice, cell, cell, int, slice, slice) $self) impure inline_ref;
 
 ;; $DeployOk$_constructor_queryId
 ((int)) $DeployOk$_constructor_queryId(int $queryId) inline;
@@ -164,29 +119,6 @@ global (int, slice, int, slice) __tact_context;
 global slice __tact_context_sender;
 global cell __tact_child_contract_codes;
 global int __tact_randomized;
-
-(slice, slice) __tact_load_address_opt(slice cs) inline {
-    if (cs.preload_uint(2) != 0) {
-        slice raw = cs~load_msg_addr();
-        return (cs, raw);
-    } else {
-        cs~skip_bits(2);
-        return (cs, null());
-    }
-}
-
-builder __tact_store_address_opt(builder b, slice address) inline {
-    if (null?(address)) {
-        b = b.store_uint(0, 2);
-        return b;
-    } else {
-        return b.store_slice(address);
-    }
-}
-
-forall X -> X __tact_not_null(X x) impure inline {
-    throw_if(128, null?(x)); return x;
-}
 
 (int, slice, int, slice) __tact_context_get() inline {
     return __tact_context;
@@ -202,10 +134,6 @@ forall X0, X1 -> (X0, X1) __tact_tuple_destroy_2(tuple v) asm """
 
 builder $global_beginCell() impure asm """
     NEWC
-""";
-
-int $global_min(int $x, int $y) impure asm """
-    MIN
 """;
 
 int $global_contractHash(cell $code, cell $data) impure asm """
@@ -345,10 +273,6 @@ int $global_myBalance() impure asm """
     SENDRAWMSG // https://github.com/tact-lang/tact/issues/1558
 """;
 
-int $global_now() impure asm """
-    NOW
-""";
-
 builder $Builder$_fun_storeBit(int $value, builder $self) impure asm """
     1 STI
 """;
@@ -365,12 +289,8 @@ builder $Builder$_fun_storeAddress(builder $self, slice $address) impure asm """
     STSLICER
 """;
 
-(slice, slice) $Slice$_fun_loadAddress(slice $self) impure asm( -> 1 0) """
-    LDMSGADDR
-""";
-
-((int, int, int, slice, cell, cell, slice, slice, int, (slice, slice, int)), ()) $AnimalHelperToken$_fun_forward((int, int, int, slice, cell, cell, slice, slice, int, (slice, slice, int)) $self, slice $to, cell $body, int $bounce, tuple $init) impure inline_ref {
-    var (($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'distributionContract, $self'nftContract, $self'tokenRate, ($self'adminParams'tempAdmin, $self'adminParams'recoveryAddress, $self'adminParams'lockUntil))) = $self;
+((int, int, int, slice, cell, cell, int, slice, slice), ()) $AnimalHelperToken$_fun_forward((int, int, int, slice, cell, cell, int, slice, slice) $self, slice $to, cell $body, int $bounce, tuple $init) impure inline_ref {
+    var (($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'tokenRate, $self'teamVestingContract, $self'tokenSaleContract)) = $self;
     var ($init) = $init;
     cell $code = null();
     cell $data = null();
@@ -386,23 +306,29 @@ builder $Builder$_fun_storeAddress(builder $self, slice $address) impure asm """
         if (($balanceBeforeMessage < 0)) {
             $global_nativeReserve(0, 0);
             $global_send($SendParameters$_constructor_bounce_to_value_mode_body_code_data($bounce, $to, 0, 130, $body, $code, $data));
-            return (($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'distributionContract, $self'nftContract, $self'tokenRate, ($self'adminParams'tempAdmin, $self'adminParams'recoveryAddress, $self'adminParams'lockUntil)), ());
+            return (($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'tokenRate, $self'teamVestingContract, $self'tokenSaleContract), ());
         }
     }
     $global_send($SendParameters$_constructor_bounce_to_value_mode_body_code_data($bounce, $to, 0, 66, $body, $code, $data));
-    return (($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'distributionContract, $self'nftContract, $self'tokenRate, ($self'adminParams'tempAdmin, $self'adminParams'recoveryAddress, $self'adminParams'lockUntil)), ());
+    return (($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'tokenRate, $self'teamVestingContract, $self'tokenSaleContract), ());
 }
 
-((int, int, int, slice, cell, cell, slice, slice, int, (slice, slice, int)), ()) $AnimalHelperToken$_fun_notify((int, int, int, slice, cell, cell, slice, slice, int, (slice, slice, int)) $self, cell $body) impure inline {
-    var (($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'distributionContract, $self'nftContract, $self'tokenRate, ($self'adminParams'tempAdmin, $self'adminParams'recoveryAddress, $self'adminParams'lockUntil))) = $self;
-    ($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'distributionContract, $self'nftContract, $self'tokenRate, ($self'adminParams'tempAdmin, $self'adminParams'recoveryAddress, $self'adminParams'lockUntil))~$AnimalHelperToken$_fun_forward(__tact_context_get_sender(), $body, false, null());
-    return (($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'distributionContract, $self'nftContract, $self'tokenRate, ($self'adminParams'tempAdmin, $self'adminParams'recoveryAddress, $self'adminParams'lockUntil)), ());
+((int, int, int, slice, cell, cell, int, slice, slice), ()) $AnimalHelperToken$_fun_notify((int, int, int, slice, cell, cell, int, slice, slice) $self, cell $body) impure inline {
+    var (($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'tokenRate, $self'teamVestingContract, $self'tokenSaleContract)) = $self;
+    ($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'tokenRate, $self'teamVestingContract, $self'tokenSaleContract)~$AnimalHelperToken$_fun_forward(__tact_context_get_sender(), $body, false, null());
+    return (($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'tokenRate, $self'teamVestingContract, $self'tokenSaleContract), ());
 }
 
-((int, int, int, slice, cell, cell, slice, slice, int, (slice, slice, int)), slice) $AnimalHelperToken$_fun_owner((int, int, int, slice, cell, cell, slice, slice, int, (slice, slice, int)) $self) impure inline_ref {
-    var (($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'distributionContract, $self'nftContract, $self'tokenRate, ($self'adminParams'tempAdmin, $self'adminParams'recoveryAddress, $self'adminParams'lockUntil))) = $self;
-    var $fresh$ret_3 = $self'owner;
-    return (($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'distributionContract, $self'nftContract, $self'tokenRate, ($self'adminParams'tempAdmin, $self'adminParams'recoveryAddress, $self'adminParams'lockUntil)), $fresh$ret_3);
+((int, int, int, slice, cell, cell, int, slice, slice), ()) $AnimalHelperToken$_fun_requireOwner((int, int, int, slice, cell, cell, int, slice, slice) $self) impure inline_ref {
+    var (($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'tokenRate, $self'teamVestingContract, $self'tokenSaleContract)) = $self;
+    throw_unless(132, ( equal_slices_bits($self'owner, __tact_context_get_sender()) ));
+    return (($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'tokenRate, $self'teamVestingContract, $self'tokenSaleContract), ());
+}
+
+((int, int, int, slice, cell, cell, int, slice, slice), slice) $AnimalHelperToken$_fun_owner((int, int, int, slice, cell, cell, int, slice, slice) $self) impure inline_ref {
+    var (($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'tokenRate, $self'teamVestingContract, $self'tokenSaleContract)) = $self;
+    var $fresh$ret_16 = $self'owner;
+    return (($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'tokenRate, $self'teamVestingContract, $self'tokenSaleContract), $fresh$ret_16);
 }
 
 ;; AnimalHelperToken_AnimalHelperToken.storage.fc
@@ -412,7 +338,6 @@ builder $Builder$_fun_storeAddress(builder $self, slice $address) impure asm """
 ;;
 
 ((cell, cell)) $StateInit$_not_null(tuple v) inline {
-    throw_if(128, null?(v));
     var (cell vvv'code, cell vvv'data) = __tact_tuple_destroy_2(v);
     return (vvv'code, vvv'data);
 }
@@ -422,35 +347,16 @@ builder $Builder$_fun_storeAddress(builder $self, slice $address) impure asm """
 }
 
 ;;
-;; Type: Context
-;; TLB: _ bounceable:bool sender:address value:int257 raw:^slice = Context
-;;
-
-_ $Context$_get_value((int, slice, int, slice) v) inline {
-    var (v'bounceable, v'sender, v'value, v'raw) = v;
-    return v'value;
-}
-
-_ $Context$_get_raw((int, slice, int, slice) v) inline {
-    var (v'bounceable, v'sender, v'value, v'raw) = v;
-    return v'raw;
-}
-
-;;
 ;; Type: SendParameters
 ;; TLB: _ mode:int257 body:Maybe ^cell code:Maybe ^cell data:Maybe ^cell value:int257 to:address bounce:bool = SendParameters
 ;;
-
-((int, cell, cell, cell, int, slice, int)) $SendParameters$_constructor_to_bounce_value_mode_body(slice $to, int $bounce, int $value, int $mode, cell $body) inline {
-    return ($mode, $body, null(), null(), $value, $to, $bounce);
-}
 
 ((int, cell, cell, cell, int, slice, int)) $SendParameters$_constructor_bounce_to_value_mode_body_code_data(int $bounce, slice $to, int $value, int $mode, cell $body, cell $code, cell $data) inline {
     return ($mode, $body, $code, $data, $value, $to, $bounce);
 }
 
-((int, cell, cell, cell, int, slice, int)) $SendParameters$_constructor_to_bounce_value_mode(slice $to, int $bounce, int $value, int $mode) inline {
-    return ($mode, null(), null(), null(), $value, $to, $bounce);
+((int, cell, cell, cell, int, slice, int)) $SendParameters$_constructor_to_bounce_value_mode_body(slice $to, int $bounce, int $value, int $mode, cell $body) inline {
+    return ($mode, $body, null(), null(), $value, $to, $bounce);
 }
 
 ((int, cell, cell, cell, int, slice, int)) $SendParameters$_constructor_to_value_mode_body(slice $to, int $value, int $mode, cell $body) inline {
@@ -525,30 +431,6 @@ cell $JettonData$_store_cell((int, int, slice, cell, cell, int) v) inline {
 }
 
 ;;
-;; Type: UpdateDistributionContractMessage
-;; Header: 0xd66feac7
-;; TLB: update_distribution_contract_message#d66feac7 queryId:int257 new_address:address = UpdateDistributionContractMessage
-;;
-
-(slice, ((int, slice))) $UpdateDistributionContractMessage$_load_without_opcode(slice sc_0) inline {
-    var v'queryId = sc_0~load_int(257);
-    var v'new_address = sc_0~load_msg_addr();
-    return (sc_0, (v'queryId, v'new_address));
-}
-
-;;
-;; Type: UpdateNFTContractMessage
-;; Header: 0x8a53046b
-;; TLB: update_nft_contract_message#8a53046b queryId:int257 new_address:address = UpdateNFTContractMessage
-;;
-
-(slice, ((int, slice))) $UpdateNFTContractMessage$_load_without_opcode(slice sc_0) inline {
-    var v'queryId = sc_0~load_int(257);
-    var v'new_address = sc_0~load_msg_addr();
-    return (sc_0, (v'queryId, v'new_address));
-}
-
-;;
 ;; Type: UpdateContentMessage
 ;; Header: 0x54a249e0
 ;; TLB: update_content_message#54a249e0 queryId:int257 new_content:^cell = UpdateContentMessage
@@ -561,81 +443,12 @@ cell $JettonData$_store_cell((int, int, slice, cell, cell, int) v) inline {
 }
 
 ;;
-;; Type: BuyTokensMessage
-;; Header: 0xdaaf0bd4
-;; TLB: buy_tokens_message#daaf0bd4 queryId:int257 = BuyTokensMessage
-;;
-
-(slice, ((int))) $BuyTokensMessage$_load_without_opcode(slice sc_0) inline {
-    var v'queryId = sc_0~load_int(257);
-    return (sc_0, (v'queryId));
-}
-
-;;
-;; Type: ToggleMintingMessage
-;; Header: 0x6e3633eb
-;; TLB: toggle_minting_message#6e3633eb queryId:int257 = ToggleMintingMessage
-;;
-
-(slice, ((int))) $ToggleMintingMessage$_load_without_opcode(slice sc_0) inline {
-    var v'queryId = sc_0~load_int(257);
-    return (sc_0, (v'queryId));
-}
-
-;;
-;; Type: EmergencyWithdrawMessage
-;; Header: 0xe5d4396e
-;; TLB: emergency_withdraw_message#e5d4396e queryId:int257 = EmergencyWithdrawMessage
-;;
-
-(slice, ((int))) $EmergencyWithdrawMessage$_load_without_opcode(slice sc_0) inline {
-    var v'queryId = sc_0~load_int(257);
-    return (sc_0, (v'queryId));
-}
-
-;;
-;; Type: UpdateTokenRateMessage
-;; Header: 0x51d31267
-;; TLB: update_token_rate_message#51d31267 queryId:int257 new_rate:int257 = UpdateTokenRateMessage
-;;
-
-(slice, ((int, int))) $UpdateTokenRateMessage$_load_without_opcode(slice sc_0) inline {
-    var v'queryId = sc_0~load_int(257);
-    var v'new_rate = sc_0~load_int(257);
-    return (sc_0, (v'queryId, v'new_rate));
-}
-
-;;
-;; Type: AdminParams
-;; TLB: _ tempAdmin:address recoveryAddress:address lockUntil:int257 = AdminParams
-;;
-
-builder $AdminParams$_store(builder build_0, (slice, slice, int) v) inline {
-    var (v'tempAdmin, v'recoveryAddress, v'lockUntil) = v;
-    build_0 = __tact_store_address_opt(build_0, v'tempAdmin);
-    build_0 = build_0.store_slice(v'recoveryAddress);
-    build_0 = build_0.store_int(v'lockUntil, 257);
-    return build_0;
-}
-
-(slice, ((slice, slice, int))) $AdminParams$_load(slice sc_0) inline {
-    var v'tempAdmin = sc_0~__tact_load_address_opt();
-    var v'recoveryAddress = sc_0~load_msg_addr();
-    var v'lockUntil = sc_0~load_int(257);
-    return (sc_0, (v'tempAdmin, v'recoveryAddress, v'lockUntil));
-}
-
-((slice, slice, int)) $AdminParams$_constructor_tempAdmin_recoveryAddress_lockUntil(slice $tempAdmin, slice $recoveryAddress, int $lockUntil) inline {
-    return ($tempAdmin, $recoveryAddress, $lockUntil);
-}
-
-;;
 ;; Type: AnimalHelperToken
-;; TLB: _ totalSupply:int257 maxSupply:int257 mintable:bool owner:address content:^cell walletCode:^cell distributionContract:address nftContract:address tokenRate:int257 adminParams:AdminParams{tempAdmin:address,recoveryAddress:address,lockUntil:int257} = AnimalHelperToken
+;; TLB: _ totalSupply:int257 maxSupply:int257 mintable:bool owner:address content:^cell walletCode:^cell tokenRate:int257 teamVestingContract:address tokenSaleContract:address = AnimalHelperToken
 ;;
 
-builder $AnimalHelperToken$_store(builder build_0, (int, int, int, slice, cell, cell, slice, slice, int, (slice, slice, int)) v) inline {
-    var (v'totalSupply, v'maxSupply, v'mintable, v'owner, v'content, v'walletCode, v'distributionContract, v'nftContract, v'tokenRate, (v'adminParams'tempAdmin, v'adminParams'recoveryAddress, v'adminParams'lockUntil)) = v;
+builder $AnimalHelperToken$_store(builder build_0, (int, int, int, slice, cell, cell, int, slice, slice) v) inline {
+    var (v'totalSupply, v'maxSupply, v'mintable, v'owner, v'content, v'walletCode, v'tokenRate, v'teamVestingContract, v'tokenSaleContract) = v;
     build_0 = build_0.store_int(v'totalSupply, 257);
     build_0 = build_0.store_int(v'maxSupply, 257);
     build_0 = build_0.store_int(v'mintable, 1);
@@ -643,17 +456,14 @@ builder $AnimalHelperToken$_store(builder build_0, (int, int, int, slice, cell, 
     build_0 = build_0.store_ref(v'content);
     var build_1 = begin_cell();
     build_1 = build_1.store_ref(v'walletCode);
-    build_1 = build_1.store_slice(v'distributionContract);
-    build_1 = build_1.store_slice(v'nftContract);
     build_1 = build_1.store_int(v'tokenRate, 257);
-    var build_2 = begin_cell();
-    build_2 = $AdminParams$_store(build_2, (v'adminParams'tempAdmin, v'adminParams'recoveryAddress, v'adminParams'lockUntil));
-    build_1 = store_ref(build_1, build_2.end_cell());
+    build_1 = build_1.store_slice(v'teamVestingContract);
+    build_1 = build_1.store_slice(v'tokenSaleContract);
     build_0 = store_ref(build_0, build_1.end_cell());
     return build_0;
 }
 
-(slice, ((int, int, int, slice, cell, cell, slice, slice, int, (slice, slice, int)))) $AnimalHelperToken$_load(slice sc_0) inline {
+(slice, ((int, int, int, slice, cell, cell, int, slice, slice))) $AnimalHelperToken$_load(slice sc_0) inline {
     var v'totalSupply = sc_0~load_int(257);
     var v'maxSupply = sc_0~load_int(257);
     var v'mintable = sc_0~load_int(1);
@@ -661,37 +471,35 @@ builder $AnimalHelperToken$_store(builder build_0, (int, int, int, slice, cell, 
     var v'content = sc_0~load_ref();
     slice sc_1 = sc_0~load_ref().begin_parse();
     var v'walletCode = sc_1~load_ref();
-    var v'distributionContract = sc_1~load_msg_addr();
-    var v'nftContract = sc_1~load_msg_addr();
     var v'tokenRate = sc_1~load_int(257);
-    slice sc_2 = sc_1~load_ref().begin_parse();
-    var v'adminParams = sc_2~$AdminParams$_load();
-    return (sc_0, (v'totalSupply, v'maxSupply, v'mintable, v'owner, v'content, v'walletCode, v'distributionContract, v'nftContract, v'tokenRate, v'adminParams));
+    var v'teamVestingContract = sc_1~load_msg_addr();
+    var v'tokenSaleContract = sc_1~load_msg_addr();
+    return (sc_0, (v'totalSupply, v'maxSupply, v'mintable, v'owner, v'content, v'walletCode, v'tokenRate, v'teamVestingContract, v'tokenSaleContract));
 }
 
-(slice, ((slice, slice, slice, cell, cell))) $AnimalHelperToken$init$_load(slice sc_0) inline {
+(slice, ((slice, cell, cell, slice, slice))) $AnimalHelperToken$init$_load(slice sc_0) inline {
     var v'owner = sc_0~load_msg_addr();
-    var v'distributionContract = sc_0~load_msg_addr();
-    var v'nftContract = sc_0~load_msg_addr();
     var v'content = sc_0~load_ref();
     var v'walletCode = sc_0~load_ref();
-    return (sc_0, (v'owner, v'distributionContract, v'nftContract, v'content, v'walletCode));
+    var v'teamVestingContract = sc_0~load_msg_addr();
+    var v'tokenSaleContract = sc_0~load_msg_addr();
+    return (sc_0, (v'owner, v'content, v'walletCode, v'teamVestingContract, v'tokenSaleContract));
 }
 
-(int, int, int, slice, cell, cell, slice, slice, int, (slice, slice, int)) $AnimalHelperToken$_contract_load() impure inline {
+(int, int, int, slice, cell, cell, int, slice, slice) $AnimalHelperToken$_contract_load() impure inline {
     slice $sc = get_data().begin_parse();
     int $loaded = $sc~load_int(1);
     if ($loaded) {
         return $sc~$AnimalHelperToken$_load();
     }
     else {
-        (slice $owner, slice $distributionContract, slice $nftContract, cell $content, cell $walletCode) = $sc~$AnimalHelperToken$init$_load();
+        (slice $owner, cell $content, cell $walletCode, slice $teamVestingContract, slice $tokenSaleContract) = $sc~$AnimalHelperToken$init$_load();
         $sc.end_parse();
-        return $AnimalHelperToken$_contract_init($owner, $distributionContract, $nftContract, $content, $walletCode);
+        return $AnimalHelperToken$_contract_init($owner, $content, $walletCode, $teamVestingContract, $tokenSaleContract);
     }
 }
 
-() $AnimalHelperToken$_contract_store((int, int, int, slice, cell, cell, slice, slice, int, (slice, slice, int)) v) impure inline {
+() $AnimalHelperToken$_contract_store((int, int, int, slice, cell, cell, int, slice, slice) v) impure inline {
     builder b = begin_cell();
     b = b.store_int(true, 1);
     b = $AnimalHelperToken$_store(b, v);
@@ -702,65 +510,60 @@ builder $AnimalHelperToken$_store(builder build_0, (int, int, int, slice, cell, 
 ;; Contract AnimalHelperToken functions
 ;;
 
-(int, int, int, slice, cell, cell, slice, slice, int, (slice, slice, int)) $AnimalHelperToken$_contract_init(slice $owner, slice $distributionContract, slice $nftContract, cell $content, cell $walletCode) impure inline {
-    var (($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'distributionContract, $self'nftContract, $self'tokenRate, ($self'adminParams'tempAdmin, $self'adminParams'recoveryAddress, $self'adminParams'lockUntil))) = (0, 1000000000000000, true, null(), null(), null(), null(), null(), 100000, null());
+(int, int, int, slice, cell, cell, int, slice, slice) $AnimalHelperToken$_contract_init(slice $owner, cell $content, cell $walletCode, slice $teamVestingContract, slice $tokenSaleContract) impure inline {
+    var (($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'tokenRate, $self'teamVestingContract, $self'tokenSaleContract)) = (null(), 1000000000000000000, false, null(), null(), null(), null(), null(), null());
     $self'owner = $owner;
-    $self'distributionContract = $distributionContract;
-    $self'nftContract = $nftContract;
     $self'content = $content;
     $self'walletCode = $walletCode;
-    ($self'adminParams'tempAdmin, $self'adminParams'recoveryAddress, $self'adminParams'lockUntil) = $AdminParams$_constructor_tempAdmin_recoveryAddress_lockUntil(null(), $owner, 0);
-    return ($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'distributionContract, $self'nftContract, $self'tokenRate, ($self'adminParams'tempAdmin, $self'adminParams'recoveryAddress, $self'adminParams'lockUntil));
+    $self'tokenRate = 0;
+    $self'totalSupply = $self'maxSupply;
+    $self'teamVestingContract = $teamVestingContract;
+    $self'tokenSaleContract = $tokenSaleContract;
+    return ($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'tokenRate, $self'teamVestingContract, $self'tokenSaleContract);
 }
 
-((int, int, int, slice, cell, cell, slice, slice, int, (slice, slice, int)), ()) $AnimalHelperToken$_fun_requireAdmin((int, int, int, slice, cell, cell, slice, slice, int, (slice, slice, int)) $self) impure inline_ref {
-    var (($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'distributionContract, $self'nftContract, $self'tokenRate, ($self'adminParams'tempAdmin, $self'adminParams'recoveryAddress, $self'adminParams'lockUntil))) = $self;
-    throw_unless(31651, ($global_now() > $self'adminParams'lockUntil));
-    int $isAdmin = ( equal_slices_bits($self'owner, __tact_context_get_sender()) );
-    if ((~ null?($self'adminParams'tempAdmin))) {
-        $isAdmin = ( ($isAdmin) ? (true) : (( equal_slices_bits(__tact_not_null($self'adminParams'tempAdmin), __tact_context_get_sender()) )) );
-    }
-    throw_unless(42435, $isAdmin);
-    return (($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'distributionContract, $self'nftContract, $self'tokenRate, ($self'adminParams'tempAdmin, $self'adminParams'recoveryAddress, $self'adminParams'lockUntil)), ());
+((int, int, int, slice, cell, cell, int, slice, slice), (cell, cell)) $AnimalHelperToken$_fun_calculateWalletInit((int, int, int, slice, cell, cell, int, slice, slice) $self, slice $owner) impure inline_ref {
+    var (($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'tokenRate, $self'teamVestingContract, $self'tokenSaleContract)) = $self;
+    var $fresh$ret_14 = $StateInit$_constructor_code_data($self'walletCode, $Builder$_fun_endCell($Builder$_fun_storeAddress($Builder$_fun_storeAddress($global_beginCell(), $global_myAddress()), $owner)));
+    return (($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'tokenRate, $self'teamVestingContract, $self'tokenSaleContract), $fresh$ret_14);
 }
 
-((int, int, int, slice, cell, cell, slice, slice, int, (slice, slice, int)), (cell, cell)) $AnimalHelperToken$_fun_calculateWalletInit((int, int, int, slice, cell, cell, slice, slice, int, (slice, slice, int)) $self, slice $owner) impure inline_ref {
-    var (($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'distributionContract, $self'nftContract, $self'tokenRate, ($self'adminParams'tempAdmin, $self'adminParams'recoveryAddress, $self'adminParams'lockUntil))) = $self;
-    var $fresh$ret_2 = $StateInit$_constructor_code_data($self'walletCode, $Builder$_fun_endCell($Builder$_fun_storeAddress($Builder$_fun_storeAddress($global_beginCell(), $global_myAddress()), $owner)));
-    return (($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'distributionContract, $self'nftContract, $self'tokenRate, ($self'adminParams'tempAdmin, $self'adminParams'recoveryAddress, $self'adminParams'lockUntil)), $fresh$ret_2);
+((int, int, int, slice, cell, cell, int, slice, slice), slice) $AnimalHelperToken$_fun_calculate_user_wallet_address((int, int, int, slice, cell, cell, int, slice, slice) $self, slice $owner) impure inline_ref {
+    var (($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'tokenRate, $self'teamVestingContract, $self'tokenSaleContract)) = $self;
+    var ($data'code, $data'data) = ($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'tokenRate, $self'teamVestingContract, $self'tokenSaleContract)~$AnimalHelperToken$_fun_calculateWalletInit($owner);
+    var $fresh$ret_13 = $global_contractAddress(($data'code, $data'data));
+    return (($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'tokenRate, $self'teamVestingContract, $self'tokenSaleContract), $fresh$ret_13);
 }
 
-((int, int, int, slice, cell, cell, slice, slice, int, (slice, slice, int)), slice) $AnimalHelperToken$_fun_calculate_user_wallet_address((int, int, int, slice, cell, cell, slice, slice, int, (slice, slice, int)) $self, slice $owner) impure inline_ref {
-    var (($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'distributionContract, $self'nftContract, $self'tokenRate, ($self'adminParams'tempAdmin, $self'adminParams'recoveryAddress, $self'adminParams'lockUntil))) = $self;
-    var ($data'code, $data'data) = ($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'distributionContract, $self'nftContract, $self'tokenRate, ($self'adminParams'tempAdmin, $self'adminParams'recoveryAddress, $self'adminParams'lockUntil))~$AnimalHelperToken$_fun_calculateWalletInit($owner);
-    var $fresh$ret_1 = $global_contractAddress(($data'code, $data'data));
-    return (($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'distributionContract, $self'nftContract, $self'tokenRate, ($self'adminParams'tempAdmin, $self'adminParams'recoveryAddress, $self'adminParams'lockUntil)), $fresh$ret_1);
+((int, int, int, slice, cell, cell, int, slice, slice), ()) $AnimalHelperToken$_fun_mint((int, int, int, slice, cell, cell, int, slice, slice) $self, slice $to, int $amount, int $queryId) impure inline_ref {
+    var (($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'tokenRate, $self'teamVestingContract, $self'tokenSaleContract)) = $self;
+    slice $userWallet = ($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'tokenRate, $self'teamVestingContract, $self'tokenSaleContract)~$AnimalHelperToken$_fun_calculate_user_wallet_address($to);
+    $global_send($SendParameters$_constructor_to_bounce_value_mode_body($userWallet, true, 50000000, 1, $Builder$_fun_endCell($Builder$_fun_storeBit(false, $Builder$_fun_storeCoins($Builder$_fun_storeAddress($Builder$_fun_storeAddress($Builder$_fun_storeCoins(store_uint(store_uint($global_beginCell(), 395134233, 32), $queryId, 64), $amount), $global_myAddress()), $global_myAddress()), 0)))));
+    return (($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'tokenRate, $self'teamVestingContract, $self'tokenSaleContract), ());
 }
 
-((int, int, int, slice, cell, cell, slice, slice, int, (slice, slice, int)), ()) $AnimalHelperToken$_fun_mint((int, int, int, slice, cell, cell, slice, slice, int, (slice, slice, int)) $self, slice $to, int $amount, int $queryId) impure inline_ref {
-    var (($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'distributionContract, $self'nftContract, $self'tokenRate, ($self'adminParams'tempAdmin, $self'adminParams'recoveryAddress, $self'adminParams'lockUntil))) = $self;
-    $self'totalSupply = ($self'totalSupply + $amount);
-    throw_unless(14796, ($self'totalSupply <= $self'maxSupply));
-    slice $userWallet = ($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'distributionContract, $self'nftContract, $self'tokenRate, ($self'adminParams'tempAdmin, $self'adminParams'recoveryAddress, $self'adminParams'lockUntil))~$AnimalHelperToken$_fun_calculate_user_wallet_address($to);
-    $global_send($SendParameters$_constructor_to_bounce_value_mode_body($userWallet, true, 30000000, 1, $Builder$_fun_endCell($Builder$_fun_storeBit(false, $Builder$_fun_storeCoins($Builder$_fun_storeAddress($Builder$_fun_storeAddress($Builder$_fun_storeCoins(store_uint(store_uint($global_beginCell(), 395134233, 32), $queryId, 64), $amount), $global_myAddress()), $global_myAddress()), 0)))));
-    return (($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'distributionContract, $self'nftContract, $self'tokenRate, ($self'adminParams'tempAdmin, $self'adminParams'recoveryAddress, $self'adminParams'lockUntil)), ());
+((int, int, int, slice, cell, cell, int, slice, slice), slice) $AnimalHelperToken$_fun_get_wallet_address((int, int, int, slice, cell, cell, int, slice, slice) $self, slice $owner) impure inline_ref {
+    var (($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'tokenRate, $self'teamVestingContract, $self'tokenSaleContract)) = $self;
+    var $fresh$ret_15 = ($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'tokenRate, $self'teamVestingContract, $self'tokenSaleContract)~$AnimalHelperToken$_fun_calculate_user_wallet_address($owner);
+    return (($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'tokenRate, $self'teamVestingContract, $self'tokenSaleContract), $fresh$ret_15);
 }
 
-((int, int, int, slice, cell, cell, slice, slice, int, (slice, slice, int)), int) $AnimalHelperToken$_fun_calculateTokenAmount((int, int, int, slice, cell, cell, slice, slice, int, (slice, slice, int)) $self, int $tonAmount) impure inline_ref {
-    var (($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'distributionContract, $self'nftContract, $self'tokenRate, ($self'adminParams'tempAdmin, $self'adminParams'recoveryAddress, $self'adminParams'lockUntil))) = $self;
-    var $fresh$ret_0 = (($tonAmount * $self'tokenRate) / 1000000000);
-    return (($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'distributionContract, $self'nftContract, $self'tokenRate, ($self'adminParams'tempAdmin, $self'adminParams'recoveryAddress, $self'adminParams'lockUntil)), $fresh$ret_0);
-}
-
-((int, int, int, slice, cell, cell, slice, slice, int, (slice, slice, int)), (int, int, slice, cell, cell, int)) $AnimalHelperToken$_fun_get_jetton_data((int, int, int, slice, cell, cell, slice, slice, int, (slice, slice, int)) $self) impure inline_ref {
-    var (($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'distributionContract, $self'nftContract, $self'tokenRate, ($self'adminParams'tempAdmin, $self'adminParams'recoveryAddress, $self'adminParams'lockUntil))) = $self;
-    var $fresh$ret_4 = $JettonData$_constructor_totalSupply_mintable_owner_content_walletCode_tokenRate($self'totalSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'tokenRate);
-    return (($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'distributionContract, $self'nftContract, $self'tokenRate, ($self'adminParams'tempAdmin, $self'adminParams'recoveryAddress, $self'adminParams'lockUntil)), $fresh$ret_4);
+((int, int, int, slice, cell, cell, int, slice, slice), (int, int, slice, cell, cell, int)) $AnimalHelperToken$_fun_get_jetton_data((int, int, int, slice, cell, cell, int, slice, slice) $self) impure inline_ref {
+    var (($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'tokenRate, $self'teamVestingContract, $self'tokenSaleContract)) = $self;
+    var $fresh$ret_17 = $JettonData$_constructor_totalSupply_mintable_owner_content_walletCode_tokenRate($self'totalSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'tokenRate);
+    return (($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'tokenRate, $self'teamVestingContract, $self'tokenSaleContract), $fresh$ret_17);
 }
 
 ;;
 ;; Get methods of a Contract AnimalHelperToken
 ;;
+
+_ %get_wallet_address(slice $owner) method_id(103289) {
+    slice $owner = $owner;
+    var self = $AnimalHelperToken$_contract_load();
+    var res = self~$AnimalHelperToken$_fun_get_wallet_address($owner);
+    return res;
+}
 
 _ %owner() method_id(83229) {
     var self = $AnimalHelperToken$_contract_load();
@@ -788,7 +591,7 @@ _ %owner() method_id(83229) {
     __tact_context_sender = msg_sender_addr;
     
     ;; Load contract data
-    var ($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'distributionContract, $self'nftContract, $self'tokenRate, ($self'adminParams'tempAdmin, $self'adminParams'recoveryAddress, $self'adminParams'lockUntil)) = $AnimalHelperToken$_contract_load();
+    var ($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'tokenRate, $self'teamVestingContract, $self'tokenSaleContract) = $AnimalHelperToken$_contract_load();
     
     ;; Handle bounced messages
     if (msg_bounced) { return (); }
@@ -796,85 +599,20 @@ _ %owner() method_id(83229) {
     int in_msg_length = slice_bits(in_msg);
     if (in_msg_length >= 32) {
         op = in_msg~load_uint(32);
-        ;; Receive BuyTokensMessage message
-        if (op == 3668904916) {
-            var ($msg'queryId) = in_msg~$BuyTokensMessage$_load_without_opcode();
-            throw_unless(54566, $self'mintable);
-            int $gasAmount = $global_min(50000000, ($Context$_get_value(__tact_context_get()) / 10));
-            int $amount = ($Context$_get_value(__tact_context_get()) - $gasAmount);
-            throw_unless(51754, ($amount > 0));
-            int $tokenAmount = ($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'distributionContract, $self'nftContract, $self'tokenRate, ($self'adminParams'tempAdmin, $self'adminParams'recoveryAddress, $self'adminParams'lockUntil))~$AnimalHelperToken$_fun_calculateTokenAmount($amount);
-            throw_unless(6765, (($self'totalSupply + $tokenAmount) <= $self'maxSupply));
-            ($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'distributionContract, $self'nftContract, $self'tokenRate, ($self'adminParams'tempAdmin, $self'adminParams'recoveryAddress, $self'adminParams'lockUntil))~$AnimalHelperToken$_fun_mint(__tact_context_get_sender(), $tokenAmount, $msg'queryId);
-            $global_send($SendParameters$_constructor_to_bounce_value_mode_body($self'distributionContract, true, $amount, 1, $Builder$_fun_endCell($Builder$_fun_storeAddress(store_uint($global_beginCell(), $msg'queryId, 64), __tact_context_get_sender()))));
-            if (($tokenAmount >= 100000)) {
-                int $nftCount = ($tokenAmount / 100000);
-                $global_send($SendParameters$_constructor_to_bounce_value_mode_body($self'nftContract, true, $gasAmount, 1, $Builder$_fun_endCell(store_uint($Builder$_fun_storeAddress(store_uint(store_uint($global_beginCell(), 1, 32), $msg'queryId, 64), __tact_context_get_sender()), $nftCount, 32))));
-            }
-            $AnimalHelperToken$_contract_store(($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'distributionContract, $self'nftContract, $self'tokenRate, ($self'adminParams'tempAdmin, $self'adminParams'recoveryAddress, $self'adminParams'lockUntil)));
-            return ();
-        }
-        
-        ;; Receive ToggleMintingMessage message
-        if (op == 1849045995) {
-            var ($msg'queryId) = in_msg~$ToggleMintingMessage$_load_without_opcode();
-            ($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'distributionContract, $self'nftContract, $self'tokenRate, ($self'adminParams'tempAdmin, $self'adminParams'recoveryAddress, $self'adminParams'lockUntil))~$AnimalHelperToken$_fun_requireAdmin();
-            $self'mintable = (~ $self'mintable);
-            $AnimalHelperToken$_contract_store(($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'distributionContract, $self'nftContract, $self'tokenRate, ($self'adminParams'tempAdmin, $self'adminParams'recoveryAddress, $self'adminParams'lockUntil)));
-            return ();
-        }
-        
-        ;; Receive UpdateDistributionContractMessage message
-        if (op == 3597658823) {
-            var ($msg'queryId, $msg'new_address) = in_msg~$UpdateDistributionContractMessage$_load_without_opcode();
-            ($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'distributionContract, $self'nftContract, $self'tokenRate, ($self'adminParams'tempAdmin, $self'adminParams'recoveryAddress, $self'adminParams'lockUntil))~$AnimalHelperToken$_fun_requireAdmin();
-            $self'distributionContract = $msg'new_address;
-            $AnimalHelperToken$_contract_store(($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'distributionContract, $self'nftContract, $self'tokenRate, ($self'adminParams'tempAdmin, $self'adminParams'recoveryAddress, $self'adminParams'lockUntil)));
-            return ();
-        }
-        
-        ;; Receive UpdateNFTContractMessage message
-        if (op == 2320696427) {
-            var ($msg'queryId, $msg'new_address) = in_msg~$UpdateNFTContractMessage$_load_without_opcode();
-            ($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'distributionContract, $self'nftContract, $self'tokenRate, ($self'adminParams'tempAdmin, $self'adminParams'recoveryAddress, $self'adminParams'lockUntil))~$AnimalHelperToken$_fun_requireAdmin();
-            $self'nftContract = $msg'new_address;
-            $AnimalHelperToken$_contract_store(($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'distributionContract, $self'nftContract, $self'tokenRate, ($self'adminParams'tempAdmin, $self'adminParams'recoveryAddress, $self'adminParams'lockUntil)));
-            return ();
-        }
-        
         ;; Receive UpdateContentMessage message
         if (op == 1419921888) {
             var ($msg'queryId, $msg'new_content) = in_msg~$UpdateContentMessage$_load_without_opcode();
-            ($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'distributionContract, $self'nftContract, $self'tokenRate, ($self'adminParams'tempAdmin, $self'adminParams'recoveryAddress, $self'adminParams'lockUntil))~$AnimalHelperToken$_fun_requireAdmin();
+            ($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'tokenRate, $self'teamVestingContract, $self'tokenSaleContract)~$AnimalHelperToken$_fun_requireOwner();
             $self'content = $msg'new_content;
-            $AnimalHelperToken$_contract_store(($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'distributionContract, $self'nftContract, $self'tokenRate, ($self'adminParams'tempAdmin, $self'adminParams'recoveryAddress, $self'adminParams'lockUntil)));
-            return ();
-        }
-        
-        ;; Receive UpdateTokenRateMessage message
-        if (op == 1372787303) {
-            var ($msg'queryId, $msg'new_rate) = in_msg~$UpdateTokenRateMessage$_load_without_opcode();
-            ($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'distributionContract, $self'nftContract, $self'tokenRate, ($self'adminParams'tempAdmin, $self'adminParams'recoveryAddress, $self'adminParams'lockUntil))~$AnimalHelperToken$_fun_requireAdmin();
-            throw_unless(63513, ($msg'new_rate > 0));
-            $self'tokenRate = $msg'new_rate;
-            $AnimalHelperToken$_contract_store(($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'distributionContract, $self'nftContract, $self'tokenRate, ($self'adminParams'tempAdmin, $self'adminParams'recoveryAddress, $self'adminParams'lockUntil)));
-            return ();
-        }
-        
-        ;; Receive EmergencyWithdrawMessage message
-        if (op == 3855890798) {
-            var ($msg'queryId) = in_msg~$EmergencyWithdrawMessage$_load_without_opcode();
-            ($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'distributionContract, $self'nftContract, $self'tokenRate, ($self'adminParams'tempAdmin, $self'adminParams'recoveryAddress, $self'adminParams'lockUntil))~$AnimalHelperToken$_fun_requireAdmin();
-            $global_send($SendParameters$_constructor_to_bounce_value_mode(__tact_context_get_sender(), false, 0, 129));
-            $AnimalHelperToken$_contract_store(($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'distributionContract, $self'nftContract, $self'tokenRate, ($self'adminParams'tempAdmin, $self'adminParams'recoveryAddress, $self'adminParams'lockUntil)));
+            $AnimalHelperToken$_contract_store(($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'tokenRate, $self'teamVestingContract, $self'tokenSaleContract));
             return ();
         }
         
         ;; Receive Deploy message
         if (op == 0x946a98b6) {
             var ($deploy'queryId) = in_msg~$Deploy$_load_without_opcode();
-            ($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'distributionContract, $self'nftContract, $self'tokenRate, ($self'adminParams'tempAdmin, $self'adminParams'recoveryAddress, $self'adminParams'lockUntil))~$AnimalHelperToken$_fun_notify($DeployOk$_store_cell($DeployOk$_constructor_queryId($deploy'queryId)));
-            $AnimalHelperToken$_contract_store(($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'distributionContract, $self'nftContract, $self'tokenRate, ($self'adminParams'tempAdmin, $self'adminParams'recoveryAddress, $self'adminParams'lockUntil)));
+            ($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'tokenRate, $self'teamVestingContract, $self'tokenSaleContract)~$AnimalHelperToken$_fun_notify($DeployOk$_store_cell($DeployOk$_constructor_queryId($deploy'queryId)));
+            $AnimalHelperToken$_contract_store(($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'tokenRate, $self'teamVestingContract, $self'tokenSaleContract));
             return ();
         }
         
@@ -882,134 +620,33 @@ _ %owner() method_id(83229) {
         if (op == 3316846856) {
             var ($msg'owner_address) = in_msg~$GetWalletAddress$_load_without_opcode();
             slice $owner = $msg'owner_address;
-            slice $walletAddress = ($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'distributionContract, $self'nftContract, $self'tokenRate, ($self'adminParams'tempAdmin, $self'adminParams'recoveryAddress, $self'adminParams'lockUntil))~$AnimalHelperToken$_fun_calculate_user_wallet_address($owner);
+            slice $walletAddress = ($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'tokenRate, $self'teamVestingContract, $self'tokenSaleContract)~$AnimalHelperToken$_fun_calculate_user_wallet_address($owner);
             $global_send($SendParameters$_constructor_to_value_mode_body(__tact_context_get_sender(), 0, 66, $Builder$_fun_endCell($Builder$_fun_storeAddress($global_beginCell(), $walletAddress))));
-            $AnimalHelperToken$_contract_store(($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'distributionContract, $self'nftContract, $self'tokenRate, ($self'adminParams'tempAdmin, $self'adminParams'recoveryAddress, $self'adminParams'lockUntil)));
+            $AnimalHelperToken$_contract_store(($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'tokenRate, $self'teamVestingContract, $self'tokenSaleContract));
             return ();
         }
         
     }
     ;; Empty Receiver and Text Receivers
     var text_op = slice_hash(in_msg);
-    ;; Receive "setTempAdmin" message
-    if (text_op == 0x433c5cbf3a412203a138815cca7fccea8573317c174bf1efc26210b9454e7c6e) {
-        throw_unless(63750, ( equal_slices_bits($self'owner, __tact_context_get_sender()) ));
-        slice $slice = $Context$_get_raw(__tact_context_get());
-        slice $tempAdmin = $slice~$Slice$_fun_loadAddress();
-        $self'adminParams'tempAdmin = $tempAdmin;
-        $self'adminParams'lockUntil = ($global_now() + 86400);
-        $AnimalHelperToken$_contract_store(($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'distributionContract, $self'nftContract, $self'tokenRate, ($self'adminParams'tempAdmin, $self'adminParams'recoveryAddress, $self'adminParams'lockUntil)));
-        return ();
-    }
-    ;; Receive "recoveryAccess" message
-    if (text_op == 0x38c575c9b696913cfb631dda1cf89b8d35bc3fdc581c1dfa0f0b9217bec565a2) {
-        throw_unless(23144, ( equal_slices_bits($self'adminParams'recoveryAddress, __tact_context_get_sender()) ));
-        throw_unless(63477, ($global_now() > ($self'adminParams'lockUntil + 604800)));
-        slice $slice = $Context$_get_raw(__tact_context_get());
-        slice $newOwner = $slice~$Slice$_fun_loadAddress();
-        $self'owner = $newOwner;
-        $AnimalHelperToken$_contract_store(($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'distributionContract, $self'nftContract, $self'tokenRate, ($self'adminParams'tempAdmin, $self'adminParams'recoveryAddress, $self'adminParams'lockUntil)));
-        return ();
-    }
-    ;; Receive "setRecoveryAddress" message
-    if (text_op == 0xb4b26b3a4915a4e998322bfa9d1de0eed461187c6d53a65fac6a94d79347b7ed) {
-        throw_unless(50578, ( equal_slices_bits($self'owner, __tact_context_get_sender()) ));
-        slice $slice = $Context$_get_raw(__tact_context_get());
-        slice $recoveryAddress = $slice~$Slice$_fun_loadAddress();
-        $self'adminParams'recoveryAddress = $recoveryAddress;
-        $AnimalHelperToken$_contract_store(($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'distributionContract, $self'nftContract, $self'tokenRate, ($self'adminParams'tempAdmin, $self'adminParams'recoveryAddress, $self'adminParams'lockUntil)));
+    ;; Receive "mint_initial" message
+    if (text_op == 0x48d5d45447b8178d68743670ce5c7974685d5cb816f9efcc4cc9ac5bd7953d3d) {
+        ($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'tokenRate, $self'teamVestingContract, $self'tokenSaleContract)~$AnimalHelperToken$_fun_requireOwner();
+        throw_unless(50322, ($self'totalSupply == $self'maxSupply));
+        int $teamAmount = ($self'maxSupply / 10);
+        int $saleAmount = ($self'maxSupply - $teamAmount);
+        ($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'tokenRate, $self'teamVestingContract, $self'tokenSaleContract)~$AnimalHelperToken$_fun_mint($self'teamVestingContract, $teamAmount, 0);
+        ($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'tokenRate, $self'teamVestingContract, $self'tokenSaleContract)~$AnimalHelperToken$_fun_mint($self'tokenSaleContract, $saleAmount, 1);
+        $AnimalHelperToken$_contract_store(($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'tokenRate, $self'teamVestingContract, $self'tokenSaleContract));
         return ();
     }
     ;; Receive "get_jetton_data" message
     if (text_op == 0x9b1069dd0fbb446d0a0d52fd0dfe62942d9bd22999dbd96036f691d9e796562d) {
-        var ($data'totalSupply, $data'mintable, $data'owner, $data'content, $data'walletCode, $data'tokenRate) = ($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'distributionContract, $self'nftContract, $self'tokenRate, ($self'adminParams'tempAdmin, $self'adminParams'recoveryAddress, $self'adminParams'lockUntil))~$AnimalHelperToken$_fun_get_jetton_data();
+        var ($data'totalSupply, $data'mintable, $data'owner, $data'content, $data'walletCode, $data'tokenRate) = ($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'tokenRate, $self'teamVestingContract, $self'tokenSaleContract)~$AnimalHelperToken$_fun_get_jetton_data();
         $global_send($SendParameters$_constructor_to_value_mode_body(__tact_context_get_sender(), 0, 66, $Builder$_fun_endCell($Builder$_fun_storeRef($JettonData$_store_cell(($data'totalSupply, $data'mintable, $data'owner, $data'content, $data'walletCode, $data'tokenRate)), $global_beginCell()))));
-        $AnimalHelperToken$_contract_store(($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'distributionContract, $self'nftContract, $self'tokenRate, ($self'adminParams'tempAdmin, $self'adminParams'recoveryAddress, $self'adminParams'lockUntil)));
+        $AnimalHelperToken$_contract_store(($self'totalSupply, $self'maxSupply, $self'mintable, $self'owner, $self'content, $self'walletCode, $self'tokenRate, $self'teamVestingContract, $self'tokenSaleContract));
         return ();
     }
     ;; Throw if not handled
     throw(130);
-}
-
-
-() __tact_selector_hack_asm() impure asm """
-@atend @ 1 {
-        execute current@ context@ current!
-        {
-            // The core idea of this function is to save gas by avoiding unnecessary dict jump, when recv_internal/recv_external is called
-            // We want to extract recv_internal/recv_external from the dict and select needed function
-            // not by jumping to the needed function by it's index, but by using usual IF statements.
-            
-            }END> b> // Close previous builder, now we have a cell of previous code on top of the stack
-            
-            <{ // Start of the new code builder
-                SETCP0
-                // Swap the new code builder with the previous code, now we have previous code on top of the stack
-                swap
-                // Transform cell to slice and load first ref from the previous code, now we have the dict on top of the stack
-                <s ref@
-
-                // Extract the recv_internal from the dict
-                dup 0 swap @procdictkeylen idict@ { "internal shortcut error" abort } ifnot 
-                swap
-                
-                // Delete the recv_internal from the dict
-                0 swap @procdictkeylen idict- drop 
-                // Delete the recv_external from the dict (it's okay if it's not there)
-                -1 swap @procdictkeylen idict- drop 
-                // Delete the __tact_selector_hack from the dict
-                65535 swap @procdictkeylen idict- drop 
-
-                // Bring the code builder from the bottom of the stack
-                // because if recv_external extraction is optional, and the number of elements on the stack is not fixed
-                depth 1- roll
-                // Swap with the dict from which we extracted recv_internal and (maybe) recv_external
-                swap
-                
-                // Check if the dict is empty
-                dup null?
-                // Store a copy of this flag in the bottom of the stack
-                dup depth 1- -roll 
-                {
-                    // If the dict is empty, just drop it (it will be null if it's empty)
-                    drop 
-                } 
-                {
-                    // If the dict is not empty, prepare continuation to be stored in c3
-                    <{
-                        // Save this dict as first ref in this continuation, it will be pushed in runtime by DICTPUSHCONST
-                        swap @procdictkeylen DICTPUSHCONST
-                        // Jump to the needed function by it's index
-                        DICTIGETJMPZ
-                        // If such key is not found, throw 11 along with the key as an argument
-                        11 THROWARG
-                    }> PUSHCONT
-                    // Store the continuation in c3
-                    c3 POP
-                } cond
-                
-                // Function id is on top of the (runtime) stack
-                DUP IFNOTJMP:<{
-                    // place recv_internal here
-                    DROP swap @addop
-                }>
-
-                // Bring back the flag, indicating if the dict is empty or not from the bottom of the stack
-                depth 1- roll 
-                { 
-                    // If the dict is empty, throw 11
-                    11 THROWARG 
-                } 
-                { 
-                    // If the dict is not empty, jump to continuation from c3
-                    c3 PUSH JMPX 
-                } cond 
-            }> b>
-        } : }END>c
-        current@ context! current!
-    } does @atend !
-""";
-
-() __tact_selector_hack() method_id(65535) {
-    return __tact_selector_hack_asm();
 }

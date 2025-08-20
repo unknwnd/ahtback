@@ -1,9 +1,8 @@
-// automatically generated from `@stdlib/std/stdlib.fc` `@stdlib/std/stdlib_ex.fc` `C:/aht/charity-token/build/FundsDistributor_FundsDistributor.fc` 
+// automatically generated from `@stdlib/std/stdlib.fc` `@stdlib/std/stdlib_ex.fc` `D:/cursor/a/ahtback/build/FundsDistributor_FundsDistributor.fc` 
 PROGRAM{
   DECLPROC __tact_sha256
   DECLPROC __tact_load_address_opt
   DECLPROC __tact_store_address_opt
-  DECLPROC __tact_not_null
   DECLPROC __tact_crc16
   DECLPROC __tact_base64_encode
   DECLPROC __tact_address_to_user_friendly
@@ -52,7 +51,6 @@ PROGRAM{
   DECLPROC $SendParameters$_constructor_to_value_mode_body
   83229 DECLMETHOD %owner
   DECLPROC recv_internal
-  65535 DECLMETHOD __tact_selector_hack
   DECLGLOBVAR __tact_context
   DECLGLOBVAR __tact_context_sender
   DECLGLOBVAR __tact_child_contract_codes
@@ -90,11 +88,6 @@ PROGRAM{
     }>ELSE<{
       STSLICER
     }>
-  }>
-  __tact_not_null PROCINLINE:<{
-    DUP
-    ISNULL
-    128 THROWIF
   }>
   __tact_crc16 PROCREF:<{
     NEWC
@@ -512,9 +505,6 @@ PROGRAM{
     ROT
   }>
   $StateInit$_not_null PROCINLINE:<{
-    DUP
-    ISNULL
-    128 THROWIF
         2 UNTUPLE
   }>
   $Context$_get_value PROCINLINE:<{
@@ -614,9 +604,8 @@ PROGRAM{
       IF:<{
         TRUE
       }>ELSE<{
-        s7 PUSH
-        __tact_not_null INLINECALLDICT
         __tact_context_get_sender INLINECALLDICT
+        s8 s(-1) PUXC
         SDEQ
       }>
     }>
@@ -1917,9 +1906,8 @@ PROGRAM{
         ISNULL
         NOT
         IF:<{
-          s5 PUSH
-          __tact_not_null INLINECALLDICT
           __tact_context_get_sender INLINECALLDICT
+          s6 s(-1) PUXC
           SDEQ
         }>ELSE<{
           FALSE
@@ -1980,7 +1968,6 @@ PROGRAM{
       ISNULL
       NOT
       THROWANYIFNOT
-      __tact_not_null INLINECALLDICT
           CTOS
           LDMSGADDR
       64 LDU
@@ -2280,79 +2267,5 @@ PROGRAM{
     15 BLKDROP
     5 BLKDROP
     130 THROW
-  }>
-  __tact_selector_hack PROC:<{
-    @atend @ 1 {
-            execute current@ context@ current!
-            {
-                // The core idea of this function is to save gas by avoiding unnecessary dict jump, when recv_internal/recv_external is called
-                // We want to extract recv_internal/recv_external from the dict and select needed function
-                // not by jumping to the needed function by it's index, but by using usual IF statements.
-                
-                }END> b> // Close previous builder, now we have a cell of previous code on top of the stack
-                
-                <{ // Start of the new code builder
-                    SETCP0
-                    // Swap the new code builder with the previous code, now we have previous code on top of the stack
-                    swap
-                    // Transform cell to slice and load first ref from the previous code, now we have the dict on top of the stack
-                    <s ref@
-                    // Extract the recv_internal from the dict
-                    dup 0 swap @procdictkeylen idict@ { "internal shortcut error" abort } ifnot 
-                    swap
-                    
-                    // Delete the recv_internal from the dict
-                    0 swap @procdictkeylen idict- drop 
-                    // Delete the recv_external from the dict (it's okay if it's not there)
-                    -1 swap @procdictkeylen idict- drop 
-                    // Delete the __tact_selector_hack from the dict
-                    65535 swap @procdictkeylen idict- drop 
-                    // Bring the code builder from the bottom of the stack
-                    // because if recv_external extraction is optional, and the number of elements on the stack is not fixed
-                    depth 1- roll
-                    // Swap with the dict from which we extracted recv_internal and (maybe) recv_external
-                    swap
-                    
-                    // Check if the dict is empty
-                    dup null?
-                    // Store a copy of this flag in the bottom of the stack
-                    dup depth 1- -roll 
-                    {
-                        // If the dict is empty, just drop it (it will be null if it's empty)
-                        drop 
-                    } 
-                    {
-                        // If the dict is not empty, prepare continuation to be stored in c3
-                        <{
-                            // Save this dict as first ref in this continuation, it will be pushed in runtime by DICTPUSHCONST
-                            swap @procdictkeylen DICTPUSHCONST
-                            // Jump to the needed function by it's index
-                            DICTIGETJMPZ
-                            // If such key is not found, throw 11 along with the key as an argument
-                            11 THROWARG
-                        }> PUSHCONT
-                        // Store the continuation in c3
-                        c3 POP
-                    } cond
-                    
-                    // Function id is on top of the (runtime) stack
-                    DUP IFNOTJMP:<{
-                        // place recv_internal here
-                        DROP swap @addop
-                    }>
-                    // Bring back the flag, indicating if the dict is empty or not from the bottom of the stack
-                    depth 1- roll 
-                    { 
-                        // If the dict is empty, throw 11
-                        11 THROWARG 
-                    } 
-                    { 
-                        // If the dict is not empty, jump to continuation from c3
-                        c3 PUSH JMPX 
-                    } cond 
-                }> b>
-            } : }END>c
-            current@ context! current!
-        } does @atend !
   }>
 }END>c

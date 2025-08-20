@@ -1,0 +1,559 @@
+#pragma version =0.4.6;
+#pragma allow-post-modification;
+#pragma compute-asm-ltr;
+
+;; TokenSale_TokenSale.headers.fc
+;;
+;; Header files for TokenSale
+;; NOTE: declarations are sorted for optimal order
+;;
+
+;; __tact_context_get
+(int, slice, int, slice) __tact_context_get() inline;
+
+;; __tact_context_get_sender
+slice __tact_context_get_sender() inline;
+
+;; $Deploy$_load_without_opcode
+(slice, ((int))) $Deploy$_load_without_opcode(slice sc_0) inline;
+
+;; $DeployOk$_store
+builder $DeployOk$_store(builder build_0, (int) v) inline;
+
+;; $DeployOk$_store_cell
+cell $DeployOk$_store_cell((int) v) inline;
+
+;; $BuyTokens$_load_without_opcode
+(slice, (tuple)) $BuyTokens$_load_without_opcode(slice sc_0) inline;
+
+;; $WithdrawRemaining$_load_without_opcode
+(slice, ((int))) $WithdrawRemaining$_load_without_opcode(slice sc_0) inline;
+
+;; $UpdateRate$_load_without_opcode
+(slice, ((int, int))) $UpdateRate$_load_without_opcode(slice sc_0) inline;
+
+;; $TokenSale$_store
+builder $TokenSale$_store(builder build_0, (slice, slice, slice, slice, int, int) v) inline;
+
+;; $TokenSale$_load
+(slice, ((slice, slice, slice, slice, int, int))) $TokenSale$_load(slice sc_0) inline;
+
+;; $StateInit$_not_null
+((cell, cell)) $StateInit$_not_null(tuple v) inline;
+
+;; $Context$_get_value
+_ $Context$_get_value((int, slice, int, slice) v) inline;
+
+;; $SaleData$_to_external
+(slice, slice, int, int) $SaleData$_to_external(((slice, slice, int, int)) v) inline;
+
+;; $TokenSale$init$_load
+(slice, ((slice, slice, slice, slice, int))) $TokenSale$init$_load(slice sc_0) inline;
+
+;; $TokenSale$_contract_init
+(slice, slice, slice, slice, int, int) $TokenSale$_contract_init(slice $owner, slice $jettonMaster, slice $jettonWallet, slice $fundsDistributor, int $tokenRate) impure inline;
+
+;; $TokenSale$_contract_load
+(slice, slice, slice, slice, int, int) $TokenSale$_contract_load() impure inline;
+
+;; $TokenSale$_contract_store
+() $TokenSale$_contract_store((slice, slice, slice, slice, int, int) v) impure inline;
+
+;; $SendParameters$_constructor_bounce_to_value_mode_body_code_data
+((int, cell, cell, cell, int, slice, int)) $SendParameters$_constructor_bounce_to_value_mode_body_code_data(int $bounce, slice $to, int $value, int $mode, cell $body, cell $code, cell $data) inline;
+
+;; $SaleData$_constructor_jettonWallet_fundsDistributor_isActive_tokenRate
+((slice, slice, int, int)) $SaleData$_constructor_jettonWallet_fundsDistributor_isActive_tokenRate(slice $jettonWallet, slice $fundsDistributor, int $isActive, int $tokenRate) inline;
+
+;; $TokenSale$_fun_getSaleData
+((slice, slice, slice, slice, int, int), (slice, slice, int, int)) $TokenSale$_fun_getSaleData((slice, slice, slice, slice, int, int) $self) impure inline_ref;
+
+;; $TokenSale$_fun_forward
+((slice, slice, slice, slice, int, int), ()) $TokenSale$_fun_forward((slice, slice, slice, slice, int, int) $self, slice $to, cell $body, int $bounce, tuple $init) impure inline_ref;
+
+;; $TokenSale$_fun_notify
+((slice, slice, slice, slice, int, int), ()) $TokenSale$_fun_notify((slice, slice, slice, slice, int, int) $self, cell $body) impure inline;
+
+;; $TokenSale$_fun_requireOwner
+((slice, slice, slice, slice, int, int), ()) $TokenSale$_fun_requireOwner((slice, slice, slice, slice, int, int) $self) impure inline_ref;
+
+;; $TokenSale$_fun_owner
+((slice, slice, slice, slice, int, int), slice) $TokenSale$_fun_owner((slice, slice, slice, slice, int, int) $self) impure inline_ref;
+
+;; $SendParameters$_constructor_to_value_mode_body
+((int, cell, cell, cell, int, slice, int)) $SendParameters$_constructor_to_value_mode_body(slice $to, int $value, int $mode, cell $body) inline;
+
+;; $DeployOk$_constructor_queryId
+((int)) $DeployOk$_constructor_queryId(int $queryId) inline;
+
+
+;; TokenSale_TokenSale.stdlib.fc
+global (int, slice, int, slice) __tact_context;
+global slice __tact_context_sender;
+global cell __tact_child_contract_codes;
+global int __tact_randomized;
+
+(int, slice, int, slice) __tact_context_get() inline {
+    return __tact_context;
+}
+
+slice __tact_context_get_sender() inline {
+    return __tact_context_sender;
+}
+
+forall X0, X1 -> (X0, X1) __tact_tuple_destroy_2(tuple v) asm """
+    2 UNTUPLE
+""";
+
+builder $global_beginCell() impure asm """
+    NEWC
+""";
+
+cell $global_emptyCell() impure asm """
+    <b b> PUSHREF // Pure Fift: "<b" creates a builder, "b>" turns it into a cell at compile time
+""";
+
+int $global_min(int $x, int $y) impure asm """
+    MIN
+""";
+
+slice $global_myAddress() impure asm """
+    MYADDR
+""";
+
+int $global_myBalance() impure asm """
+    BALANCE FIRST
+""";
+
+() $global_nativeReserve(int $amount, int $mode) impure asm """
+    RAWRESERVE
+""";
+
+() $global_send((int, cell, cell, cell, int, slice, int) $params) impure asm """
+    NEWC
+    b{01} STSLICECONST  // store tag = $0 and ihr_disabled = true
+    1 STI               // store `bounce`
+    b{000} STSLICECONST // store bounced = false and src = addr_none
+    STSLICE             // store `to`
+    SWAP
+    STGRAMS             // store `value`
+    105 PUSHINT         // 1 + 4 + 4 + 64 + 32
+    STZEROES            // store currency_collection, ihr_fee, fwd_fee, created_lt and created_at
+    // → Stack state
+    // s0: Builder
+    // s1: `data`
+    // s2: `code`
+    // s3: `body`
+    // s4: `mode`
+
+    // Group 2: Placing the Builder after code and data, then checking those for nullability
+    s2 XCHG0
+    DUP2
+    ISNULL
+    SWAP
+    ISNULL
+    AND
+    // → Stack state
+    // s0: -1 (true) if `data` and `code` are both null, 0 (false) otherwise
+    // s1: `code`
+    // s2: `data`
+    // s3: Builder
+    // s4: `body`
+    // s5: `mode`
+
+    // Group 3: Left branch of the IFELSE, executed if s0 is -1 (true)
+    <{
+        DROP2 // drop `data` and `code`, since either of those is null
+        b{0} STSLICECONST
+    }> PUSHCONT
+
+    // Group 3: Right branch of the IFELSE, executed if s0 is 0 (false)
+    <{
+        // _ split_depth:(Maybe (## 5))
+        //   special:(Maybe TickTock)
+        //   code:(Maybe ^Cell)
+        //   data:(Maybe ^Cell)
+        //   library:(Maybe ^Cell)
+        // = StateInit;
+        ROT                // place message Builder on top
+        b{10} STSLICECONST // store Maybe = true, Either = false
+        // Start composing inlined StateInit
+        b{00} STSLICECONST // store split_depth and special first
+        STDICT             // store code
+        STDICT             // store data
+        b{0} STSLICECONST  // store library
+    }> PUSHCONT
+
+    // Group 3: IFELSE that does the branching shown above
+    IFELSE
+    // → Stack state
+    // s0: Builder
+    // s1: null or StateInit
+    // s2: `body`
+    // s3: `mode`
+
+    // Group 4: Finalizing the message
+    STDICT // store `body` as ref with an extra Maybe bit, since `body` might be null
+    ENDC
+    // → Stack state
+    // s0: Cell
+    // s1: `mode`
+
+    // Group 5: Sending the message, with `mode` on top
+    SWAP
+    SENDRAWMSG // https://github.com/tact-lang/tact/issues/1558
+""";
+
+builder $Builder$_fun_storeBit(int $value, builder $self) impure asm """
+    1 STI
+""";
+
+builder $Builder$_fun_storeCoins(builder $self, int $value) impure asm """
+    STVARUINT16
+""";
+
+builder $Builder$_fun_storeRef(cell $cell, builder $self) impure asm """
+    STREF
+""";
+
+cell $Builder$_fun_endCell(builder $self) impure asm """
+    ENDC
+""";
+
+builder $Builder$_fun_storeAddress(builder $self, slice $address) impure asm """
+    STSLICER
+""";
+
+((slice, slice, slice, slice, int, int), ()) $TokenSale$_fun_forward((slice, slice, slice, slice, int, int) $self, slice $to, cell $body, int $bounce, tuple $init) impure inline_ref {
+    var (($self'owner, $self'jettonMaster, $self'jettonWallet, $self'fundsDistributor, $self'tokenRate, $self'isActive)) = $self;
+    var ($init) = $init;
+    cell $code = null();
+    cell $data = null();
+    if ((~ null?($init))) {
+        var ($init2'code, $init2'data) = $StateInit$_not_null($init);
+        $code = $init2'code;
+        $data = $init2'data;
+    }
+    if (false) {
+        var ($ctx'bounceable, $ctx'sender, $ctx'value, $ctx'raw) = __tact_context_get();
+        int $balance = $global_myBalance();
+        int $balanceBeforeMessage = ($balance - $ctx'value);
+        if (($balanceBeforeMessage < 0)) {
+            $global_nativeReserve(0, 0);
+            $global_send($SendParameters$_constructor_bounce_to_value_mode_body_code_data($bounce, $to, 0, 130, $body, $code, $data));
+            return (($self'owner, $self'jettonMaster, $self'jettonWallet, $self'fundsDistributor, $self'tokenRate, $self'isActive), ());
+        }
+    }
+    $global_send($SendParameters$_constructor_bounce_to_value_mode_body_code_data($bounce, $to, 0, 66, $body, $code, $data));
+    return (($self'owner, $self'jettonMaster, $self'jettonWallet, $self'fundsDistributor, $self'tokenRate, $self'isActive), ());
+}
+
+((slice, slice, slice, slice, int, int), ()) $TokenSale$_fun_notify((slice, slice, slice, slice, int, int) $self, cell $body) impure inline {
+    var (($self'owner, $self'jettonMaster, $self'jettonWallet, $self'fundsDistributor, $self'tokenRate, $self'isActive)) = $self;
+    ($self'owner, $self'jettonMaster, $self'jettonWallet, $self'fundsDistributor, $self'tokenRate, $self'isActive)~$TokenSale$_fun_forward(__tact_context_get_sender(), $body, false, null());
+    return (($self'owner, $self'jettonMaster, $self'jettonWallet, $self'fundsDistributor, $self'tokenRate, $self'isActive), ());
+}
+
+((slice, slice, slice, slice, int, int), ()) $TokenSale$_fun_requireOwner((slice, slice, slice, slice, int, int) $self) impure inline_ref {
+    var (($self'owner, $self'jettonMaster, $self'jettonWallet, $self'fundsDistributor, $self'tokenRate, $self'isActive)) = $self;
+    throw_unless(132, ( equal_slices_bits($self'owner, __tact_context_get_sender()) ));
+    return (($self'owner, $self'jettonMaster, $self'jettonWallet, $self'fundsDistributor, $self'tokenRate, $self'isActive), ());
+}
+
+((slice, slice, slice, slice, int, int), slice) $TokenSale$_fun_owner((slice, slice, slice, slice, int, int) $self) impure inline_ref {
+    var (($self'owner, $self'jettonMaster, $self'jettonWallet, $self'fundsDistributor, $self'tokenRate, $self'isActive)) = $self;
+    var $fresh$ret_66 = $self'owner;
+    return (($self'owner, $self'jettonMaster, $self'jettonWallet, $self'fundsDistributor, $self'tokenRate, $self'isActive), $fresh$ret_66);
+}
+
+;; TokenSale_TokenSale.storage.fc
+;;
+;; Type: StateInit
+;; TLB: _ code:^cell data:^cell = StateInit
+;;
+
+((cell, cell)) $StateInit$_not_null(tuple v) inline {
+    var (cell vvv'code, cell vvv'data) = __tact_tuple_destroy_2(v);
+    return (vvv'code, vvv'data);
+}
+
+;;
+;; Type: Context
+;; TLB: _ bounceable:bool sender:address value:int257 raw:^slice = Context
+;;
+
+_ $Context$_get_value((int, slice, int, slice) v) inline {
+    var (v'bounceable, v'sender, v'value, v'raw) = v;
+    return v'value;
+}
+
+;;
+;; Type: SendParameters
+;; TLB: _ mode:int257 body:Maybe ^cell code:Maybe ^cell data:Maybe ^cell value:int257 to:address bounce:bool = SendParameters
+;;
+
+((int, cell, cell, cell, int, slice, int)) $SendParameters$_constructor_bounce_to_value_mode_body_code_data(int $bounce, slice $to, int $value, int $mode, cell $body, cell $code, cell $data) inline {
+    return ($mode, $body, $code, $data, $value, $to, $bounce);
+}
+
+((int, cell, cell, cell, int, slice, int)) $SendParameters$_constructor_to_value_mode_body(slice $to, int $value, int $mode, cell $body) inline {
+    return ($mode, $body, null(), null(), $value, $to, true);
+}
+
+;;
+;; Type: Deploy
+;; Header: 0x946a98b6
+;; TLB: deploy#946a98b6 queryId:uint64 = Deploy
+;;
+
+(slice, ((int))) $Deploy$_load_without_opcode(slice sc_0) inline {
+    var v'queryId = sc_0~load_uint(64);
+    return (sc_0, (v'queryId));
+}
+
+;;
+;; Type: DeployOk
+;; Header: 0xaff90f57
+;; TLB: deploy_ok#aff90f57 queryId:uint64 = DeployOk
+;;
+
+builder $DeployOk$_store(builder build_0, (int) v) inline {
+    var (v'queryId) = v;
+    build_0 = store_uint(build_0, 2952335191, 32);
+    build_0 = build_0.store_uint(v'queryId, 64);
+    return build_0;
+}
+
+cell $DeployOk$_store_cell((int) v) inline {
+    return $DeployOk$_store(begin_cell(), v).end_cell();
+}
+
+((int)) $DeployOk$_constructor_queryId(int $queryId) inline {
+    return ($queryId);
+}
+
+;;
+;; Type: BuyTokens
+;; Header: 0x57239763
+;; TLB: buy_tokens#57239763  = BuyTokens
+;;
+
+(slice, (tuple)) $BuyTokens$_load_without_opcode(slice sc_0) inline {
+    return (sc_0, null());
+}
+
+;;
+;; Type: WithdrawRemaining
+;; Header: 0x1af4b568
+;; TLB: withdraw_remaining#1af4b568 queryId:int257 = WithdrawRemaining
+;;
+
+(slice, ((int))) $WithdrawRemaining$_load_without_opcode(slice sc_0) inline {
+    var v'queryId = sc_0~load_int(257);
+    return (sc_0, (v'queryId));
+}
+
+;;
+;; Type: UpdateRate
+;; Header: 0x8ee943da
+;; TLB: update_rate#8ee943da queryId:int257 newRate:int257 = UpdateRate
+;;
+
+(slice, ((int, int))) $UpdateRate$_load_without_opcode(slice sc_0) inline {
+    var v'queryId = sc_0~load_int(257);
+    var v'newRate = sc_0~load_int(257);
+    return (sc_0, (v'queryId, v'newRate));
+}
+
+;;
+;; Type: SaleData
+;; TLB: _ jettonWallet:address fundsDistributor:address isActive:bool tokenRate:int257 = SaleData
+;;
+
+(slice, slice, int, int) $SaleData$_to_external(((slice, slice, int, int)) v) inline {
+    var (v'jettonWallet, v'fundsDistributor, v'isActive, v'tokenRate) = v; 
+    return (v'jettonWallet, v'fundsDistributor, v'isActive, v'tokenRate);
+}
+
+((slice, slice, int, int)) $SaleData$_constructor_jettonWallet_fundsDistributor_isActive_tokenRate(slice $jettonWallet, slice $fundsDistributor, int $isActive, int $tokenRate) inline {
+    return ($jettonWallet, $fundsDistributor, $isActive, $tokenRate);
+}
+
+;;
+;; Type: TokenSale
+;; TLB: _ owner:address jettonMaster:address jettonWallet:address fundsDistributor:address tokenRate:int257 isActive:bool = TokenSale
+;;
+
+builder $TokenSale$_store(builder build_0, (slice, slice, slice, slice, int, int) v) inline {
+    var (v'owner, v'jettonMaster, v'jettonWallet, v'fundsDistributor, v'tokenRate, v'isActive) = v;
+    build_0 = build_0.store_slice(v'owner);
+    build_0 = build_0.store_slice(v'jettonMaster);
+    build_0 = build_0.store_slice(v'jettonWallet);
+    var build_1 = begin_cell();
+    build_1 = build_1.store_slice(v'fundsDistributor);
+    build_1 = build_1.store_int(v'tokenRate, 257);
+    build_1 = build_1.store_int(v'isActive, 1);
+    build_0 = store_ref(build_0, build_1.end_cell());
+    return build_0;
+}
+
+(slice, ((slice, slice, slice, slice, int, int))) $TokenSale$_load(slice sc_0) inline {
+    var v'owner = sc_0~load_msg_addr();
+    var v'jettonMaster = sc_0~load_msg_addr();
+    var v'jettonWallet = sc_0~load_msg_addr();
+    slice sc_1 = sc_0~load_ref().begin_parse();
+    var v'fundsDistributor = sc_1~load_msg_addr();
+    var v'tokenRate = sc_1~load_int(257);
+    var v'isActive = sc_1~load_int(1);
+    return (sc_0, (v'owner, v'jettonMaster, v'jettonWallet, v'fundsDistributor, v'tokenRate, v'isActive));
+}
+
+(slice, ((slice, slice, slice, slice, int))) $TokenSale$init$_load(slice sc_0) inline {
+    var v'owner = sc_0~load_msg_addr();
+    var v'jettonMaster = sc_0~load_msg_addr();
+    var v'jettonWallet = sc_0~load_msg_addr();
+    slice sc_1 = sc_0~load_ref().begin_parse();
+    var v'fundsDistributor = sc_1~load_msg_addr();
+    var v'tokenRate = sc_1~load_int(257);
+    return (sc_0, (v'owner, v'jettonMaster, v'jettonWallet, v'fundsDistributor, v'tokenRate));
+}
+
+(slice, slice, slice, slice, int, int) $TokenSale$_contract_load() impure inline {
+    slice $sc = get_data().begin_parse();
+    int $loaded = $sc~load_int(1);
+    if ($loaded) {
+        return $sc~$TokenSale$_load();
+    }
+    else {
+        (slice $owner, slice $jettonMaster, slice $jettonWallet, slice $fundsDistributor, int $tokenRate) = $sc~$TokenSale$init$_load();
+        $sc.end_parse();
+        return $TokenSale$_contract_init($owner, $jettonMaster, $jettonWallet, $fundsDistributor, $tokenRate);
+    }
+}
+
+() $TokenSale$_contract_store((slice, slice, slice, slice, int, int) v) impure inline {
+    builder b = begin_cell();
+    b = b.store_int(true, 1);
+    b = $TokenSale$_store(b, v);
+    set_data(b.end_cell());
+}
+
+;;
+;; Contract TokenSale functions
+;;
+
+(slice, slice, slice, slice, int, int) $TokenSale$_contract_init(slice $owner, slice $jettonMaster, slice $jettonWallet, slice $fundsDistributor, int $tokenRate) impure inline {
+    var (($self'owner, $self'jettonMaster, $self'jettonWallet, $self'fundsDistributor, $self'tokenRate, $self'isActive)) = (null(), null(), null(), null(), null(), null());
+    $self'owner = $owner;
+    $self'jettonMaster = $jettonMaster;
+    $self'jettonWallet = $jettonWallet;
+    $self'fundsDistributor = $fundsDistributor;
+    $self'tokenRate = $tokenRate;
+    $self'isActive = true;
+    return ($self'owner, $self'jettonMaster, $self'jettonWallet, $self'fundsDistributor, $self'tokenRate, $self'isActive);
+}
+
+((slice, slice, slice, slice, int, int), (slice, slice, int, int)) $TokenSale$_fun_getSaleData((slice, slice, slice, slice, int, int) $self) impure inline_ref {
+    var (($self'owner, $self'jettonMaster, $self'jettonWallet, $self'fundsDistributor, $self'tokenRate, $self'isActive)) = $self;
+    var $fresh$ret_65 = $SaleData$_constructor_jettonWallet_fundsDistributor_isActive_tokenRate($self'jettonWallet, $self'fundsDistributor, $self'isActive, $self'tokenRate);
+    return (($self'owner, $self'jettonMaster, $self'jettonWallet, $self'fundsDistributor, $self'tokenRate, $self'isActive), $fresh$ret_65);
+}
+
+;;
+;; Get methods of a Contract TokenSale
+;;
+
+_ %getSaleData() method_id(110455) {
+    var self = $TokenSale$_contract_load();
+    var res = self~$TokenSale$_fun_getSaleData();
+    return $SaleData$_to_external(res);
+}
+
+_ %owner() method_id(83229) {
+    var self = $TokenSale$_contract_load();
+    var res = self~$TokenSale$_fun_owner();
+    return res;
+}
+
+;;
+;; Routing of a Contract TokenSale
+;;
+
+;; message opcode reader utility: only binary receivers
+;; Returns 32 bit message opcode, otherwise throws the "Invalid incoming message" exit code
+(slice, int) ~load_opcode_internal(slice s) asm( -> 1 0) "32 LDUQ 130 THROWIFNOT";
+
+() recv_internal(int msg_value, cell in_msg_cell, slice in_msg) impure {
+    
+    ;; Context
+    var cs = in_msg_cell.begin_parse();
+    cs~skip_bits(2);
+    var msg_bounceable = cs~load_int(1);
+    var msg_bounced = cs~load_int(1);
+    slice msg_sender_addr = cs~load_msg_addr();
+    __tact_context = (msg_bounceable, msg_sender_addr, msg_value, cs);
+    __tact_context_sender = msg_sender_addr;
+    
+    ;; Load contract data
+    var ($self'owner, $self'jettonMaster, $self'jettonWallet, $self'fundsDistributor, $self'tokenRate, $self'isActive) = $TokenSale$_contract_load();
+    
+    ;; Handle bounced messages
+    if (msg_bounced) { return (); }
+    int op = 0;
+    int in_msg_length = slice_bits(in_msg);
+    if (in_msg_length >= 32) {
+        op = in_msg~load_uint(32);
+        ;; Receive BuyTokens message
+        if (op == 1461950307) {
+            var $msg = in_msg~$BuyTokens$_load_without_opcode();
+            throw_unless(18189, $self'isActive);
+            int $gasAmount = $global_min(200000000, ($Context$_get_value(__tact_context_get()) / 10));
+            int $amount = ($Context$_get_value(__tact_context_get()) - $gasAmount);
+            throw_unless(37795, ($amount > 0));
+            int $tokenAmount = (($amount * $self'tokenRate) / 1000000000);
+            $global_send($SendParameters$_constructor_to_value_mode_body($self'jettonWallet, 100000000, 1, $Builder$_fun_endCell($Builder$_fun_storeRef($Builder$_fun_endCell($Builder$_fun_storeAddress($global_beginCell(), __tact_context_get_sender())), $Builder$_fun_storeBit(true, $Builder$_fun_storeCoins($Builder$_fun_storeAddress($Builder$_fun_storeAddress($Builder$_fun_storeCoins(store_uint(store_uint($global_beginCell(), 395134233, 32), 0, 64), $tokenAmount), $global_myAddress()), __tact_context_get_sender()), 50000000))))));
+            $global_send($SendParameters$_constructor_to_value_mode_body($self'fundsDistributor, $amount, 1, $global_emptyCell()));
+            $TokenSale$_contract_store(($self'owner, $self'jettonMaster, $self'jettonWallet, $self'fundsDistributor, $self'tokenRate, $self'isActive));
+            return ();
+        }
+        
+        ;; Receive UpdateRate message
+        if (op == 2397651930) {
+            var ($msg'queryId, $msg'newRate) = in_msg~$UpdateRate$_load_without_opcode();
+            ($self'owner, $self'jettonMaster, $self'jettonWallet, $self'fundsDistributor, $self'tokenRate, $self'isActive)~$TokenSale$_fun_requireOwner();
+            throw_unless(62335, ($msg'newRate > 0));
+            $self'tokenRate = $msg'newRate;
+            $TokenSale$_contract_store(($self'owner, $self'jettonMaster, $self'jettonWallet, $self'fundsDistributor, $self'tokenRate, $self'isActive));
+            return ();
+        }
+        
+        ;; Receive WithdrawRemaining message
+        if (op == 452244840) {
+            var ($msg'queryId) = in_msg~$WithdrawRemaining$_load_without_opcode();
+            ($self'owner, $self'jettonMaster, $self'jettonWallet, $self'fundsDistributor, $self'tokenRate, $self'isActive)~$TokenSale$_fun_requireOwner();
+            throw_unless(17508, (~ $self'isActive));
+            $TokenSale$_contract_store(($self'owner, $self'jettonMaster, $self'jettonWallet, $self'fundsDistributor, $self'tokenRate, $self'isActive));
+            return ();
+        }
+        
+        ;; Receive Deploy message
+        if (op == 0x946a98b6) {
+            var ($deploy'queryId) = in_msg~$Deploy$_load_without_opcode();
+            ($self'owner, $self'jettonMaster, $self'jettonWallet, $self'fundsDistributor, $self'tokenRate, $self'isActive)~$TokenSale$_fun_notify($DeployOk$_store_cell($DeployOk$_constructor_queryId($deploy'queryId)));
+            $TokenSale$_contract_store(($self'owner, $self'jettonMaster, $self'jettonWallet, $self'fundsDistributor, $self'tokenRate, $self'isActive));
+            return ();
+        }
+        
+    }
+    ;; Empty Receiver and Text Receivers
+    var text_op = slice_hash(in_msg);
+    ;; Receive "toggle_sale" message
+    if (text_op == 0x7d1a04f802248014fe5508e1b33aa5ef39c1d718e864d5d88d687e2af3ff9a5a) {
+        ($self'owner, $self'jettonMaster, $self'jettonWallet, $self'fundsDistributor, $self'tokenRate, $self'isActive)~$TokenSale$_fun_requireOwner();
+        $self'isActive = (~ $self'isActive);
+        $TokenSale$_contract_store(($self'owner, $self'jettonMaster, $self'jettonWallet, $self'fundsDistributor, $self'tokenRate, $self'isActive));
+        return ();
+    }
+    ;; Throw if not handled
+    throw(130);
+}

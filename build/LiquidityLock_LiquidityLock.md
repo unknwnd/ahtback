@@ -1,6 +1,6 @@
 # Tact compilation report
 Contract: LiquidityLock
-BoC Size: 1227 bytes
+BoC Size: 1215 bytes
 
 ## Structures (Structs and Messages)
 Total structures: 20

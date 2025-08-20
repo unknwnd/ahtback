@@ -1,6 +1,6 @@
 # Tact compilation report
 Contract: FundsDistributor
-BoC Size: 5093 bytes
+BoC Size: 5067 bytes
 
 ## Structures (Structs and Messages)
 Total structures: 25

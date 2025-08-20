@@ -1,9 +1,9 @@
 # Tact compilation report
 Contract: AnimalHelperToken
-BoC Size: 2602 bytes
+BoC Size: 1352 bytes
 
 ## Structures (Structs and Messages)
-Total structures: 25
+Total structures: 31
 
 ### DataSize
 TL-B: `_ cells:int257 bits:int257 refs:int257 = DataSize`
@@ -61,6 +61,30 @@ Signature: `ChangeOwner{queryId:uint64,newOwner:address}`
 TL-B: `change_owner_ok#327b2b4a queryId:uint64 newOwner:address = ChangeOwnerOk`
 Signature: `ChangeOwnerOk{queryId:uint64,newOwner:address}`
 
+### GetWalletDataMessage
+TL-B: `get_wallet_data_message#b7c72f59  = GetWalletDataMessage`
+Signature: `GetWalletDataMessage{}`
+
+### InternalTransferMessage
+TL-B: `internal_transfer_message#997c01bd query_id:uint64 amount:coins from:address response_destination:address forward_ton_amount:coins forward_payload:Maybe ^cell = InternalTransferMessage`
+Signature: `InternalTransferMessage{query_id:uint64,amount:coins,from:address,response_destination:address,forward_ton_amount:coins,forward_payload:Maybe ^cell}`
+
+### TransferMessage
+TL-B: `transfer_message#b95d0502 query_id:uint64 amount:coins destination:address response_destination:address custom_payload:Maybe ^cell forward_ton_amount:coins forward_payload:Maybe ^cell = TransferMessage`
+Signature: `TransferMessage{query_id:uint64,amount:coins,destination:address,response_destination:address,custom_payload:Maybe ^cell,forward_ton_amount:coins,forward_payload:Maybe ^cell}`
+
+### BurnMessage
+TL-B: `burn_message#1ffec056 query_id:uint64 amount:coins response_destination:address = BurnMessage`
+Signature: `BurnMessage{query_id:uint64,amount:coins,response_destination:address}`
+
+### JettonWalletData
+TL-B: `_ balance:int257 owner:address jettonMaster:address walletCode:^cell = JettonWalletData`
+Signature: `JettonWalletData{balance:int257,owner:address,jettonMaster:address,walletCode:^cell}`
+
+### JettonWallet$Data
+TL-B: `_ balance:int257 owner:address jettonMaster:address = JettonWallet`
+Signature: `JettonWallet{balance:int257,owner:address,jettonMaster:address}`
+
 ### JettonData
 TL-B: `_ totalSupply:int257 mintable:bool owner:address content:^cell walletCode:^cell tokenRate:int257 = JettonData`
 Signature: `JettonData{totalSupply:int257,mintable:bool,owner:address,content:^cell,walletCode:^cell,tokenRate:int257}`
@@ -102,11 +126,14 @@ TL-B: `_ tempAdmin:address recoveryAddress:address lockUntil:int257 = AdminParam
 Signature: `AdminParams{tempAdmin:address,recoveryAddress:address,lockUntil:int257}`
 
 ### AnimalHelperToken$Data
-TL-B: `_ totalSupply:int257 maxSupply:int257 mintable:bool owner:address content:^cell walletCode:^cell distributionContract:address nftContract:address tokenRate:int257 adminParams:AdminParams{tempAdmin:address,recoveryAddress:address,lockUntil:int257} = AnimalHelperToken`
-Signature: `AnimalHelperToken{totalSupply:int257,maxSupply:int257,mintable:bool,owner:address,content:^cell,walletCode:^cell,distributionContract:address,nftContract:address,tokenRate:int257,adminParams:AdminParams{tempAdmin:address,recoveryAddress:address,lockUntil:int257}}`
+TL-B: `_ totalSupply:int257 maxSupply:int257 mintable:bool owner:address content:^cell walletCode:^cell tokenRate:int257 teamVestingContract:address tokenSaleContract:address = AnimalHelperToken`
+Signature: `AnimalHelperToken{totalSupply:int257,maxSupply:int257,mintable:bool,owner:address,content:^cell,walletCode:^cell,tokenRate:int257,teamVestingContract:address,tokenSaleContract:address}`
 
 ## Get methods
-Total get methods: 1
+Total get methods: 2
+
+## get_wallet_address
+Argument: owner
 
 ## owner
 No arguments
@@ -148,17 +175,10 @@ No arguments
 * 135: Code of a contract was not found
 * 136: Invalid standard address
 * 138: Not a basechain address
-* 6765: Exceeds maximum token supply
-* 14796: Exceeds max supply
-* 23144: Not recovery address
-* 31651: Admin functions are temporarily locked
-* 42435: Not authorized
-* 50578: Only owner can set recovery address
-* 51754: Insufficient funds
-* 54566: Minting is paused
-* 63477: Cooldown period not passed
-* 63513: Token rate must be positive
-* 63750: Only owner can set temp admin
+* 4429: Invalid sender
+* 14534: Not owner
+* 50322: Initial minting already done
+* 54615: Insufficient balance
 
 ## Trait inheritance diagram
 

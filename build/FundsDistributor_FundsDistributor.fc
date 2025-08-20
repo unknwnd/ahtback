@@ -14,9 +14,6 @@
 ;; __tact_store_address_opt
 builder __tact_store_address_opt(builder b, slice address) inline;
 
-;; __tact_not_null
-forall X -> X __tact_not_null(X x) impure inline;
-
 ;; __tact_crc16
 (slice) __tact_crc16(slice data) inline_ref;
 
@@ -179,10 +176,6 @@ builder __tact_store_address_opt(builder b, slice address) inline {
     } else {
         return b.store_slice(address);
     }
-}
-
-forall X -> X __tact_not_null(X x) impure inline {
-    throw_if(128, null?(x)); return x;
 }
 
 (slice) __tact_preload_offset(slice s, int offset, int bits) asm """
@@ -447,8 +440,8 @@ slice $Cell$_fun_beginParse(cell $self) impure asm """
 
 ((slice, slice, slice, slice, slice, slice, int, int, int, int, int, int, (slice, slice, int, int, cell), (int, int, int)), slice) $FundsDistributor$_fun_owner((slice, slice, slice, slice, slice, slice, int, int, int, int, int, int, (slice, slice, int, int, cell), (int, int, int)) $self) impure inline_ref {
     var (($self'owner, $self'liquidityPool, $self'liquidityLock, $self'animalHelperPool, $self'projectPool, $self'investorsCreatorsPool, $self'liquidityPercent, $self'animalHelperPercent, $self'projectPercent, $self'investorsCreatorsPercent, $self'lockPercent, $self'minDistributionAmount, ($self'adminConfig'tempAdmin, $self'adminConfig'recoveryAddress, $self'adminConfig'lockUntil, $self'adminConfig'proposalId, $self'adminConfig'pendingProposals), ($self'transactionMetrics'successCount, $self'transactionMetrics'failCount, $self'transactionMetrics'totalSent))) = $self;
-    var $fresh$ret_7 = $self'owner;
-    return (($self'owner, $self'liquidityPool, $self'liquidityLock, $self'animalHelperPool, $self'projectPool, $self'investorsCreatorsPool, $self'liquidityPercent, $self'animalHelperPercent, $self'projectPercent, $self'investorsCreatorsPercent, $self'lockPercent, $self'minDistributionAmount, ($self'adminConfig'tempAdmin, $self'adminConfig'recoveryAddress, $self'adminConfig'lockUntil, $self'adminConfig'proposalId, $self'adminConfig'pendingProposals), ($self'transactionMetrics'successCount, $self'transactionMetrics'failCount, $self'transactionMetrics'totalSent)), $fresh$ret_7);
+    var $fresh$ret_20 = $self'owner;
+    return (($self'owner, $self'liquidityPool, $self'liquidityLock, $self'animalHelperPool, $self'projectPool, $self'investorsCreatorsPool, $self'liquidityPercent, $self'animalHelperPercent, $self'projectPercent, $self'investorsCreatorsPercent, $self'lockPercent, $self'minDistributionAmount, ($self'adminConfig'tempAdmin, $self'adminConfig'recoveryAddress, $self'adminConfig'lockUntil, $self'adminConfig'proposalId, $self'adminConfig'pendingProposals), ($self'transactionMetrics'successCount, $self'transactionMetrics'failCount, $self'transactionMetrics'totalSent)), $fresh$ret_20);
 }
 
 ;; FundsDistributor_FundsDistributor.constants.fc
@@ -464,7 +457,6 @@ slice __gen_slice_string_96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b786
 ;;
 
 ((cell, cell)) $StateInit$_not_null(tuple v) inline {
-    throw_if(128, null?(v));
     var (cell vvv'code, cell vvv'data) = __tact_tuple_destroy_2(v);
     return (vvv'code, vvv'data);
 }
@@ -801,7 +793,7 @@ builder $FundsDistributor$_store(builder build_0, (slice, slice, slice, slice, s
     throw_unless(31651, ($global_now() > $self'adminConfig'lockUntil));
     int $isAdmin = ( equal_slices_bits($self'owner, __tact_context_get_sender()) );
     if ((~ null?($self'adminConfig'tempAdmin))) {
-        $isAdmin = ( ($isAdmin) ? (true) : (( equal_slices_bits(__tact_not_null($self'adminConfig'tempAdmin), __tact_context_get_sender()) )) );
+        $isAdmin = ( ($isAdmin) ? (true) : (( equal_slices_bits($self'adminConfig'tempAdmin, __tact_context_get_sender()) )) );
     }
     throw_unless(42435, $isAdmin);
     return (($self'owner, $self'liquidityPool, $self'liquidityLock, $self'animalHelperPool, $self'projectPool, $self'investorsCreatorsPool, $self'liquidityPercent, $self'animalHelperPercent, $self'projectPercent, $self'investorsCreatorsPercent, $self'lockPercent, $self'minDistributionAmount, ($self'adminConfig'tempAdmin, $self'adminConfig'recoveryAddress, $self'adminConfig'lockUntil, $self'adminConfig'proposalId, $self'adminConfig'pendingProposals), ($self'transactionMetrics'successCount, $self'transactionMetrics'failCount, $self'transactionMetrics'totalSent)), ());
@@ -820,12 +812,12 @@ builder $FundsDistributor$_store(builder build_0, (slice, slice, slice, slice, s
 ((slice, slice, slice, slice, slice, slice, int, int, int, int, int, int, (slice, slice, int, int, cell), (int, int, int)), int) $FundsDistributor$_fun_sendFunds((slice, slice, slice, slice, slice, slice, int, int, int, int, int, int, (slice, slice, int, int, cell), (int, int, int)) $self, slice $to, int $amount, int $queryId) impure inline_ref {
     var (($self'owner, $self'liquidityPool, $self'liquidityLock, $self'animalHelperPool, $self'projectPool, $self'investorsCreatorsPool, $self'liquidityPercent, $self'animalHelperPercent, $self'projectPercent, $self'investorsCreatorsPercent, $self'lockPercent, $self'minDistributionAmount, ($self'adminConfig'tempAdmin, $self'adminConfig'recoveryAddress, $self'adminConfig'lockUntil, $self'adminConfig'proposalId, $self'adminConfig'pendingProposals), ($self'transactionMetrics'successCount, $self'transactionMetrics'failCount, $self'transactionMetrics'totalSent))) = $self;
     if (($amount < $self'minDistributionAmount)) {
-        var $fresh$ret_5 = false;
-        return (($self'owner, $self'liquidityPool, $self'liquidityLock, $self'animalHelperPool, $self'projectPool, $self'investorsCreatorsPool, $self'liquidityPercent, $self'animalHelperPercent, $self'projectPercent, $self'investorsCreatorsPercent, $self'lockPercent, $self'minDistributionAmount, ($self'adminConfig'tempAdmin, $self'adminConfig'recoveryAddress, $self'adminConfig'lockUntil, $self'adminConfig'proposalId, $self'adminConfig'pendingProposals), ($self'transactionMetrics'successCount, $self'transactionMetrics'failCount, $self'transactionMetrics'totalSent)), $fresh$ret_5);
+        var $fresh$ret_18 = false;
+        return (($self'owner, $self'liquidityPool, $self'liquidityLock, $self'animalHelperPool, $self'projectPool, $self'investorsCreatorsPool, $self'liquidityPercent, $self'animalHelperPercent, $self'projectPercent, $self'investorsCreatorsPercent, $self'lockPercent, $self'minDistributionAmount, ($self'adminConfig'tempAdmin, $self'adminConfig'recoveryAddress, $self'adminConfig'lockUntil, $self'adminConfig'proposalId, $self'adminConfig'pendingProposals), ($self'transactionMetrics'successCount, $self'transactionMetrics'failCount, $self'transactionMetrics'totalSent)), $fresh$ret_18);
     }
     $global_send($SendParameters$_constructor_to_bounce_value_mode_body($to, true, $amount, 1, $Builder$_fun_endCell(store_uint($global_beginCell(), $queryId, 64))));
-    var $fresh$ret_6 = true;
-    return (($self'owner, $self'liquidityPool, $self'liquidityLock, $self'animalHelperPool, $self'projectPool, $self'investorsCreatorsPool, $self'liquidityPercent, $self'animalHelperPercent, $self'projectPercent, $self'investorsCreatorsPercent, $self'lockPercent, $self'minDistributionAmount, ($self'adminConfig'tempAdmin, $self'adminConfig'recoveryAddress, $self'adminConfig'lockUntil, $self'adminConfig'proposalId, $self'adminConfig'pendingProposals), ($self'transactionMetrics'successCount, $self'transactionMetrics'failCount, $self'transactionMetrics'totalSent)), $fresh$ret_6);
+    var $fresh$ret_19 = true;
+    return (($self'owner, $self'liquidityPool, $self'liquidityLock, $self'animalHelperPool, $self'projectPool, $self'investorsCreatorsPool, $self'liquidityPercent, $self'animalHelperPercent, $self'projectPercent, $self'investorsCreatorsPercent, $self'lockPercent, $self'minDistributionAmount, ($self'adminConfig'tempAdmin, $self'adminConfig'recoveryAddress, $self'adminConfig'lockUntil, $self'adminConfig'proposalId, $self'adminConfig'pendingProposals), ($self'transactionMetrics'successCount, $self'transactionMetrics'failCount, $self'transactionMetrics'totalSent)), $fresh$ret_19);
 }
 
 ((slice, slice, slice, slice, slice, slice, int, int, int, int, int, int, (slice, slice, int, int, cell), (int, int, int)), ()) $FundsDistributor$_fun_distributeAmount((slice, slice, slice, slice, slice, slice, int, int, int, int, int, int, (slice, slice, int, int, cell), (int, int, int)) $self, int $amount, int $queryId) impure inline_ref {
@@ -1037,7 +1029,7 @@ _ %owner() method_id(83229) {
     }
     ;; Receive "proposeAdminAction" message
     if (text_op == 0x7488d8501894e44bda39a329ca293e461bc4d93b06bda46f3a4339cab2f3f63a) {
-        throw_unless(15038, ( (( equal_slices_bits($self'owner, __tact_context_get_sender()) )) ? (true) : (( ((~ null?($self'adminConfig'tempAdmin))) ? (( equal_slices_bits(__tact_not_null($self'adminConfig'tempAdmin), __tact_context_get_sender()) )) : (false) )) ));
+        throw_unless(15038, ( (( equal_slices_bits($self'owner, __tact_context_get_sender()) )) ? (true) : (( ((~ null?($self'adminConfig'tempAdmin))) ? (( equal_slices_bits($self'adminConfig'tempAdmin, __tact_context_get_sender()) )) : (false) )) ));
         cell $proposalData = $Builder$_fun_endCell($Builder$_fun_storeSlice(store_uint($Builder$_fun_storeAddress($global_beginCell(), __tact_context_get_sender()), $global_now(), 64), $Context$_get_raw(__tact_context_get())));
         int $proposalId = $self'adminConfig'proposalId;
         $self'adminConfig'pendingProposals~__tact_dict_set_int_cell(257, $proposalId, $proposalData);
@@ -1052,7 +1044,7 @@ _ %owner() method_id(83229) {
         int $proposalId = $slice~load_uint(32);
         cell $proposalOpt = __tact_dict_get_int_cell($self'adminConfig'pendingProposals, 257, $proposalId);
         throw_unless(59037, (~ null?($proposalOpt)));
-        cell $proposal = __tact_not_null($proposalOpt);
+        cell $proposal = $proposalOpt;
         slice $proposalSlice = $Cell$_fun_beginParse($proposal);
         slice $proposer = $proposalSlice~$Slice$_fun_loadAddress();
         int $proposalTime = $proposalSlice~load_uint(64);
@@ -1136,87 +1128,4 @@ _ %owner() method_id(83229) {
     }
     ;; Throw if not handled
     throw(130);
-}
-
-
-() __tact_selector_hack_asm() impure asm """
-@atend @ 1 {
-        execute current@ context@ current!
-        {
-            // The core idea of this function is to save gas by avoiding unnecessary dict jump, when recv_internal/recv_external is called
-            // We want to extract recv_internal/recv_external from the dict and select needed function
-            // not by jumping to the needed function by it's index, but by using usual IF statements.
-            
-            }END> b> // Close previous builder, now we have a cell of previous code on top of the stack
-            
-            <{ // Start of the new code builder
-                SETCP0
-                // Swap the new code builder with the previous code, now we have previous code on top of the stack
-                swap
-                // Transform cell to slice and load first ref from the previous code, now we have the dict on top of the stack
-                <s ref@
-
-                // Extract the recv_internal from the dict
-                dup 0 swap @procdictkeylen idict@ { "internal shortcut error" abort } ifnot 
-                swap
-                
-                // Delete the recv_internal from the dict
-                0 swap @procdictkeylen idict- drop 
-                // Delete the recv_external from the dict (it's okay if it's not there)
-                -1 swap @procdictkeylen idict- drop 
-                // Delete the __tact_selector_hack from the dict
-                65535 swap @procdictkeylen idict- drop 
-
-                // Bring the code builder from the bottom of the stack
-                // because if recv_external extraction is optional, and the number of elements on the stack is not fixed
-                depth 1- roll
-                // Swap with the dict from which we extracted recv_internal and (maybe) recv_external
-                swap
-                
-                // Check if the dict is empty
-                dup null?
-                // Store a copy of this flag in the bottom of the stack
-                dup depth 1- -roll 
-                {
-                    // If the dict is empty, just drop it (it will be null if it's empty)
-                    drop 
-                } 
-                {
-                    // If the dict is not empty, prepare continuation to be stored in c3
-                    <{
-                        // Save this dict as first ref in this continuation, it will be pushed in runtime by DICTPUSHCONST
-                        swap @procdictkeylen DICTPUSHCONST
-                        // Jump to the needed function by it's index
-                        DICTIGETJMPZ
-                        // If such key is not found, throw 11 along with the key as an argument
-                        11 THROWARG
-                    }> PUSHCONT
-                    // Store the continuation in c3
-                    c3 POP
-                } cond
-                
-                // Function id is on top of the (runtime) stack
-                DUP IFNOTJMP:<{
-                    // place recv_internal here
-                    DROP swap @addop
-                }>
-
-                // Bring back the flag, indicating if the dict is empty or not from the bottom of the stack
-                depth 1- roll 
-                { 
-                    // If the dict is empty, throw 11
-                    11 THROWARG 
-                } 
-                { 
-                    // If the dict is not empty, jump to continuation from c3
-                    c3 PUSH JMPX 
-                } cond 
-            }> b>
-        } : }END>c
-        current@ context! current!
-    } does @atend !
-""";
-
-() __tact_selector_hack() method_id(65535) {
-    return __tact_selector_hack_asm();
 }
